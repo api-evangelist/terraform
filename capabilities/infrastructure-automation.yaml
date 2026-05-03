@@ -1,0 +1,381 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Terraform Infrastructure Automation"
+  description: >-
+    Unified workflow capability for infrastructure automation with Terraform.
+    Combines HCP Terraform workspace management and run orchestration with
+    module discovery from the Terraform Registry. Enables platform engineers,
+    DevOps teams, and SREs to manage the full infrastructure lifecycle:
+    discover modules, provision workspaces, trigger runs, and manage state.
+  tags:
+    - Terraform
+    - Infrastructure As Code
+    - DevOps
+    - Platform Engineering
+    - HashiCorp
+    - Workspaces
+    - Runs
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      HCP_TERRAFORM_TOKEN: HCP_TERRAFORM_TOKEN
+
+capability:
+  consumes:
+    - import: hcp-terraform
+      location: ./shared/hcp-terraform.yaml
+    - import: terraform-registry
+      location: ./shared/terraform-registry.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: terraform-automation-api
+      description: "Unified REST API for Terraform infrastructure automation workflows."
+      resources:
+        - path: /v1/organizations
+          name: organizations
+          description: "Manage Terraform organizations"
+          operations:
+            - method: GET
+              name: list-organizations
+              description: "List all accessible organizations"
+              call: "hcp-terraform.list-organizations"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/workspaces
+          name: workspaces
+          description: "List and manage workspaces"
+          operations:
+            - method: GET
+              name: list-workspaces
+              description: "List workspaces in an organization"
+              call: "hcp-terraform.list-workspaces"
+              with:
+                organization_name: "rest.organization_name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-workspace
+              description: "Create a new workspace"
+              call: "hcp-terraform.create-workspace"
+              with:
+                organization_name: "rest.organization_name"
+                name: "rest.name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/workspaces/{workspace_id}
+          name: workspace
+          description: "Single workspace operations"
+          operations:
+            - method: GET
+              name: get-workspace
+              description: "Get workspace details"
+              call: "hcp-terraform.get-workspace"
+              with:
+                workspace_id: "rest.workspace_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/runs
+          name: runs
+          description: "Terraform run management"
+          operations:
+            - method: POST
+              name: create-run
+              description: "Trigger a Terraform run"
+              call: "hcp-terraform.create-run"
+              with:
+                workspace_id: "rest.workspace_id"
+                message: "rest.message"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/workspaces/{workspace_id}/runs
+          name: workspace-runs
+          description: "Workspace run history"
+          operations:
+            - method: GET
+              name: list-workspace-runs
+              description: "List runs for a workspace"
+              call: "hcp-terraform.list-workspace-runs"
+              with:
+                workspace_id: "rest.workspace_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/workspaces/{workspace_id}/state-versions
+          name: state-versions
+          description: "Workspace state version history"
+          operations:
+            - method: GET
+              name: list-state-versions
+              description: "List state versions for a workspace"
+              call: "hcp-terraform.list-state-versions"
+              with:
+                workspace_id: "rest.workspace_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/modules
+          name: modules
+          description: "Terraform module discovery"
+          operations:
+            - method: GET
+              name: list-modules
+              description: "Browse Terraform modules from the registry"
+              call: "terraform-registry.list-modules"
+              with:
+                provider: "rest.provider"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/modules/search
+          name: module-search
+          description: "Search modules"
+          operations:
+            - method: GET
+              name: search-modules
+              description: "Search Terraform registry modules"
+              call: "terraform-registry.search-modules"
+              with:
+                q: "rest.q"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/teams
+          name: teams
+          description: "Team management"
+          operations:
+            - method: GET
+              name: list-teams
+              description: "List teams in an organization"
+              call: "hcp-terraform.list-teams"
+              with:
+                organization_name: "rest.organization_name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/policies
+          name: policies
+          description: "Policy management"
+          operations:
+            - method: GET
+              name: list-policies
+              description: "List governance policies"
+              call: "hcp-terraform.list-policies"
+              with:
+                organization_name: "rest.organization_name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: terraform-automation-mcp
+      transport: http
+      description: "MCP server for AI-assisted Terraform infrastructure automation."
+      tools:
+        - name: list-organizations
+          description: "List all Terraform organizations accessible with the current token"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "hcp-terraform.list-organizations"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-workspaces
+          description: "List Terraform workspaces in an organization"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "hcp-terraform.list-workspaces"
+          with:
+            organization_name: "tools.organization_name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-workspace
+          description: "Get details of a specific Terraform workspace"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "hcp-terraform.get-workspace"
+          with:
+            workspace_id: "tools.workspace_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-workspace
+          description: "Create a new Terraform workspace"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "hcp-terraform.create-workspace"
+          with:
+            organization_name: "tools.organization_name"
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: lock-workspace
+          description: "Lock a Terraform workspace to prevent runs"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: true
+          call: "hcp-terraform.lock-workspace"
+          with:
+            workspace_id: "tools.workspace_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: unlock-workspace
+          description: "Unlock a Terraform workspace to allow runs"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: true
+          call: "hcp-terraform.unlock-workspace"
+          with:
+            workspace_id: "tools.workspace_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-run
+          description: "Trigger a new Terraform infrastructure run"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "hcp-terraform.create-run"
+          with:
+            workspace_id: "tools.workspace_id"
+            message: "tools.message"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-run
+          description: "Get the status and details of a Terraform run"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "hcp-terraform.get-run"
+          with:
+            run_id: "tools.run_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: apply-run
+          description: "Apply a Terraform run that is pending approval"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "hcp-terraform.apply-run"
+          with:
+            run_id: "tools.run_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: discard-run
+          description: "Discard a pending Terraform run"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: false
+          call: "hcp-terraform.discard-run"
+          with:
+            run_id: "tools.run_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-workspace-runs
+          description: "List the run history for a Terraform workspace"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "hcp-terraform.list-workspace-runs"
+          with:
+            workspace_id: "tools.workspace_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-state-versions
+          description: "List state versions for a Terraform workspace"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "hcp-terraform.list-state-versions"
+          with:
+            workspace_id: "tools.workspace_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-teams
+          description: "List teams in a Terraform organization"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "hcp-terraform.list-teams"
+          with:
+            organization_name: "tools.organization_name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-policies
+          description: "List governance policies (Sentinel/OPA) in an organization"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "hcp-terraform.list-policies"
+          with:
+            organization_name: "tools.organization_name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: search-modules
+          description: "Search Terraform Registry for reusable infrastructure modules"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "terraform-registry.search-modules"
+          with:
+            q: "tools.q"
+            provider: "tools.provider"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-module-versions
+          description: "List available versions of a Terraform module"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "terraform-registry.list-module-versions"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+            provider: "tools.provider"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-module-version
+          description: "Get details for a specific version of a Terraform module"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "terraform-registry.get-module-version"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+            provider: "tools.provider"
+            version: "tools.version"
+          outputParameters:
+            - type: object
+              mapping: "$."

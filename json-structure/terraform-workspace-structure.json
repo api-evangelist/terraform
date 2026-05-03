@@ -1,0 +1,80 @@
+{
+  "title": "Terraform Workspace Structure",
+  "description": "JSON structure documentation for the Terraform Workspace resource",
+  "type": "object",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Unique workspace identifier (format: ws-xxxxxxxxxxxxxxxxxx)"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "JSON API type — always 'workspaces'"
+    },
+    {
+      "name": "attributes.name",
+      "type": "string",
+      "description": "Workspace name, unique within the organization",
+      "required": true
+    },
+    {
+      "name": "attributes.description",
+      "type": "string",
+      "description": "Optional description of what this workspace manages"
+    },
+    {
+      "name": "attributes.auto-apply",
+      "type": "boolean",
+      "description": "If true, approved plans are automatically applied",
+      "default": false
+    },
+    {
+      "name": "attributes.locked",
+      "type": "boolean",
+      "description": "If true, workspace is locked and new runs cannot be queued"
+    },
+    {
+      "name": "attributes.execution-mode",
+      "type": "string",
+      "description": "Where Terraform runs execute: remote, local, or agent",
+      "enum": ["remote", "local", "agent"]
+    },
+    {
+      "name": "attributes.terraform-version",
+      "type": "string",
+      "description": "Terraform CLI version used for runs (e.g., 1.7.0)"
+    },
+    {
+      "name": "attributes.working-directory",
+      "type": "string",
+      "description": "Subdirectory within the connected VCS repository"
+    },
+    {
+      "name": "attributes.created-at",
+      "type": "string (ISO 8601 datetime)",
+      "description": "Timestamp when workspace was created"
+    },
+    {
+      "name": "attributes.updated-at",
+      "type": "string (ISO 8601 datetime)",
+      "description": "Timestamp of most recent workspace update"
+    },
+    {
+      "name": "attributes.resource-count",
+      "type": "integer",
+      "description": "Number of managed infrastructure resources"
+    },
+    {
+      "name": "relationships.organization.data.id",
+      "type": "string",
+      "description": "Organization name this workspace belongs to"
+    },
+    {
+      "name": "relationships.project.data.id",
+      "type": "string",
+      "description": "Project ID this workspace is grouped under"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+extends: spectral:oas
+rules:
+  terraform-jsonapi-content-type:
+    description: HCP Terraform API endpoints should use JSON API content type (application/vnd.api+json)
+    message: "{{description}}: {{value}} should be application/vnd.api+json"
+    severity: warn
+    given: "$.paths..content"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            "application/vnd.api+json":
+              type: object
+
+  terraform-operation-ids-present:
+    description: All operations must have operationId defined
+    message: "Operation at {{path}} is missing operationId"
+    severity: error
+    given: "$.paths.*[get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  terraform-operation-id-casing:
+    description: Operation IDs should use PascalCase
+    message: "Operation ID '{{value}}' should use PascalCase (e.g., ListWorkspaces, CreateRun)"
+    severity: warn
+    given: "$.paths.*[get,post,put,patch,delete].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][A-Za-z0-9]+$"
+
+  terraform-path-kebab-case:
+    description: URL path segments should use kebab-case or path parameters
+    message: "Path segment '{{value}}' should use kebab-case"
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(\\/([a-z][a-z0-9-]*|\\{[a-zA-Z_]+\\}))*$"
+
+  terraform-bearer-auth:
+    description: HCP Terraform API uses bearer token authentication
+    message: "Security scheme should be bearer type"
+    severity: warn
+    given: "$.components.securitySchemes.*"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - properties:
+                type:
+                  const: http
+                scheme:
+                  const: bearer
+            - properties:
+                type:
+                  const: apiKey
+
+  terraform-response-200-or-201:
+    description: Non-delete operations should have 200 or 201 responses
+    message: "Operation should define a 200 or 201 response"
+    severity: warn
+    given: "$.paths.*[get,post,patch]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            responses:
+              type: object
+              anyOf:
+                - required: ["200"]
+                - required: ["201"]
+
+  terraform-delete-204:
+    description: DELETE operations should return 204 No Content
+    message: "DELETE operation should return 204 No Content"
+    severity: warn
+    given: "$.paths.*.delete"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            responses:
+              type: object
+              required: ["204"]
+
+  terraform-parameter-descriptions:
+    description: Path and query parameters should have descriptions
+    message: "Parameter '{{value}}' is missing a description"
+    severity: warn
+    given: "$.paths..parameters[*]"
+    then:
+      field: description
+      function: truthy
+
+  terraform-tags-required:
+    description: Each operation should have at least one tag
+    message: "Operation at {{path}} should have at least one tag"
+    severity: warn
+    given: "$.paths.*[get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: truthy
+
+  terraform-pagination-parameters:
+    description: GET list operations should support pagination parameters
+    message: "List endpoints should support page[number] or page[size] parameters"
+    severity: info
+    given: "$.paths.*[get]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object

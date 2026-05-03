@@ -1,0 +1,473 @@
+openapi: 3.1.0
+info:
+  title: Terraform Registry API
+  description: >-
+    The Terraform Registry API enables discovery, listing, versioning, and
+    downloading of modules from the public Terraform Registry. It supports
+    searching by keyword, filtering by provider and namespace, and retrieving
+    download metrics.
+  version: '1.0'
+  contact:
+    name: HashiCorp Support
+    url: https://support.hashicorp.com
+servers:
+  - url: https://registry.terraform.io
+    description: Terraform Public Registry
+tags:
+  - name: Modules
+    description: Browse and search Terraform modules in the public registry
+paths:
+  /v1/modules:
+    get:
+      operationId: ListModules
+      summary: List Modules
+      description: Lists all modules in the registry with optional filtering and pagination.
+      tags:
+        - Modules
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 15
+            maximum: 100
+          description: Maximum number of results to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Starting position for pagination
+        - name: provider
+          in: query
+          schema:
+            type: string
+          description: Filter modules by provider (e.g., aws, azurerm, google)
+        - name: verified
+          in: query
+          schema:
+            type: boolean
+          description: Filter to show only HashiCorp-verified modules
+      responses:
+        '200':
+          description: A paginated list of modules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleList'
+  /v1/modules/{namespace}:
+    get:
+      operationId: ListModulesByNamespace
+      summary: List Modules by Namespace
+      description: Lists all modules published by a specific namespace.
+      tags:
+        - Modules
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The namespace (username or organization) to filter by
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Maximum number of results to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+          description: Starting position for pagination
+      responses:
+        '200':
+          description: Modules in the namespace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleList'
+  /v1/modules/search:
+    get:
+      operationId: SearchModules
+      summary: Search Modules
+      description: Searches modules by keyword or phrase across all namespaces.
+      tags:
+        - Modules
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The search query keyword or phrase
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Maximum number of results to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+          description: Starting position for pagination
+        - name: provider
+          in: query
+          schema:
+            type: string
+          description: Filter results by provider
+        - name: verified
+          in: query
+          schema:
+            type: boolean
+          description: Show only verified modules
+      responses:
+        '200':
+          description: Matching modules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleList'
+  /v1/modules/{namespace}/{name}:
+    get:
+      operationId: GetModuleLatestVersions
+      summary: Get Module Latest Versions
+      description: Returns the latest version of a module for all providers.
+      tags:
+        - Modules
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Latest module version details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleVersionsResponse'
+  /v1/modules/{namespace}/{name}/{provider}:
+    get:
+      operationId: GetModuleLatestVersion
+      summary: Get Module Latest Version for Provider
+      description: Retrieves the latest version of a module for a specific provider.
+      tags:
+        - Modules
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Latest module version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleResponse'
+  /v1/modules/{namespace}/{name}/{provider}/versions:
+    get:
+      operationId: ListModuleVersions
+      summary: List Module Versions
+      description: Lists available versions for a specific module and provider combination.
+      tags:
+        - Modules
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Available module versions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleVersionList'
+  /v1/modules/{namespace}/{name}/{provider}/{version}:
+    get:
+      operationId: GetModuleVersion
+      summary: Get a Module Version
+      description: Fetches details for a specific module version.
+      tags:
+        - Modules
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Module version details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleResponse'
+  /v1/modules/{namespace}/{name}/{provider}/download:
+    get:
+      operationId: DownloadModuleLatestVersion
+      summary: Download Module Latest Version
+      description: Downloads the latest version of a module. Redirects to the download URL.
+      tags:
+        - Modules
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirect to download URL
+          headers:
+            X-Terraform-Get:
+              schema:
+                type: string
+              description: The source URL for downloading the module
+  /v1/modules/{namespace}/{name}/{provider}/{version}/download:
+    get:
+      operationId: DownloadModuleVersion
+      summary: Download a Module Version
+      description: Downloads a specific version of a module. Redirects to the source archive.
+      tags:
+        - Modules
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirect to download URL
+          headers:
+            X-Terraform-Get:
+              schema:
+                type: string
+              description: The source URL for downloading the module
+  /v2/modules/{namespace}/{name}/{provider}/downloads/summary:
+    get:
+      operationId: GetModuleDownloadSummary
+      summary: Get Module Download Summary
+      description: Retrieves download metrics and statistics for a specific module.
+      tags:
+        - Modules
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Module download summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleDownloadSummary'
+components:
+  schemas:
+    ModuleList:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/RegistryMeta'
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
+    ModuleResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        owner:
+          type: string
+        namespace:
+          type: string
+        name:
+          type: string
+        provider:
+          type: string
+        source:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+        version:
+          type: string
+        description:
+          type: string
+        source_url:
+          type: string
+        published_at:
+          type: string
+          format: date-time
+        downloads:
+          type: integer
+        verified:
+          type: boolean
+    Module:
+      type: object
+      properties:
+        id:
+          type: string
+        owner:
+          type: string
+        namespace:
+          type: string
+        name:
+          type: string
+        provider:
+          type: string
+        source:
+          type: string
+        version:
+          type: string
+        description:
+          type: string
+        published_at:
+          type: string
+          format: date-time
+        downloads:
+          type: integer
+        verified:
+          type: boolean
+    ModuleVersionList:
+      type: object
+      properties:
+        modules:
+          type: array
+          items:
+            type: object
+            properties:
+              source:
+                type: string
+              versions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    version:
+                      type: string
+    ModuleVersionsResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/RegistryMeta'
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
+    ModuleDownloadSummary:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+            attributes:
+              type: object
+              properties:
+                total:
+                  type: integer
+                week:
+                  type: integer
+                month:
+                  type: integer
+    RegistryMeta:
+      type: object
+      properties:
+        limit:
+          type: integer
+        current_offset:
+          type: integer
+        next_offset:
+          type: integer
+        prev_offset:
+          type: integer
+        next_url:
+          type: string
+        module_count:
+          type: integer

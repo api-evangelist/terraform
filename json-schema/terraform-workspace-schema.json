@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/terraform/main/json-schema/terraform-workspace-schema.json",
+  "title": "Terraform Workspace",
+  "description": "A Terraform workspace defines a unit of infrastructure managed by Terraform with its own state, variables, and run history.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the workspace"
+    },
+    "type": {
+      "type": "string",
+      "const": "workspaces",
+      "description": "JSON API resource type"
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the workspace, unique within the organization"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the workspace"
+        },
+        "auto-apply": {
+          "type": "boolean",
+          "description": "When true, runs automatically apply after a successful plan"
+        },
+        "locked": {
+          "type": "boolean",
+          "description": "When true, no new runs can be queued"
+        },
+        "execution-mode": {
+          "type": "string",
+          "enum": ["remote", "local", "agent"],
+          "description": "Execution mode: remote (HCP), local, or agent pool"
+        },
+        "terraform-version": {
+          "type": "string",
+          "description": "The version of Terraform used by this workspace"
+        },
+        "working-directory": {
+          "type": "string",
+          "description": "Subdirectory within the VCS repo for configuration files"
+        },
+        "created-at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the workspace was created"
+        },
+        "updated-at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the workspace was last updated"
+        },
+        "resource-count": {
+          "type": "integer",
+          "description": "Number of resources managed by this workspace"
+        },
+        "environment": {
+          "type": "string",
+          "description": "The environment associated with this workspace (e.g., production, staging)"
+        },
+        "speculative-enabled": {
+          "type": "boolean",
+          "description": "Whether speculative plans can be run on pull requests"
+        },
+        "global-remote-state": {
+          "type": "boolean",
+          "description": "Whether other workspaces can access this workspace's state"
+        }
+      },
+      "required": ["name", "execution-mode"]
+    },
+    "relationships": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "object",
+          "description": "The organization this workspace belongs to"
+        },
+        "project": {
+          "type": "object",
+          "description": "The project this workspace is grouped under"
+        }
+      }
+    }
+  },
+  "required": ["id", "type", "attributes"]
+}

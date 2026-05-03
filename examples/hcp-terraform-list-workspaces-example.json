@@ -1,0 +1,69 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://app.terraform.io/api/v2/organizations/my-org/workspaces",
+    "headers": {
+      "Authorization": "Bearer <HCP_TERRAFORM_TOKEN>",
+      "Content-Type": "application/vnd.api+json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/vnd.api+json"
+    },
+    "body": {
+      "data": [
+        {
+          "id": "ws-abc123",
+          "type": "workspaces",
+          "attributes": {
+            "name": "production-vpc",
+            "description": "Production VPC and networking infrastructure",
+            "auto-apply": false,
+            "locked": false,
+            "execution-mode": "remote",
+            "terraform-version": "1.7.0",
+            "working-directory": "",
+            "created-at": "2026-01-15T09:30:00.000Z",
+            "updated-at": "2026-04-20T14:22:00.000Z",
+            "resource-count": 42
+          },
+          "relationships": {
+            "organization": {
+              "data": {
+                "id": "my-org",
+                "type": "organizations"
+              }
+            }
+          }
+        },
+        {
+          "id": "ws-def456",
+          "type": "workspaces",
+          "attributes": {
+            "name": "staging-eks",
+            "description": "Staging Kubernetes cluster on EKS",
+            "auto-apply": true,
+            "locked": false,
+            "execution-mode": "remote",
+            "terraform-version": "1.7.0",
+            "working-directory": "environments/staging",
+            "created-at": "2026-02-01T11:00:00.000Z",
+            "updated-at": "2026-05-01T08:45:00.000Z",
+            "resource-count": 18
+          }
+        }
+      ],
+      "meta": {
+        "pagination": {
+          "current-page": 1,
+          "prev-page": null,
+          "next-page": null,
+          "last-page": 1,
+          "total-count": 2
+        }
+      }
+    }
+  }
+}

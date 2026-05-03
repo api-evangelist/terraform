@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/terraform/main/json-schema/terraform-run-schema.json",
+  "title": "Terraform Run",
+  "description": "A Terraform run represents a single instance of a plan and optional apply cycle for a workspace.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the run"
+    },
+    "type": {
+      "type": "string",
+      "const": "runs",
+      "description": "JSON API resource type"
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "fetching",
+            "planning",
+            "planned",
+            "applying",
+            "applied",
+            "discarded",
+            "canceled",
+            "errored",
+            "policy_checked",
+            "policy_override",
+            "force_canceled"
+          ],
+          "description": "Current status of the run"
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable message explaining why the run was triggered"
+        },
+        "is-destroy": {
+          "type": "boolean",
+          "description": "When true, this run will destroy all managed resources"
+        },
+        "auto-apply": {
+          "type": "boolean",
+          "description": "When true, the run automatically applies after a successful plan"
+        },
+        "refresh": {
+          "type": "boolean",
+          "description": "Whether Terraform should refresh state before planning"
+        },
+        "created-at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the run was created"
+        },
+        "has-changes": {
+          "type": "boolean",
+          "description": "Whether the plan detected any resource changes"
+        },
+        "resource-additions": {
+          "type": "integer",
+          "description": "Number of resources to be added"
+        },
+        "resource-changes": {
+          "type": "integer",
+          "description": "Number of resources to be changed"
+        },
+        "resource-destructions": {
+          "type": "integer",
+          "description": "Number of resources to be destroyed"
+        }
+      },
+      "required": ["status"]
+    },
+    "relationships": {
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "type": "object",
+          "description": "The workspace this run belongs to"
+        },
+        "plan": {
+          "type": "object",
+          "description": "The plan associated with this run"
+        },
+        "apply": {
+          "type": "object",
+          "description": "The apply associated with this run"
+        }
+      }
+    }
+  },
+  "required": ["id", "type", "attributes"]
+}

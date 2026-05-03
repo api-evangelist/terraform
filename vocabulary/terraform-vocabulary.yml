@@ -1,0 +1,122 @@
+title: Terraform Vocabulary
+description: >-
+  Vocabulary and taxonomy for Terraform infrastructure-as-code concepts,
+  covering workspace lifecycle, run orchestration, state management, policy
+  governance, module ecosystem, and team access control.
+created: '2026-05-03'
+modified: '2026-05-03'
+
+domains:
+  - name: Infrastructure As Code
+    description: Declarative infrastructure management using versioned configuration files
+    terms:
+      - name: HCL
+        definition: HashiCorp Configuration Language — the declarative language used to write Terraform configurations
+      - name: Provider
+        definition: A plugin that Terraform uses to interact with cloud platforms, SaaS tools, and other APIs
+      - name: Resource
+        definition: An infrastructure object managed by Terraform (e.g., a VM, database, DNS record)
+      - name: Data Source
+        definition: A read-only reference to existing infrastructure not managed by the current configuration
+      - name: Module
+        definition: A reusable, self-contained collection of Terraform configuration files
+      - name: Root Module
+        definition: The main working directory containing the Terraform configuration files
+      - name: Variable
+        definition: An input value passed into a Terraform configuration to parameterize behavior
+
+  - name: Workspace Management
+    description: Workspace organization and lifecycle within HCP Terraform
+    terms:
+      - name: Workspace
+        definition: A named environment in HCP Terraform with its own state, variables, and run history
+      - name: Execution Mode
+        definition: Where Terraform operations run — remote (HCP), local, or via an agent pool
+      - name: Auto-Apply
+        definition: Setting that causes an apply to automatically run after a successful plan without manual confirmation
+      - name: Locked Workspace
+        definition: A workspace that has been locked to prevent new runs from being queued
+      - name: Working Directory
+        definition: The subdirectory within a VCS repo from which Terraform loads configuration
+      - name: Remote State
+        definition: Terraform state stored in HCP Terraform, accessible by other workspaces
+      - name: Global Remote State
+        definition: When enabled, any workspace in the organization can access this workspace's state
+
+  - name: Run Lifecycle
+    description: States and transitions in the Terraform plan/apply lifecycle
+    terms:
+      - name: Run
+        definition: A single instance of a Terraform plan and optional apply cycle
+      - name: Plan
+        definition: The first phase of a run where Terraform calculates the diff between desired and current state
+      - name: Apply
+        definition: The second phase of a run where Terraform executes the changes calculated in the plan
+      - name: Destroy Run
+        definition: A run with is-destroy=true that removes all managed resources
+      - name: Speculative Plan
+        definition: A plan-only run used to preview changes without committing, often used in CI pipelines
+      - name: Run Status
+        definition: >-
+          Current state of a run — one of: pending, fetching, planning, planned,
+          applying, applied, discarded, canceled, errored, policy_checked, policy_override
+
+  - name: State Management
+    description: Terraform state storage and versioning
+    terms:
+      - name: State
+        definition: A JSON file tracking all resources managed by Terraform and their current attribute values
+      - name: State Version
+        definition: A versioned snapshot of Terraform state stored in HCP Terraform
+      - name: State Serial
+        definition: An incrementing integer identifying the version of the state file
+      - name: State Lock
+        definition: A mechanism preventing concurrent state modifications during runs
+      - name: State Backend
+        definition: The storage location for Terraform state (local file or remote service like HCP Terraform)
+
+  - name: Policy and Governance
+    description: Policy enforcement and compliance controls
+    terms:
+      - name: Sentinel
+        definition: HashiCorp's policy-as-code framework for defining fine-grained, logic-based policies
+      - name: OPA
+        definition: Open Policy Agent — an open-source policy engine supported by Terraform
+      - name: Policy Check
+        definition: An automated evaluation of a run against defined Sentinel or OPA policies
+      - name: Enforcement Level
+        definition: >-
+          How strictly a policy is applied — advisory (warn only), soft-mandatory
+          (can be overridden), or hard-mandatory (cannot be overridden)
+      - name: Policy Set
+        definition: A collection of policies applied to one or more workspaces or organizations
+
+  - name: Access Control
+    description: Team and organization access management
+    terms:
+      - name: Organization
+        definition: The top-level account container in HCP Terraform, grouping workspaces, teams, and users
+      - name: Team
+        definition: A named group of users within an organization with shared permissions
+      - name: Organization Token
+        definition: An API token with organization-wide read/write access
+      - name: Team Token
+        definition: An API token with permissions scoped to a specific team
+      - name: User Token
+        definition: An API token associated with an individual user account
+
+  - name: Module Ecosystem
+    description: Terraform module publishing, discovery, and usage
+    terms:
+      - name: Terraform Registry
+        definition: The public registry at registry.terraform.io for discovering and sharing Terraform modules
+      - name: Verified Module
+        definition: A module that has been reviewed and verified by HashiCorp for quality and compatibility
+      - name: Module Source
+        definition: The address used to reference a module in Terraform configuration
+      - name: Module Version
+        definition: A specific semantic version tag of a published Terraform module
+      - name: Module Namespace
+        definition: The publisher's GitHub username or organization name under which modules are published
+      - name: Private Registry
+        definition: An organization-internal module registry hosted within HCP Terraform

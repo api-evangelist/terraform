@@ -1,0 +1,59 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://app.terraform.io/api/v2/runs",
+    "headers": {
+      "Authorization": "Bearer <HCP_TERRAFORM_TOKEN>",
+      "Content-Type": "application/vnd.api+json"
+    },
+    "body": {
+      "data": {
+        "type": "runs",
+        "attributes": {
+          "message": "Deploy new VPC configuration",
+          "is-destroy": false,
+          "auto-apply": false
+        },
+        "relationships": {
+          "workspace": {
+            "data": {
+              "type": "workspaces",
+              "id": "ws-abc123"
+            }
+          }
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/vnd.api+json"
+    },
+    "body": {
+      "data": {
+        "id": "run-xyz789",
+        "type": "runs",
+        "attributes": {
+          "status": "pending",
+          "message": "Deploy new VPC configuration",
+          "is-destroy": false,
+          "auto-apply": false,
+          "created-at": "2026-05-03T10:00:00.000Z",
+          "has-changes": null,
+          "resource-additions": null,
+          "resource-changes": null,
+          "resource-destructions": null
+        },
+        "relationships": {
+          "workspace": {
+            "data": {
+              "type": "workspaces",
+              "id": "ws-abc123"
+            }
+          }
+        }
+      }
+    }
+  }
+}

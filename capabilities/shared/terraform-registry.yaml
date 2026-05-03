@@ -1,0 +1,241 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Terraform Registry API"
+  description: >-
+    The Terraform Registry API enables discovery, listing, and downloading of
+    modules from the public Terraform Registry. Supports searching by keyword,
+    filtering by provider, and retrieving download statistics.
+  tags:
+    - Terraform
+    - Registry
+    - Modules
+    - Infrastructure As Code
+    - HashiCorp
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+capability:
+  consumes:
+    - type: http
+      namespace: terraform-registry
+      baseUri: https://registry.terraform.io
+      description: "Terraform Public Registry API (no authentication required)"
+      resources:
+        - name: modules
+          path: /v1/modules
+          description: "List all modules in the registry"
+          operations:
+            - name: list-modules
+              method: GET
+              description: "List modules with optional filtering"
+              inputParameters:
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Max results to return"
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Pagination offset"
+                - name: provider
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by provider"
+                - name: verified
+                  in: query
+                  type: boolean
+                  required: false
+                  description: "Show only verified modules"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: modules-search
+          path: /v1/modules/search
+          description: "Search modules by keyword"
+          operations:
+            - name: search-modules
+              method: GET
+              description: "Search modules by keyword or phrase"
+              inputParameters:
+                - name: q
+                  in: query
+                  type: string
+                  required: true
+                  description: "Search query"
+                - name: provider
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by provider"
+                - name: verified
+                  in: query
+                  type: boolean
+                  required: false
+                  description: "Show only verified modules"
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Max results"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: module-versions
+          path: /v1/modules/{namespace}/{name}/{provider}/versions
+          description: "List versions of a specific module"
+          operations:
+            - name: list-module-versions
+              method: GET
+              description: "List all available versions of a module"
+              inputParameters:
+                - name: namespace
+                  in: path
+                  type: string
+                  required: true
+                  description: "Module namespace"
+                - name: name
+                  in: path
+                  type: string
+                  required: true
+                  description: "Module name"
+                - name: provider
+                  in: path
+                  type: string
+                  required: true
+                  description: "Provider name"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: module-version
+          path: /v1/modules/{namespace}/{name}/{provider}/{version}
+          description: "Get a specific module version"
+          operations:
+            - name: get-module-version
+              method: GET
+              description: "Get details for a specific module version"
+              inputParameters:
+                - name: namespace
+                  in: path
+                  type: string
+                  required: true
+                  description: "Module namespace"
+                - name: name
+                  in: path
+                  type: string
+                  required: true
+                  description: "Module name"
+                - name: provider
+                  in: path
+                  type: string
+                  required: true
+                  description: "Provider name"
+                - name: version
+                  in: path
+                  type: string
+                  required: true
+                  description: "Version number"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8101
+      namespace: terraform-registry-rest
+      resources:
+        - path: /v1/modules
+          name: modules
+          description: "Module listing"
+          operations:
+            - method: GET
+              name: list-modules
+              description: "List modules"
+              call: "terraform-registry.list-modules"
+              with:
+                provider: "rest.provider"
+                verified: "rest.verified"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/modules/search
+          name: module-search
+          description: "Module search"
+          operations:
+            - method: GET
+              name: search-modules
+              description: "Search modules"
+              call: "terraform-registry.search-modules"
+              with:
+                q: "rest.q"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9101
+      namespace: terraform-registry-mcp
+      transport: http
+      tools:
+        - name: list-modules
+          description: "List Terraform modules in the registry"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "terraform-registry.list-modules"
+          with:
+            provider: "tools.provider"
+            verified: "tools.verified"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: search-modules
+          description: "Search Terraform modules by keyword"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "terraform-registry.search-modules"
+          with:
+            q: "tools.q"
+            provider: "tools.provider"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-module-versions
+          description: "List available versions of a Terraform module"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "terraform-registry.list-module-versions"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+            provider: "tools.provider"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-module-version
+          description: "Get details of a specific Terraform module version"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "terraform-registry.get-module-version"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+            provider: "tools.provider"
+            version: "tools.version"
+          outputParameters:
+            - type: object
+              mapping: "$."
