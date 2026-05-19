@@ -1,0 +1,171 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: HCP Terraform API — State Versions
+  description: 'HCP Terraform API — State Versions. 3 operations. Lead operation: Get a State Version. Self-contained Naftiko
+    capability covering one Terraform business surface.'
+  tags:
+  - Terraform
+  - State Versions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TERRAFORM_API_KEY: TERRAFORM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: hcp-terraform-state-versions
+    baseUri: https://app.terraform.io/api/v2
+    description: HCP Terraform API — State Versions business capability. Self-contained, no shared references.
+    resources:
+    - name: state-versions-state_version_id
+      path: /state-versions/{state_version_id}
+      operations:
+      - name: getstateversion
+        method: GET
+        description: Get a State Version
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: state_version_id
+          in: path
+          type: string
+          required: true
+    - name: workspaces-workspace_id-state-versions
+      path: /workspaces/{workspace_id}/state-versions
+      operations:
+      - name: liststateversions
+        method: GET
+        description: List State Versions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: workspace_id
+          in: path
+          type: string
+          required: true
+        - name: page[number]
+          in: query
+          type: integer
+        - name: page[size]
+          in: query
+          type: integer
+      - name: createstateversion
+        method: POST
+        description: Create a State Version
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: workspace_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TERRAFORM_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: hcp-terraform-state-versions-rest
+    port: 8080
+    description: REST adapter for HCP Terraform API — State Versions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/state-versions/{state-version-id}
+      name: state-versions-state-version-id
+      description: REST surface for state-versions-state_version_id.
+      operations:
+      - method: GET
+        name: getstateversion
+        description: Get a State Version
+        call: hcp-terraform-state-versions.getstateversion
+        with:
+          state_version_id: rest.state_version_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/workspaces/{workspace-id}/state-versions
+      name: workspaces-workspace-id-state-versions
+      description: REST surface for workspaces-workspace_id-state-versions.
+      operations:
+      - method: GET
+        name: liststateversions
+        description: List State Versions
+        call: hcp-terraform-state-versions.liststateversions
+        with:
+          workspace_id: rest.workspace_id
+          page[number]: rest.page[number]
+          page[size]: rest.page[size]
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createstateversion
+        description: Create a State Version
+        call: hcp-terraform-state-versions.createstateversion
+        with:
+          workspace_id: rest.workspace_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: hcp-terraform-state-versions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for HCP Terraform API — State Versions. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-state-version
+      description: Get a State Version
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-state-versions.getstateversion
+      with:
+        state_version_id: tools.state_version_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-state-versions
+      description: List State Versions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-state-versions.liststateversions
+      with:
+        workspace_id: tools.workspace_id
+        page[number]: tools.page[number]
+        page[size]: tools.page[size]
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-state-version
+      description: Create a State Version
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: hcp-terraform-state-versions.createstateversion
+      with:
+        workspace_id: tools.workspace_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

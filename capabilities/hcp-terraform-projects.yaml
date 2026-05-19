@@ -1,0 +1,251 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: HCP Terraform API — Projects
+  description: 'HCP Terraform API — Projects. 5 operations. Lead operation: List Projects. Self-contained Naftiko capability
+    covering one Terraform business surface.'
+  tags:
+  - Terraform
+  - Projects
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TERRAFORM_API_KEY: TERRAFORM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: hcp-terraform-projects
+    baseUri: https://app.terraform.io/api/v2
+    description: HCP Terraform API — Projects business capability. Self-contained, no shared references.
+    resources:
+    - name: organizations-organization_name-projects
+      path: /organizations/{organization_name}/projects
+      operations:
+      - name: listprojects
+        method: GET
+        description: List Projects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_name
+          in: path
+          type: string
+          required: true
+        - name: page[number]
+          in: query
+          type: integer
+        - name: page[size]
+          in: query
+          type: integer
+        - name: filter[name]
+          in: query
+          type: string
+      - name: createproject
+        method: POST
+        description: Create a Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_name
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: projects-project_id
+      path: /projects/{project_id}
+      operations:
+      - name: getproject
+        method: GET
+        description: Get a Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project_id
+          in: path
+          type: string
+          required: true
+      - name: updateproject
+        method: PATCH
+        description: Update a Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproject
+        method: DELETE
+        description: Delete a Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project_id
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TERRAFORM_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: hcp-terraform-projects-rest
+    port: 8080
+    description: REST adapter for HCP Terraform API — Projects. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/organizations/{organization-name}/projects
+      name: organizations-organization-name-projects
+      description: REST surface for organizations-organization_name-projects.
+      operations:
+      - method: GET
+        name: listprojects
+        description: List Projects
+        call: hcp-terraform-projects.listprojects
+        with:
+          organization_name: rest.organization_name
+          page[number]: rest.page[number]
+          page[size]: rest.page[size]
+          filter[name]: rest.filter[name]
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproject
+        description: Create a Project
+        call: hcp-terraform-projects.createproject
+        with:
+          organization_name: rest.organization_name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{project-id}
+      name: projects-project-id
+      description: REST surface for projects-project_id.
+      operations:
+      - method: GET
+        name: getproject
+        description: Get a Project
+        call: hcp-terraform-projects.getproject
+        with:
+          project_id: rest.project_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateproject
+        description: Update a Project
+        call: hcp-terraform-projects.updateproject
+        with:
+          project_id: rest.project_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproject
+        description: Delete a Project
+        call: hcp-terraform-projects.deleteproject
+        with:
+          project_id: rest.project_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: hcp-terraform-projects-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for HCP Terraform API — Projects. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-projects
+      description: List Projects
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-projects.listprojects
+      with:
+        organization_name: tools.organization_name
+        page[number]: tools.page[number]
+        page[size]: tools.page[size]
+        filter[name]: tools.filter[name]
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-project
+      description: Create a Project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: hcp-terraform-projects.createproject
+      with:
+        organization_name: tools.organization_name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-project
+      description: Get a Project
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-projects.getproject
+      with:
+        project_id: tools.project_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-project
+      description: Update a Project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-projects.updateproject
+      with:
+        project_id: tools.project_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-project
+      description: Delete a Project
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: hcp-terraform-projects.deleteproject
+      with:
+        project_id: tools.project_id
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,214 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: HCP Terraform API — Variables
+  description: 'HCP Terraform API — Variables. 4 operations. Lead operation: List Workspace Variables. Self-contained Naftiko
+    capability covering one Terraform business surface.'
+  tags:
+  - Terraform
+  - Variables
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TERRAFORM_API_KEY: TERRAFORM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: hcp-terraform-variables
+    baseUri: https://app.terraform.io/api/v2
+    description: HCP Terraform API — Variables business capability. Self-contained, no shared references.
+    resources:
+    - name: workspaces-workspace_id-vars
+      path: /workspaces/{workspace_id}/vars
+      operations:
+      - name: listworkspacevariables
+        method: GET
+        description: List Workspace Variables
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: workspace_id
+          in: path
+          type: string
+          required: true
+      - name: createworkspacevariable
+        method: POST
+        description: Create a Workspace Variable
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: workspace_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: workspaces-workspace_id-vars-variable_id
+      path: /workspaces/{workspace_id}/vars/{variable_id}
+      operations:
+      - name: updateworkspacevariable
+        method: PATCH
+        description: Update a Workspace Variable
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: workspace_id
+          in: path
+          type: string
+          required: true
+        - name: variable_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteworkspacevariable
+        method: DELETE
+        description: Delete a Workspace Variable
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: workspace_id
+          in: path
+          type: string
+          required: true
+        - name: variable_id
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TERRAFORM_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: hcp-terraform-variables-rest
+    port: 8080
+    description: REST adapter for HCP Terraform API — Variables. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/workspaces/{workspace-id}/vars
+      name: workspaces-workspace-id-vars
+      description: REST surface for workspaces-workspace_id-vars.
+      operations:
+      - method: GET
+        name: listworkspacevariables
+        description: List Workspace Variables
+        call: hcp-terraform-variables.listworkspacevariables
+        with:
+          workspace_id: rest.workspace_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createworkspacevariable
+        description: Create a Workspace Variable
+        call: hcp-terraform-variables.createworkspacevariable
+        with:
+          workspace_id: rest.workspace_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/workspaces/{workspace-id}/vars/{variable-id}
+      name: workspaces-workspace-id-vars-variable-id
+      description: REST surface for workspaces-workspace_id-vars-variable_id.
+      operations:
+      - method: PATCH
+        name: updateworkspacevariable
+        description: Update a Workspace Variable
+        call: hcp-terraform-variables.updateworkspacevariable
+        with:
+          workspace_id: rest.workspace_id
+          variable_id: rest.variable_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteworkspacevariable
+        description: Delete a Workspace Variable
+        call: hcp-terraform-variables.deleteworkspacevariable
+        with:
+          workspace_id: rest.workspace_id
+          variable_id: rest.variable_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: hcp-terraform-variables-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for HCP Terraform API — Variables. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-workspace-variables
+      description: List Workspace Variables
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-variables.listworkspacevariables
+      with:
+        workspace_id: tools.workspace_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-workspace-variable
+      description: Create a Workspace Variable
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: hcp-terraform-variables.createworkspacevariable
+      with:
+        workspace_id: tools.workspace_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-workspace-variable
+      description: Update a Workspace Variable
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-variables.updateworkspacevariable
+      with:
+        workspace_id: tools.workspace_id
+        variable_id: tools.variable_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-workspace-variable
+      description: Delete a Workspace Variable
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: hcp-terraform-variables.deleteworkspacevariable
+      with:
+        workspace_id: tools.workspace_id
+        variable_id: tools.variable_id
+      outputParameters:
+      - type: object
+        mapping: $.

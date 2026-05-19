@@ -1,0 +1,322 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: HCP Terraform API — Runs
+  description: 'HCP Terraform API — Runs. 6 operations. Lead operation: Create a Run. Self-contained Naftiko capability covering
+    one Terraform business surface.'
+  tags:
+  - Terraform
+  - Runs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TERRAFORM_API_KEY: TERRAFORM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: hcp-terraform-runs
+    baseUri: https://app.terraform.io/api/v2
+    description: HCP Terraform API — Runs business capability. Self-contained, no shared references.
+    resources:
+    - name: runs
+      path: /runs
+      operations:
+      - name: createrun
+        method: POST
+        description: Create a Run
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: runs-run_id
+      path: /runs/{run_id}
+      operations:
+      - name: getrun
+        method: GET
+        description: Get a Run
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: run_id
+          in: path
+          type: string
+          required: true
+    - name: runs-run_id-actions-apply
+      path: /runs/{run_id}/actions/apply
+      operations:
+      - name: applyrun
+        method: POST
+        description: Apply a Run
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: run_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: runs-run_id-actions-cancel
+      path: /runs/{run_id}/actions/cancel
+      operations:
+      - name: cancelrun
+        method: POST
+        description: Cancel a Run
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: run_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: runs-run_id-actions-discard
+      path: /runs/{run_id}/actions/discard
+      operations:
+      - name: discardrun
+        method: POST
+        description: Discard a Run
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: run_id
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: workspaces-workspace_id-runs
+      path: /workspaces/{workspace_id}/runs
+      operations:
+      - name: listworkspaceruns
+        method: GET
+        description: List Workspace Runs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: workspace_id
+          in: path
+          type: string
+          required: true
+        - name: page[number]
+          in: query
+          type: integer
+        - name: page[size]
+          in: query
+          type: integer
+        - name: filter[status]
+          in: query
+          type: string
+          description: Filter runs by status
+    authentication:
+      type: bearer
+      token: '{{env.TERRAFORM_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: hcp-terraform-runs-rest
+    port: 8080
+    description: REST adapter for HCP Terraform API — Runs. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/runs
+      name: runs
+      description: REST surface for runs.
+      operations:
+      - method: POST
+        name: createrun
+        description: Create a Run
+        call: hcp-terraform-runs.createrun
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/runs/{run-id}
+      name: runs-run-id
+      description: REST surface for runs-run_id.
+      operations:
+      - method: GET
+        name: getrun
+        description: Get a Run
+        call: hcp-terraform-runs.getrun
+        with:
+          run_id: rest.run_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/runs/{run-id}/actions/apply
+      name: runs-run-id-actions-apply
+      description: REST surface for runs-run_id-actions-apply.
+      operations:
+      - method: POST
+        name: applyrun
+        description: Apply a Run
+        call: hcp-terraform-runs.applyrun
+        with:
+          run_id: rest.run_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/runs/{run-id}/actions/cancel
+      name: runs-run-id-actions-cancel
+      description: REST surface for runs-run_id-actions-cancel.
+      operations:
+      - method: POST
+        name: cancelrun
+        description: Cancel a Run
+        call: hcp-terraform-runs.cancelrun
+        with:
+          run_id: rest.run_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/runs/{run-id}/actions/discard
+      name: runs-run-id-actions-discard
+      description: REST surface for runs-run_id-actions-discard.
+      operations:
+      - method: POST
+        name: discardrun
+        description: Discard a Run
+        call: hcp-terraform-runs.discardrun
+        with:
+          run_id: rest.run_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/workspaces/{workspace-id}/runs
+      name: workspaces-workspace-id-runs
+      description: REST surface for workspaces-workspace_id-runs.
+      operations:
+      - method: GET
+        name: listworkspaceruns
+        description: List Workspace Runs
+        call: hcp-terraform-runs.listworkspaceruns
+        with:
+          workspace_id: rest.workspace_id
+          page[number]: rest.page[number]
+          page[size]: rest.page[size]
+          filter[status]: rest.filter[status]
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: hcp-terraform-runs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for HCP Terraform API — Runs. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: create-run
+      description: Create a Run
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: hcp-terraform-runs.createrun
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-run
+      description: Get a Run
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-runs.getrun
+      with:
+        run_id: tools.run_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: apply-run
+      description: Apply a Run
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: hcp-terraform-runs.applyrun
+      with:
+        run_id: tools.run_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-run
+      description: Cancel a Run
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: hcp-terraform-runs.cancelrun
+      with:
+        run_id: tools.run_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: discard-run
+      description: Discard a Run
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: hcp-terraform-runs.discardrun
+      with:
+        run_id: tools.run_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-workspace-runs
+      description: List Workspace Runs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-runs.listworkspaceruns
+      with:
+        workspace_id: tools.workspace_id
+        page[number]: tools.page[number]
+        page[size]: tools.page[size]
+        filter[status]: tools.filter[status]
+      outputParameters:
+      - type: object
+        mapping: $.

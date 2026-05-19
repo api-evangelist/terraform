@@ -1,0 +1,205 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: HCP Terraform API — Policies
+  description: 'HCP Terraform API — Policies. 4 operations. Lead operation: List Policies. Self-contained Naftiko capability
+    covering one Terraform business surface.'
+  tags:
+  - Terraform
+  - Policies
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TERRAFORM_API_KEY: TERRAFORM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: hcp-terraform-policies
+    baseUri: https://app.terraform.io/api/v2
+    description: HCP Terraform API — Policies business capability. Self-contained, no shared references.
+    resources:
+    - name: organizations-organization_name-policies
+      path: /organizations/{organization_name}/policies
+      operations:
+      - name: listpolicies
+        method: GET
+        description: List Policies
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_name
+          in: path
+          type: string
+          required: true
+        - name: page[number]
+          in: query
+          type: integer
+        - name: page[size]
+          in: query
+          type: integer
+      - name: createpolicy
+        method: POST
+        description: Create a Policy
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: organization_name
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: policies-policy_id
+      path: /policies/{policy_id}
+      operations:
+      - name: getpolicy
+        method: GET
+        description: Get a Policy
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: policy_id
+          in: path
+          type: string
+          required: true
+      - name: deletepolicy
+        method: DELETE
+        description: Delete a Policy
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: policy_id
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TERRAFORM_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: hcp-terraform-policies-rest
+    port: 8080
+    description: REST adapter for HCP Terraform API — Policies. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/organizations/{organization-name}/policies
+      name: organizations-organization-name-policies
+      description: REST surface for organizations-organization_name-policies.
+      operations:
+      - method: GET
+        name: listpolicies
+        description: List Policies
+        call: hcp-terraform-policies.listpolicies
+        with:
+          organization_name: rest.organization_name
+          page[number]: rest.page[number]
+          page[size]: rest.page[size]
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpolicy
+        description: Create a Policy
+        call: hcp-terraform-policies.createpolicy
+        with:
+          organization_name: rest.organization_name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/policies/{policy-id}
+      name: policies-policy-id
+      description: REST surface for policies-policy_id.
+      operations:
+      - method: GET
+        name: getpolicy
+        description: Get a Policy
+        call: hcp-terraform-policies.getpolicy
+        with:
+          policy_id: rest.policy_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepolicy
+        description: Delete a Policy
+        call: hcp-terraform-policies.deletepolicy
+        with:
+          policy_id: rest.policy_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: hcp-terraform-policies-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for HCP Terraform API — Policies. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-policies
+      description: List Policies
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-policies.listpolicies
+      with:
+        organization_name: tools.organization_name
+        page[number]: tools.page[number]
+        page[size]: tools.page[size]
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-policy
+      description: Create a Policy
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: hcp-terraform-policies.createpolicy
+      with:
+        organization_name: tools.organization_name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-policy
+      description: Get a Policy
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: hcp-terraform-policies.getpolicy
+      with:
+        policy_id: tools.policy_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-policy
+      description: Delete a Policy
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: hcp-terraform-policies.deletepolicy
+      with:
+        policy_id: tools.policy_id
+      outputParameters:
+      - type: object
+        mapping: $.
