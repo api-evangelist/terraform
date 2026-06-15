@@ -1,57 +1,91 @@
-# Terraform
+# Terraform (terraform)
 
 HashiCorp Terraform is an open-source infrastructure-as-code tool that enables teams to define, provision, and manage cloud infrastructure using a declarative configuration language (HCL). HCP Terraform and Terraform Enterprise expose a comprehensive REST API for automating workspace management, runs, state, policies, and access control.
 
-**Type:** Open Source  
-**GitHub:** https://github.com/hashicorp/terraform  
-**Developer Portal:** https://developer.hashicorp.com/terraform  
-**HCP Terraform:** https://app.terraform.io  
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/apis.yml)
+
+## Scope
+
+- **Type:** Index
+
+## Tags
+
+- Infrastructure As Code
+- Cloud Infrastructure
+- DevOps
+- Open Source
+- HashiCorp
+
+## Timestamps
+
+- **Created:** 2026-03-16
+- **Modified:** 2026-05-19
 
 ## APIs
 
 ### HCP Terraform API
-The HCP Terraform API provides programmatic access to all HCP Terraform features including workspace management, runs, state versions, policies, teams, organizations, VCS integrations, and the private module registry. Follows the JSON API specification with bearer token authentication.
 
+The HCP Terraform API provides programmatic access to all HCP Terraform features including workspace management, runs, state versions, policies, teams, organizations, VCS integrations, and the private module registry. The API follows the JSON API specification and uses bearer token authentication.
+
+- **Human URL:** [https://developer.hashicorp.com/terraform/cloud-docs/api-docs](https://developer.hashicorp.com/terraform/cloud-docs/api-docs)
 - **Base URL:** `https://app.terraform.io/api/v2`
-- **Authentication:** Bearer token
-- **Documentation:** https://developer.hashicorp.com/terraform/cloud-docs/api-docs
-- **OpenAPI Spec:** [openapi/hcp-terraform-openapi.yml](openapi/hcp-terraform-openapi.yml)
+
+#### Tags
+
+- Infrastructure As Code
+- Workspaces
+- Runs
+- State Management
+- Policy
+
+#### Properties
+
+- [Documentation](https://developer.hashicorp.com/terraform/cloud-docs/api-docs)
+- [Documentation](https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces)
+- [Documentation](https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run)
+- [Documentation](https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/openapi/hcp-terraform-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/hcp-terraform.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/hcp-terraform.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/terraform-registry.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/terraform-registry.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### Terraform Registry API
-The Terraform Registry API enables discovery, listing, versioning, and downloading of modules from the public Terraform Registry.
 
+The Terraform Registry API enables discovery, listing, versioning, and downloading of modules from the public Terraform Registry. It supports searching by keyword, filtering by provider and namespace, and retrieving download metrics.
+
+- **Human URL:** [https://developer.hashicorp.com/terraform/registry/api-docs](https://developer.hashicorp.com/terraform/registry/api-docs)
 - **Base URL:** `https://registry.terraform.io`
-- **Authentication:** None (public)
-- **Documentation:** https://developer.hashicorp.com/terraform/registry/api-docs
-- **OpenAPI Spec:** [openapi/terraform-registry-openapi.yml](openapi/terraform-registry-openapi.yml)
 
-## Artifacts
+#### Tags
 
-| Type | Files |
-|------|-------|
-| OpenAPI Specs | [openapi/](openapi/) |
-| Spectral Rules | [rules/hcp-terraform-rules.yml](rules/hcp-terraform-rules.yml) |
-| Capabilities | [capabilities/](capabilities/) |
-| JSON Schema | [json-schema/](json-schema/) |
-| JSON Structure | [json-structure/](json-structure/) |
-| JSON-LD | [json-ld/terraform-context.jsonld](json-ld/terraform-context.jsonld) |
-| Examples | [examples/](examples/) |
-| Vocabulary | [vocabulary/terraform-vocabulary.yml](vocabulary/terraform-vocabulary.yml) |
+- Registry
+- Modules
+- Providers
+- Discovery
 
-## Capabilities
+#### Properties
 
-### Workflow Capabilities
-- **[infrastructure-automation.yaml](capabilities/infrastructure-automation.yaml)** — Unified workflow for infrastructure automation: workspace management, run orchestration, state versioning, policy governance, and module discovery (16 tools)
+- [Documentation](https://developer.hashicorp.com/terraform/registry/api-docs)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/openapi/terraform-registry-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/hcp-terraform.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/hcp-terraform.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/terraform-registry.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/terraform-registry.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
-### Shared Per-API Definitions
-- **[shared/hcp-terraform.yaml](capabilities/shared/hcp-terraform.yaml)** — HCP Terraform API: organizations, workspaces, runs, state versions, teams, policies (14 tools)
-- **[shared/terraform-registry.yaml](capabilities/shared/terraform-registry.yaml)** — Terraform Registry: module listing, search, versioning (4 tools)
+## Common Properties
 
-## Tags
-
-Infrastructure As Code, Cloud Infrastructure, DevOps, Open Source, HashiCorp, Workspaces, Runs, State Management, Policy, Modules
+- [Portal](https://developer.hashicorp.com/terraform)
+- [Repository](https://github.com/hashicorp/terraform)
+- [Portal](https://registry.terraform.io)
+- [Portal](https://app.terraform.io)
+- [Changelog](https://github.com/hashicorp/terraform/blob/main/CHANGELOG.md)
+- [Forum](https://discuss.hashicorp.com/c/terraform-core)
+- [Repository](https://github.com/hashicorp/terraform)
+- [SDK](https://github.com/hashicorp/terraform-cdk)
+- [SDK](https://github.com/hashicorp/go-tfe)
 
 ## Maintainers
 
-**FN:** Kin Lane  
+**FN:** Kin Lane
 **Email:** kin@apievangelist.com
