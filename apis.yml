@@ -79,16 +79,16 @@ common:
     type: ChangeLog
   - name: Terraform Community Forum
     url: https://discuss.hashicorp.com/c/terraform-core
-    type: Forum
+    type: Forums
   - name: Terraform GitHub CLI
     url: https://github.com/hashicorp/terraform
     type: Repository
   - name: Terraform CDK
     url: https://github.com/hashicorp/terraform-cdk
-    type: SDK
+    type: SDKs
   - name: Terraform Go SDK
     url: https://github.com/hashicorp/go-tfe
-    type: SDK
+    type: SDKs
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
