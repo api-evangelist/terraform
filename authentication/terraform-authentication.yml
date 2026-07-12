@@ -1,0 +1,13 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/hcp-terraform-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token authentication. Use organization, team, or user tokens.
+  sources:
+  - openapi/hcp-terraform-openapi.yml
