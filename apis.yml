@@ -62,6 +62,8 @@ apis:
           https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/openapi/terraform-registry-openapi.yml
         type: OpenAPI
 common:
+  - type: AgenticAccess
+    url: agentic-access/terraform-agentic-access.yml
   - type: DomainSecurity
     url: security/terraform-domain-security.yml
   - type: Authentication
