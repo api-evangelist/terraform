@@ -1,13 +1,30 @@
-generated: '2026-07-11'
-method: derived
+generated: '2026-06-20'
+method: searched
 source: openapi/hcp-terraform-openapi.yml
+docs: https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/api-tokens
 summary:
   types:
   - http
+  api_key_in: []
+  oauth2_flows: []
 schemes:
 - name: bearerAuth
   type: http
   scheme: bearer
-  description: Bearer token authentication. Use organization, team, or user tokens.
+  description: >-
+    Bearer token authentication. HCP Terraform issues three token kinds — user
+    tokens (act as a user), team tokens (scoped to a team's permissions), and
+    organization tokens (one per org, for org-level automation). Tokens are sent
+    as `Authorization: Bearer <token>`. The public Terraform Registry API needs
+    no authentication for discovery/download.
+  token_types: [user, team, organization]
+  header: Authorization
+  docs: https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/api-tokens
   sources:
   - openapi/hcp-terraform-openapi.yml
+notes: >-
+  The Terraform Registry API (registry.terraform.io) is unauthenticated for
+  public module/provider read and download. HCP Terraform also acts as an OIDC
+  identity provider (well-known/terraform-app-openid-configuration.json) for
+  workload identity / dynamic provider credentials — that is token issuance for
+  runs, distinct from API authentication.

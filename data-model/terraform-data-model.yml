@@ -1,0 +1,40 @@
+generated: '2026-06-20'
+method: derived
+source: >-
+  Derived from openapi/hcp-terraform-openapi.yml (path hierarchy, schema $ref
+  links, and JSON:API relationship fields) and
+  openapi/terraform-registry-openapi.yml. Captures the core entity-relationship
+  graph behind HCP Terraform workspace automation and the public module
+  registry. Enriched from the object reference at
+  https://developer.hashicorp.com/terraform/cloud-docs/api-docs.
+docs: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+notation: >-
+  relationships use has_one / has_many / belongs_to with the owning path segment
+  or JSON:API relationship name as `via`; direction is from the entity that owns
+  the reference. HCP Terraform ids use type-prefixed slugs (e.g. ws-, run-,
+  team-, prj-, sv-, var-, pol-).
+entities:
+  - {name: Organization, id_prefix: (name), domain: hcp-terraform, description: Top-level tenant; owns workspaces, teams, policies, projects.}
+  - {name: Project, id_prefix: prj-, domain: hcp-terraform, description: A grouping of workspaces within an organization.}
+  - {name: Workspace, id_prefix: ws-, domain: hcp-terraform, description: An isolated Terraform state + config + run environment.}
+  - {name: Run, id_prefix: run-, domain: hcp-terraform, description: A plan/apply execution against a workspace.}
+  - {name: StateVersion, id_prefix: sv-, domain: hcp-terraform, description: A stored version of a workspace's Terraform state.}
+  - {name: Variable, id_prefix: var-, domain: hcp-terraform, description: A Terraform or environment variable on a workspace.}
+  - {name: Team, id_prefix: team-, domain: hcp-terraform, description: A group of users with permissions in an organization.}
+  - {name: Policy, id_prefix: pol-, domain: hcp-terraform, description: A Sentinel or OPA governance policy.}
+  - {name: Module, id_prefix: (namespace/name/provider), domain: registry, description: A published module in the Terraform Registry.}
+  - {name: ModuleVersion, id_prefix: (semver), domain: registry, description: A specific published version of a module.}
+relationships:
+  - {from: Organization, to: Workspace, kind: has_many, via: organization_name}
+  - {from: Organization, to: Team, kind: has_many, via: organization_name}
+  - {from: Organization, to: Policy, kind: has_many, via: organization_name}
+  - {from: Organization, to: Project, kind: has_many, via: organization_name}
+  - {from: Project, to: Workspace, kind: has_many, via: project}
+  - {from: Workspace, to: Run, kind: has_many, via: workspace_id}
+  - {from: Workspace, to: StateVersion, kind: has_many, via: workspace_id}
+  - {from: Workspace, to: Variable, kind: has_many, via: workspace_id}
+  - {from: Run, to: Workspace, kind: belongs_to, via: workspace_id}
+  - {from: StateVersion, to: Workspace, kind: belongs_to, via: workspace_id}
+  - {from: Variable, to: Workspace, kind: belongs_to, via: workspace_id}
+  - {from: Workspace, to: Organization, kind: belongs_to, via: organization_name}
+  - {from: Module, to: ModuleVersion, kind: has_many, via: version}

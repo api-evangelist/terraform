@@ -1,0 +1,78 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://developer.hashicorp.com/terraform/cloud-docs/api-docs +
+  https://developer.hashicorp.com/terraform/cdktf — first-party HashiCorp client
+  libraries / SDKs / tooling for the Terraform ecosystem, verified against the
+  public package registries. Registry HTTP status recorded at fetch time; the
+  npm front-end returns 403 to automated clients, so npm entries were confirmed
+  via the HashiCorp GitHub org.
+packages:
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/hashicorp/go-tfe
+    url: https://pkg.go.dev/github.com/hashicorp/go-tfe
+    source: https://github.com/hashicorp/go-tfe
+    install: go get github.com/hashicorp/go-tfe
+    official: true
+    note: >-
+      The canonical HCP Terraform / Terraform Enterprise API client (SDK) in Go.
+      Configured via TFE_TOKEN and TFE_ADDRESS environment variables.
+  - language: typescript
+    registry: npm
+    name: cdktf
+    url: https://www.npmjs.com/package/cdktf
+    source: https://github.com/hashicorp/terraform-cdk
+    install: npm install cdktf
+    official: true
+    note: >-
+      Cloud Development Kit for Terraform (CDKTF). Deprecated by HashiCorp as of
+      2025-12-10 — no longer maintained — but packages remain published.
+  - language: python
+    registry: pypi
+    name: cdktf
+    url: https://pypi.org/project/cdktf/
+    source: https://github.com/hashicorp/terraform-cdk
+    install: pip install cdktf
+    official: true
+    note: CDKTF Python bindings. Deprecated 2025-12-10.
+  - language: csharp
+    registry: nuget
+    name: HashiCorp.Cdktf
+    url: https://www.nuget.org/packages/HashiCorp.Cdktf
+    source: https://github.com/hashicorp/terraform-cdk
+    install: dotnet add package HashiCorp.Cdktf
+    official: true
+    note: CDKTF .NET bindings. Deprecated 2025-12-10.
+  - language: cli
+    registry: releases.hashicorp.com
+    name: terraform
+    url: https://developer.hashicorp.com/terraform/install
+    source: https://github.com/hashicorp/terraform
+    install: brew tap hashicorp/tap && brew install hashicorp/tap/terraform
+    official: true
+    note: >-
+      The Terraform CLI binary (infrastructure-as-code core). Distributed via
+      releases.hashicorp.com, Homebrew, apt/yum repos, and Docker
+      (hashicorp/terraform). Command surface catalogued in cli/terraform-cli.yml.
+  - language: cli
+    registry: github
+    name: tfctl
+    url: https://www.hashicorp.com/blog/introducing-tfctl-the-cli-for-hcp-terraform-and-tfe
+    source: https://github.com/hashicorp/tfctl
+    install: go install github.com/hashicorp/tfctl@latest
+    official: true
+    note: >-
+      tfctl — the dedicated CLI for HCP Terraform and Terraform Enterprise
+      platform operations (announced 2026-06-16). Command surface in
+      cli/terraform-cli.yml.
+  - language: go
+    registry: github
+    name: terraform-mcp-server
+    url: https://github.com/hashicorp/terraform-mcp-server
+    source: https://github.com/hashicorp/terraform-mcp-server
+    install: docker run -i --rm hashicorp/terraform-mcp-server
+    official: true
+    note: >-
+      Official Terraform MCP server (Docker image hashicorp/terraform-mcp-server,
+      or go install .../cmd/terraform-mcp-server). Detailed in mcp/terraform-mcp.yml.

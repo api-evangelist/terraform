@@ -14,7 +14,7 @@ tags:
   - HashiCorp
 url: https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/apis.yml
 created: '2026-03-16'
-modified: '2026-05-19'
+modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
   - aid: terraform:hcp-terraform-api
@@ -68,6 +68,38 @@ common:
     url: security/terraform-domain-security.yml
   - type: Authentication
     url: authentication/terraform-authentication.yml
+  - type: Packages
+    url: packages/terraform-packages.yml
+  - type: WellKnown
+    url: well-known/terraform-well-known.yml
+  - type: MCPServer
+    url: mcp/terraform-mcp.yml
+  - type: LLMsTxt
+    url: llms/terraform-llms.txt
+  - type: Overlay
+    name: HCP Terraform API Overlay
+    url: overlays/terraform-hcp-terraform-overlay.yaml
+  - type: Overlay
+    name: Terraform Registry API Overlay
+    url: overlays/terraform-terraform-registry-overlay.yaml
+  - type: Conformance
+    url: conformance/terraform-conformance.yml
+  - type: ErrorCatalog
+    url: errors/terraform-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/terraform-lifecycle.yml
+  - type: Conventions
+    url: conventions/terraform-conventions.yml
+  - type: ChangeLog
+    url: changelog/terraform-changelog.yml
+  - type: CLI
+    url: cli/terraform-cli.yml
+  - type: DataModel
+    url: data-model/terraform-data-model.yml
+  - type: VulnerabilityDisclosure
+    url: security/terraform-vulnerability-disclosure.yml
+  - type: TrustCenter
+    url: security/terraform-trust-center.yml
   - name: HashiCorp Developer Portal
     url: https://developer.hashicorp.com/terraform
     type: Portal

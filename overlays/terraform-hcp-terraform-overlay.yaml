@@ -1,0 +1,25 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for HCP Terraform API
+  version: 1.0.0
+extends: openapi/hcp-terraform-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: terraform
+      x-apievangelist-api: hcp-terraform-api
+      x-media-type: application/vnd.api+json
+      x-json-api: true
+      x-authentication: authentication/terraform-authentication.yml
+      x-conventions: conventions/terraform-conventions.yml
+      x-lifecycle: lifecycle/terraform-lifecycle.yml
+      x-errors: errors/terraform-problem-types.yml
+      x-data-model: data-model/terraform-data-model.yml
+      x-changelog: changelog/terraform-changelog.yml
+      x-agentic-access: agentic-access/terraform-agentic-access.yml
+  - target: $.info
+    update:
+      x-hosted-mcp: mcp/terraform-mcp.yml
+      x-well-known:
+        - well-known/terraform-app-openid-configuration.json
+        - well-known/terraform-app-terraform.json

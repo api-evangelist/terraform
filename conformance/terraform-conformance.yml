@@ -1,0 +1,60 @@
+generated: '2026-06-20'
+method: derived
+source: >-
+  Derived from openapi/*.yml (securitySchemes, media types, pagination
+  parameters) and HashiCorp documentation claims
+  (developer.hashicorp.com/terraform/cloud-docs/api-docs,
+  .../api-docs/stability-policy). HCP Terraform implements the JSON:API
+  specification.
+standards:
+  - id: json-api
+    conforms: true
+    evidence: >-
+      HCP Terraform requests/responses use the application/vnd.api+json media
+      type and JSON:API resource objects (type/id/attributes/relationships) with
+      page[number]/page[size] pagination — documented and reflected in
+      openapi/hcp-terraform-openapi.yml.
+  - id: http-bearer-auth
+    conforms: true
+    evidence: >-
+      openapi securitySchemes define bearerAuth (http/bearer); user, team, and
+      organization API tokens.
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      The HCP Terraform API uses bearer API tokens, not OAuth2 authorization
+      flows. (OAuth is used only for VCS provider connections, not API auth.)
+  - id: oidc
+    conforms: true
+    evidence: >-
+      app.terraform.io publishes /.well-known/openid-configuration as an OIDC
+      identity provider for workload identity / dynamic provider credentials
+      (id_token, RS256, terraform_* claims) — see
+      well-known/terraform-app-openid-configuration.json. This is token issuance
+      for workloads, not API authentication.
+  - id: terraform-service-discovery
+    conforms: true
+    evidence: >-
+      Both app.terraform.io and registry.terraform.io publish
+      /.well-known/terraform.json remote service discovery documents.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors are returned as JSON:API error objects
+      ({"errors":[{"status","title","detail"}]}), not RFC 9457
+      application/problem+json.
+  - id: pagination
+    conforms: true
+    evidence: >-
+      Page-number pagination via page[number] / page[size] query params with a
+      meta.pagination block (JSON:API convention).
+  - id: rate-limiting
+    conforms: true
+    evidence: >-
+      HCP Terraform enforces per-token rate limits (~30 req/s) and signals with
+      429 Too Many Requests — see rate-limits/terraform-rate-limits.yml.
+  - id: semver
+    conforms: true
+    evidence: >-
+      Terraform CLI, providers, and modules in the Registry are versioned with
+      semantic versioning.

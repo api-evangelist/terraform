@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Terraform Registry API
+  version: 1.0.0
+extends: openapi/terraform-registry-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: terraform
+      x-apievangelist-api: terraform-registry-api
+      x-authentication: none-public-read
+      x-conventions: conventions/terraform-conventions.yml
+      x-data-model: data-model/terraform-data-model.yml
+      x-service-discovery: well-known/terraform-registry-terraform.json
+  - target: $.info
+    update:
+      x-hosted-mcp: mcp/terraform-mcp.yml
+      x-notes: >-
+        The public Terraform Registry API requires no authentication for module
+        and provider discovery/download. Download endpoints respond 302 with an
+        X-Terraform-Get header pointing at the source.

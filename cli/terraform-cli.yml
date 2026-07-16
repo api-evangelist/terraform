@@ -1,0 +1,69 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://developer.hashicorp.com/terraform/cli +
+  https://www.hashicorp.com/blog/introducing-tfctl-the-cli-for-hcp-terraform-and-tfe
+description: >-
+  HashiCorp ships two first-party CLIs in the Terraform ecosystem: the Terraform
+  CLI (the infrastructure-as-code core that drives the config/plan/apply
+  lifecycle), and tfctl (the platform CLI for HCP Terraform / Terraform
+  Enterprise operations). The binaries are catalogued in
+  packages/terraform-packages.yml; this artifact enumerates their command
+  surface.
+clis:
+  - name: terraform
+    docs: https://developer.hashicorp.com/terraform/cli
+    repo: https://github.com/hashicorp/terraform
+    install:
+      homebrew: brew tap hashicorp/tap && brew install hashicorp/tap/terraform
+      binary: https://developer.hashicorp.com/terraform/install
+      docker: docker run hashicorp/terraform
+    commands:
+      main:
+        - {name: init, description: Prepare a working directory (download providers/modules, configure backend).}
+        - {name: validate, description: Check whether the configuration is syntactically valid.}
+        - {name: plan, description: Show the changes required to reach the desired state.}
+        - {name: apply, description: Create or update infrastructure to match the configuration.}
+        - {name: destroy, description: Destroy previously-created infrastructure.}
+      workflow:
+        - {name: fmt, description: Reformat configuration files to the canonical style.}
+        - {name: console, description: Interactive console for evaluating expressions.}
+        - {name: output, description: Show output values from the state.}
+        - {name: show, description: Show the current state or a saved plan.}
+        - {name: refresh, description: Update state to match remote objects.}
+        - {name: graph, description: Generate a dependency graph.}
+        - {name: import, description: Associate existing infrastructure with a resource.}
+        - {name: taint, description: Mark a resource for recreation on the next apply (deprecated in favor of -replace).}
+      state:
+        - {name: state list, description: List resources in the state.}
+        - {name: state show, description: Show a resource in the state.}
+        - {name: state mv, description: Move an item in the state.}
+        - {name: state rm, description: Remove instances from the state.}
+        - {name: state pull, description: Pull current state and output to stdout.}
+        - {name: state push, description: Update remote state from a local file.}
+      workspaces:
+        - {name: workspace list, description: List workspaces.}
+        - {name: workspace new, description: Create a new workspace.}
+        - {name: workspace select, description: Select a workspace.}
+        - {name: workspace delete, description: Delete a workspace.}
+      auth_registry:
+        - {name: login, description: Obtain and save an API token for HCP Terraform / a Terraform host.}
+        - {name: logout, description: Remove a locally-stored API token.}
+        - {name: providers, description: Show providers used in the configuration.}
+        - {name: version, description: Show the Terraform version.}
+  - name: tfctl
+    announced: '2026-06-16'
+    docs: https://www.hashicorp.com/blog/introducing-tfctl-the-cli-for-hcp-terraform-and-tfe
+    repo: https://github.com/hashicorp/tfctl
+    description: >-
+      The dedicated CLI for HCP Terraform and Terraform Enterprise platform
+      operations (cancel runs, create workspaces, manage variables, administer
+      organizations) — built for engineers and AI agents, with full API coverage
+      generated from the OpenAPI specs.
+    features:
+      - --dry-run flag to preview changes
+      - Interactive confirmation for delete operations
+      - Output formats: JSON, markdown, and human-readable tables
+    commands:
+      - {name: api schema search, description: Discover API operations by keyword and retrieve request schemas.}
+      - {name: api, description: Invoke HCP Terraform / TFE API operations directly (full OpenAPI coverage).}

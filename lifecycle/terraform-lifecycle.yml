@@ -1,0 +1,43 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://developer.hashicorp.com/terraform/cloud-docs/api-docs/stability-policy,
+  https://developer.hashicorp.com/terraform/cloud-docs/api-docs/changelog,
+  https://status.hashicorp.com
+versioning:
+  scheme: uri-path
+  current: v2
+  mechanism: >-
+    The HCP Terraform API is served under /api/v2. Backwards-incompatible
+    changes are shipped as new endpoints rather than a version bump; new
+    endpoints, attributes, links, relationships, and optional query params are
+    considered backwards-compatible additions.
+  docs: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/stability-policy
+deprecation:
+  policy_url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/stability-policy
+  changelog: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/changelog
+  sunset_header: false
+  minimum_notice: >-
+    Deprecated endpoints remain available for at least three months from the
+    deprecation declaration date. Deprecation notices are surfaced in the
+    documentation and in HTTP responses.
+  exception: >-
+    Security vulnerabilities are an exception — HashiCorp may make
+    backwards-incompatible changes when necessary to protect security.
+stability:
+  stable_definition: Any endpoint not marked as beta is stable and maintained backwards-compatibly.
+  beta: Beta endpoints may change without notice.
+sla:
+  url: https://www.hashicorp.com/en/trust
+  public_uptime_target: null
+  notes: >-
+    HashiCorp does not publish a numeric public uptime SLA for HCP Terraform
+    standard accounts; availability commitments are handled via enterprise
+    agreements.
+status_page: https://status.hashicorp.com
+changelog: changelog/terraform-changelog.yml
+deprecated_operations: []
+notes: >-
+  No operations in openapi/hcp-terraform-openapi.yml carry deprecated: true.
+  The Cloud Development Kit for Terraform (CDKTF) client tooling was deprecated
+  by HashiCorp on 2025-12-10 (see packages/terraform-packages.yml).

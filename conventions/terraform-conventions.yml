@@ -1,0 +1,66 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://developer.hashicorp.com/terraform/cloud-docs/api-docs — the
+  cross-cutting request/response conventions that apply to every HCP Terraform
+  endpoint, plus what openapi/hcp-terraform-openapi.yml implies. HCP Terraform
+  implements the JSON:API specification.
+description: >-
+  How the HCP Terraform API behaves across every operation: authentication,
+  media type, pagination, includes/sparse fieldsets, request tracing,
+  versioning, error envelope, and rate-limit signaling.
+base_url: https://app.terraform.io/api/v2
+api_style: REST following the JSON:API specification (application/vnd.api+json)
+
+authentication:
+  scheme: Bearer token (Authorization header)
+  token_types: [user, team, organization]
+  docs: https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/api-tokens
+  detail: authentication/terraform-authentication.yml
+
+media_type:
+  request: application/vnd.api+json
+  response: application/vnd.api+json
+  note: JSON:API resource objects — type / id / attributes / relationships.
+
+idempotency:
+  supported: false
+  note: >-
+    HCP Terraform does not document an Idempotency-Key header. Resource creation
+    is not idempotent; safety comes from GET/PATCH semantics and workspace
+    locking.
+
+pagination:
+  style: page-number
+  request_params:
+    'page[number]': Page number (1-based).
+    'page[size]': Results per page (max 100).
+  response_fields:
+    meta.pagination: '{ current-page, page-size, prev-page, next-page, total-pages, total-count }'
+  docs: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+
+includes:
+  supported: true
+  mechanism: '?include=<relationship> compound documents (JSON:API includes).'
+  note: Related resources are returned in the top-level "included" array.
+
+filtering:
+  mechanism: 'filter[...] and search[...] query parameters, plus endpoint-specific q params.'
+
+versioning:
+  scheme: uri-path
+  current: v2
+  detail: lifecycle/terraform-lifecycle.yml
+
+error_envelope:
+  media_type: application/vnd.api+json
+  shape: '{ "errors": [ { "status", "title", "detail" } ] }'
+  detail: errors/terraform-problem-types.yml
+
+rate_limiting:
+  signaled_via: 429 Too Many Requests
+  detail: rate-limits/terraform-rate-limits.yml
+
+service_discovery:
+  well_known: /.well-known/terraform.json
+  detail: well-known/terraform-well-known.yml

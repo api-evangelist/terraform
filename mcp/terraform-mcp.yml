@@ -1,0 +1,81 @@
+generated: '2026-06-20'
+method: searched
+status: published
+source: >-
+  https://github.com/hashicorp/terraform-mcp-server +
+  https://developer.hashicorp.com/terraform/mcp-server/reference — the official
+  HashiCorp Terraform MCP server. Tool list captured verbatim from the reference
+  documentation.
+description: >-
+  HashiCorp publishes an official open-source Terraform MCP server that exposes
+  the Terraform Registry APIs and HCP Terraform / Terraform Enterprise workspace
+  operations to AI agents. It is self-hosted (no HashiCorp-operated remote URL):
+  run the Docker image or the Go binary and connect over stdio or streamable
+  HTTP.
+server:
+  name: terraform
+  transports: [stdio, streamable-http]
+  hosted_url: null
+  note: >-
+    No HashiCorp-operated hosted endpoint — deploy your own. Streamable-HTTP
+    defaults to port 8080 at path /mcp with a /health check.
+  docker_image: hashicorp/terraform-mcp-server
+  install:
+    docker: docker run -i --rm hashicorp/terraform-mcp-server
+    go: go install github.com/hashicorp/terraform-mcp-server/cmd/terraform-mcp-server@latest
+  env:
+    - TFE_TOKEN        # HCP Terraform / Terraform Enterprise API token
+    - TFE_ADDRESS      # platform address (include protocol)
+    - TRANSPORT_MODE   # streamable-http | stdio (default)
+    - MCP_ORGANIZATION_ALLOWLIST  # CSV of allowed HCP Terraform orgs
+toolsets: [registry, registry-private, terraform, all, default]
+tools:
+  registry:
+    - {name: search_providers, description: Search the public Terraform Registry for providers.}
+    - {name: get_provider_details, description: Retrieve provider documentation, resources, and data sources.}
+    - {name: get_latest_provider_version, description: Get the latest published version of a provider.}
+    - {name: search_modules, description: Search the public Terraform Registry for modules.}
+    - {name: get_module_details, description: Retrieve module inputs, outputs, and examples.}
+    - {name: get_latest_module_version, description: Get the latest published version of a module.}
+    - {name: search_policies, description: Search the Registry for Sentinel policies.}
+    - {name: get_policy_details, description: Retrieve Sentinel policy details.}
+  terraform:
+    - {name: list_terraform_orgs, description: List HCP Terraform / TFE organizations.}
+    - {name: list_terraform_projects, description: List projects in an organization.}
+    - {name: list_workspaces, description: List workspaces.}
+    - {name: get_workspace_details, description: Get workspace details.}
+    - {name: create_workspace, description: Create a workspace.}
+    - {name: update_workspace, description: Update a workspace.}
+    - {name: delete_workspace_safely, description: Safely delete a workspace.}
+    - {name: list_runs, description: List runs.}
+    - {name: get_run_details, description: Get run details.}
+    - {name: create_run, description: Create a run.}
+    - {name: action_run, description: Apply, discard, or cancel a run.}
+    - {name: search_private_modules, description: Search the private module registry.}
+    - {name: get_private_module_details, description: Get private module details.}
+    - {name: search_private_providers, description: Search private providers.}
+    - {name: get_private_provider_details, description: Get private provider details.}
+    - {name: get_workspace_policy_sets, description: List policy sets attached to a workspace.}
+    - {name: attach_policy_set_to_workspace, description: Attach a policy set to workspaces.}
+    - {name: get_token_permissions, description: Report the current token's permissions.}
+    - {name: get_plan_json_output, description: Retrieve the JSON plan output for a run.}
+    - {name: get_plan_details, description: Get plan details.}
+    - {name: get_plan_logs, description: Retrieve plan logs.}
+    - {name: get_apply_details, description: Get apply details.}
+    - {name: get_apply_logs, description: Retrieve apply logs.}
+  variables:
+    - {name: list_variable_sets, description: List variable sets.}
+    - {name: create_variable_set, description: Create a variable set.}
+    - {name: create_variable_in_variable_set, description: Add a variable to a variable set.}
+    - {name: delete_variable_in_variable_set, description: Delete a variable from a variable set.}
+    - {name: attach_variable_set_to_workspaces, description: Attach a variable set to workspaces.}
+    - {name: detach_variable_set_from_workspaces, description: Detach a variable set from workspaces.}
+    - {name: list_workspace_variables, description: List a workspace's variables.}
+    - {name: create_workspace_variable, description: Create a workspace variable.}
+    - {name: update_workspace_variable, description: Update a workspace variable.}
+  tags:
+    - {name: create_workspace_tags, description: Create workspace tags.}
+    - {name: read_workspace_tags, description: Read workspace tags.}
+  stacks:
+    - {name: list_stacks, description: List Terraform Stacks.}
+    - {name: get_stack_details, description: Get Stack details.}

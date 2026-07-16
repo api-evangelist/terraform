@@ -1,0 +1,46 @@
+generated: '2026-06-20'
+method: searched
+source: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/changelog
+description: >-
+  Structured capture of the recent HCP Terraform API changelog. The live
+  changelog is the source of truth; this records the recent window. HCP Terraform
+  versions the API by URI path (/api/v2) and ships changes as backwards-compatible
+  additions or new endpoints per its stability policy (see
+  lifecycle/terraform-lifecycle.yml).
+docs: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/changelog
+versioning:
+  scheme: uri-path
+  current: v2
+  detail: lifecycle/terraform-lifecycle.yml
+entries:
+  - date: '2026-05-14'
+    breaking: true
+    highlights:
+      - Removed the concurrency-override attribute from the feature sets API response.
+  - date: '2026-05-13'
+    highlights:
+      - Added the Terraform actions API reference (list actions, filter options, invocation history by run).
+  - date: '2026-04-24'
+    highlights:
+      - Introduced API documentation for new Metrics Service tokens.
+  - date: '2026-04-02'
+    highlights:
+      - Notifications API now includes endpoints for configuring project notifications.
+  - date: '2025-12-18'
+    highlights:
+      - Documented new /registry-components endpoints for reading, publishing, updating, and deleting Stack component configurations in private registries.
+  - date: '2025-10-31'
+    highlights:
+      - Documented API filtering parameters when listing projects.
+  - date: '2025-09-30'
+    highlights:
+      - Added group member roles APIs for HCP EU organizations; noted certain team endpoints are unsupported by HCP Europe.
+  - date: '2025-07-11'
+    highlights:
+      - Workspace default execution mode now matches project defaults; new attributes on projects and agent pools APIs.
+  - date: '2025-05-01'
+    highlights:
+      - Added agent-pool relationship to run tasks; private-run-tasks feature entitlement; module version revocation.
+  - date: '2025-03-20'
+    highlights:
+      - Documented multiple team tokens, distinguished from legacy team tokens.

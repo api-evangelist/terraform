@@ -1,0 +1,52 @@
+generated: '2026-06-20'
+method: searched
+format: json-api-errors
+source: >-
+  The HCP Terraform OpenAPI (openapi/hcp-terraform-openapi.yml) declares only
+  success responses, so the error surface is captured from the JSON:API error
+  convention HCP Terraform uses and the HTTP status codes documented across
+  developer.hashicorp.com/terraform/cloud-docs/api-docs. HCP Terraform does NOT
+  use RFC 9457 application/problem+json; errors are JSON:API error objects.
+envelope:
+  media_type: application/vnd.api+json
+  shape: '{ "errors": [ { "status": string, "title": string, "detail": string } ] }'
+notes: >-
+  Errors are returned as a top-level "errors" array of JSON:API error objects.
+  Common causes: an invalid/expired bearer token (401), a token lacking the
+  required team/org permission (403 / sometimes 404 to avoid resource
+  disclosure), malformed JSON:API request bodies (422), and per-token rate
+  limiting (429).
+problems:
+  - status: 401
+    title: Unauthorized
+    meaning: The bearer token is missing, invalid, or expired.
+    remediation: Provide a valid user/team/organization API token in the Authorization header.
+  - status: 403
+    title: Forbidden
+    meaning: The token is valid but lacks permission for the requested action.
+    remediation: Use a token with the required team/organization access level.
+  - status: 404
+    title: Not Found
+    meaning: >-
+      The resource does not exist, or the token is not authorized to see it (HCP
+      Terraform returns 404 rather than 403 for some resources to avoid
+      disclosure).
+    remediation: Verify the organization/workspace/resource id and the token's access.
+  - status: 422
+    title: Unprocessable Entity
+    meaning: >-
+      The request body is malformed or fails validation (e.g. missing required
+      JSON:API attributes, invalid relationships).
+    remediation: Correct the JSON:API document; inspect errors[].detail for the offending field.
+  - status: 429
+    title: Too Many Requests
+    meaning: The per-token rate limit was exceeded.
+    remediation: Back off and retry; see rate-limits/terraform-rate-limits.yml.
+  - status: 500
+    title: Internal Server Error
+    meaning: An unexpected error occurred on the HCP Terraform platform.
+    remediation: Retry with backoff; check https://status.hashicorp.com.
+  - status: 503
+    title: Service Unavailable
+    meaning: The service is temporarily unavailable (maintenance or overload).
+    remediation: Retry with backoff; check https://status.hashicorp.com.
