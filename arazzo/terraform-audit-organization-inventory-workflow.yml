@@ -1,0 +1,148 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Audit an Organization's Full Inventory
+  summary: Sweep an organization for its projects, workspaces, teams, and policies in one pass.
+  description: >-
+    The read-only governance sweep that answers "what is actually in this
+    organization?". The workflow resolves the organization the token can reach,
+    reads its settings, then enumerates its projects, workspaces, teams, and
+    policies so an auditor can see the whole estate and its enforcement posture in a
+    single run. Nothing is written, so this is safe to run against production on a
+    schedule. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-organization-inventory
+  summary: Enumerate an organization's projects, workspaces, teams, and policies.
+  description: >-
+    Confirms the organization is reachable, reads its settings, and lists every
+    project, workspace, team, and policy for a complete read-only inventory.
+  inputs:
+    type: object
+    required:
+    - organizationName
+    properties:
+      organizationName:
+        type: string
+        description: The organization to audit.
+      pageSize:
+        type: integer
+        description: Results per page for each listing, up to 100.
+  steps:
+  - stepId: findOrganization
+    description: >-
+      List the organizations the token can reach, filtered by name, to confirm the
+      audit target is in scope for this credential before enumerating it.
+    operationId: ListOrganizations
+    parameters:
+    - name: q
+      in: query
+      value: $inputs.organizationName
+    - name: page[size]
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      reachableOrganizations: $response.body#/data
+  - stepId: readOrganizationSettings
+    description: >-
+      Read the organization's settings, capturing the authentication policy, session
+      timeouts, and plan posture that frame everything else in the audit.
+    operationId: GetOrganization
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      organizationId: $response.body#/data/id
+      collaboratorAuthPolicy: $response.body#/data/attributes/collaborator-auth-policy
+      sessionTimeout: $response.body#/data/attributes/session-timeout
+      planIsEnterprise: $response.body#/data/attributes/plan-is-enterprise
+      planExpired: $response.body#/data/attributes/plan-expired
+  - stepId: listProjects
+    description: >-
+      Enumerate the organization's projects, the top-level grouping every workspace
+      belongs to.
+    operationId: ListProjects
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    - name: page[size]
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projects: $response.body#/data
+      projectCount: $response.body#/meta/pagination/total-count
+  - stepId: listWorkspaces
+    description: >-
+      Enumerate every workspace in the organization, the unit that actually holds
+      state and runs infrastructure.
+    operationId: ListWorkspaces
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    - name: page[size]
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      workspaces: $response.body#/data
+      workspaceCount: $response.body#/meta/pagination/total-count
+  - stepId: listTeams
+    description: >-
+      Enumerate the organization's teams to capture who has access to the estate
+      enumerated above.
+    operationId: ListTeams
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    - name: page[size]
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      teams: $response.body#/data
+      teamCount: $response.body#/meta/pagination/total-count
+  - stepId: listPolicies
+    description: >-
+      Enumerate the Sentinel and OPA policies governing the organization, completing
+      the picture of what is enforced against every run.
+    operationId: ListPolicies
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    - name: page[size]
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      policies: $response.body#/data
+      policyCount: $response.body#/meta/pagination/total-count
+  outputs:
+    organizationId: $steps.readOrganizationSettings.outputs.organizationId
+    collaboratorAuthPolicy: $steps.readOrganizationSettings.outputs.collaboratorAuthPolicy
+    planIsEnterprise: $steps.readOrganizationSettings.outputs.planIsEnterprise
+    projectCount: $steps.listProjects.outputs.projectCount
+    workspaceCount: $steps.listWorkspaces.outputs.workspaceCount
+    teamCount: $steps.listTeams.outputs.teamCount
+    policyCount: $steps.listPolicies.outputs.policyCount
+    projects: $steps.listProjects.outputs.projects
+    workspaces: $steps.listWorkspaces.outputs.workspaces
+    teams: $steps.listTeams.outputs.teams
+    policies: $steps.listPolicies.outputs.policies

@@ -1,0 +1,157 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Onboard a Sentinel or OPA Policy
+  summary: Check whether a policy already exists in an organization, create it if not, and read it back.
+  description: >-
+    How governance rules get into HCP Terraform without stacking duplicates. The
+    workflow verifies the organization, lists its existing policies so an already
+    onboarded policy is not created twice, creates the Sentinel or OPA policy with
+    its enforcement level when it is genuinely missing, and reads the policy back to
+    confirm the enforcement level that actually landed on whichever branch ran.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: onboard-policy
+  summary: Idempotently add a policy to an organization at a given enforcement level.
+  description: >-
+    Verifies the organization, checks the existing policy list for the target name,
+    creates the policy when absent, and confirms its enforcement level on either
+    branch.
+  inputs:
+    type: object
+    required:
+    - organizationName
+    - policyName
+    - policyKind
+    - enforcementLevel
+    properties:
+      organizationName:
+        type: string
+        description: The organization the policy governs.
+      policyName:
+        type: string
+        description: The policy name (e.g. "require-cost-center-tag").
+      policyDescription:
+        type: string
+        description: A human readable description of what the policy enforces.
+      policyKind:
+        type: string
+        description: The policy engine - "sentinel" or "opa".
+      enforcementLevel:
+        type: string
+        description: One of advisory, soft-mandatory, or hard-mandatory.
+  steps:
+  - stepId: verifyOrganization
+    description: >-
+      Read the organization to confirm the token can reach it and govern it.
+    operationId: GetOrganization
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      organizationId: $response.body#/data/id
+  - stepId: listPolicies
+    description: >-
+      List the organization's policies so a policy that has already been onboarded
+      is not created a second time under the same name.
+    operationId: ListPolicies
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    - name: page[size]
+      in: query
+      value: 100
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      existingPolicyId: $response.body#/data/0/id
+    onSuccess:
+    - name: policyExists
+      type: goto
+      stepId: readExistingPolicy
+      criteria:
+      - context: $response.body
+        condition: $.data[?(@.attributes.name == "$inputs.policyName")]
+        type: jsonpath
+    - name: policyMissing
+      type: goto
+      stepId: createPolicy
+      criteria:
+      - context: $response.body
+        condition: $.data[?(@.attributes.name == "$inputs.policyName")].length == 0
+        type: jsonpath
+  - stepId: createPolicy
+    description: >-
+      Create the policy with the supplied engine and enforcement level, since no
+      policy with this name exists in the organization yet.
+    operationId: CreatePolicy
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: policies
+          attributes:
+            name: $inputs.policyName
+            description: $inputs.policyDescription
+            kind: $inputs.policyKind
+            enforcement-level: $inputs.enforcementLevel
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      policyId: $response.body#/data/id
+      policyName: $response.body#/data/attributes/name
+  - stepId: readNewPolicy
+    description: >-
+      Read the freshly created policy back to confirm the enforcement level and
+      engine that HCP Terraform actually recorded.
+    operationId: GetPolicy
+    parameters:
+    - name: policy_id
+      in: path
+      value: $steps.createPolicy.outputs.policyId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      policyId: $response.body#/data/id
+      policyName: $response.body#/data/attributes/name
+      enforcementLevel: $response.body#/data/attributes/enforcement-level
+      policyKind: $response.body#/data/attributes/kind
+    onSuccess:
+    - name: onboarded
+      type: end
+  - stepId: readExistingPolicy
+    description: >-
+      Read the already-present policy instead of creating a duplicate, reporting the
+      enforcement level currently in force so drift from the intended level is
+      visible to the caller.
+    operationId: GetPolicy
+    parameters:
+    - name: policy_id
+      in: path
+      value: $steps.listPolicies.outputs.existingPolicyId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      policyId: $response.body#/data/id
+      policyName: $response.body#/data/attributes/name
+      enforcementLevel: $response.body#/data/attributes/enforcement-level
+      policyKind: $response.body#/data/attributes/kind
+  outputs:
+    organizationId: $steps.verifyOrganization.outputs.organizationId
+    createdPolicyId: $steps.readNewPolicy.outputs.policyId
+    existingPolicyId: $steps.readExistingPolicy.outputs.policyId
+    createdEnforcementLevel: $steps.readNewPolicy.outputs.enforcementLevel
+    existingEnforcementLevel: $steps.readExistingPolicy.outputs.enforcementLevel

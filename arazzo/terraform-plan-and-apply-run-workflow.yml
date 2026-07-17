@@ -1,0 +1,157 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Plan a Run and Apply or Discard It
+  summary: Queue a run, poll the plan to completion, then confirm or throw it away.
+  description: >-
+    The core HCP Terraform lifecycle. The workflow confirms the workspace is
+    unlocked, queues a run against it, polls the run until the plan finishes, and
+    then branches: a plan that reaches the planned state is applied with a
+    confirmation comment, while a plan that errors is discarded so the workspace
+    is not left holding a pending run. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: plan-and-apply-run
+  summary: Queue a Terraform run, wait for the plan, and apply or discard it.
+  description: >-
+    Reads the workspace, creates a run, polls until the plan is no longer in
+    flight, and either applies the confirmed plan or discards a failed one.
+  inputs:
+    type: object
+    required:
+    - workspaceId
+    - runMessage
+    properties:
+      workspaceId:
+        type: string
+        description: The workspace identifier to run against (e.g. ws-XXXXXXXXXXXX).
+      runMessage:
+        type: string
+        description: The message recorded against the run, shown in the run history.
+      applyComment:
+        type: string
+        description: The comment recorded when the plan is confirmed and applied.
+      discardComment:
+        type: string
+        description: The comment recorded when a failed plan is discarded.
+  steps:
+  - stepId: readWorkspace
+    description: >-
+      Read the workspace to confirm it exists and is not locked, since a locked
+      workspace will refuse to queue a new run.
+    operationId: GetWorkspace
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.data.attributes.locked == false
+      type: jsonpath
+    outputs:
+      workspaceId: $response.body#/data/id
+      autoApply: $response.body#/data/attributes/auto-apply
+  - stepId: createRun
+    description: >-
+      Queue a plan-only run against the workspace. Auto-apply is disabled on the
+      run itself so this workflow stays in control of the confirmation decision.
+    operationId: CreateRun
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: runs
+          attributes:
+            message: $inputs.runMessage
+            is-destroy: false
+            auto-apply: false
+          relationships:
+            workspace:
+              data:
+                type: workspaces
+                id: $steps.readWorkspace.outputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      runId: $response.body#/data/id
+      initialStatus: $response.body#/data/attributes/status
+  - stepId: pollRun
+    description: >-
+      Poll the run until the plan settles, repeating while it is still pending,
+      fetching, or planning, then branching on the terminal plan outcome.
+    operationId: GetRun
+    parameters:
+    - name: run_id
+      in: path
+      value: $steps.createRun.outputs.runId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      runId: $response.body#/data/id
+      status: $response.body#/data/attributes/status
+    onSuccess:
+    - name: planReady
+      type: goto
+      stepId: applyRun
+      criteria:
+      - context: $response.body
+        condition: $.data.attributes.status == "planned"
+        type: jsonpath
+    - name: planErrored
+      type: goto
+      stepId: discardRun
+      criteria:
+      - context: $response.body
+        condition: $.data.attributes.status == "errored"
+        type: jsonpath
+    - name: stillPlanning
+      type: retry
+      stepId: pollRun
+      retryAfter: 5
+      retryLimit: 120
+      criteria:
+      - context: $response.body
+        condition: $.data.attributes.status in ["pending", "fetching", "planning"]
+        type: jsonpath
+  - stepId: applyRun
+    description: >-
+      Confirm the finished plan and apply it, recording the supplied comment
+      against the apply for the audit trail.
+    operationId: ApplyRun
+    parameters:
+    - name: run_id
+      in: path
+      value: $steps.pollRun.outputs.runId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        comment: $inputs.applyComment
+    successCriteria:
+    - condition: $statusCode == 202
+    onSuccess:
+    - name: applied
+      type: end
+  - stepId: discardRun
+    description: >-
+      Discard the run when the plan errored, so the workspace is not left holding
+      a pending run that blocks the next one.
+    operationId: DiscardRun
+    parameters:
+    - name: run_id
+      in: path
+      value: $steps.pollRun.outputs.runId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        comment: $inputs.discardComment
+    successCriteria:
+    - condition: $statusCode == 202
+  outputs:
+    runId: $steps.createRun.outputs.runId
+    finalStatus: $steps.pollRun.outputs.status

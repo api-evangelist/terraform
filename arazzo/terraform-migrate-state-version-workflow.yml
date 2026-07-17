@@ -1,0 +1,164 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Push a New State Version Under Lock
+  summary: Lock a workspace, read its current state serial, upload a new state version, and unlock.
+  description: >-
+    The state migration path, and the one flow where skipping a step corrupts real
+    infrastructure. HCP Terraform will only accept a state upload while the
+    workspace is locked, so the workflow locks the workspace, lists the existing
+    state versions to learn the current serial, reads the newest version for its
+    download URL, uploads the replacement state, verifies the new version landed,
+    and unlocks the workspace again. Every step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: migrate-state-version
+  summary: Safely upload a new Terraform state version to a locked workspace.
+  description: >-
+    Locks the workspace, inspects the current state serial, pushes a new
+    base64-encoded state version with its MD5 checksum, confirms the upload, and
+    releases the lock.
+  inputs:
+    type: object
+    required:
+    - workspaceId
+    - stateSerial
+    - stateMd5
+    - stateBase64
+    properties:
+      workspaceId:
+        type: string
+        description: The workspace identifier whose state is being replaced.
+      lockReason:
+        type: string
+        description: The reason recorded on the workspace lock.
+      stateSerial:
+        type: integer
+        description: The serial of the new state, which must exceed the current serial.
+      stateMd5:
+        type: string
+        description: The MD5 checksum of the raw state file being uploaded.
+      stateBase64:
+        type: string
+        description: The base64-encoded contents of the Terraform state file.
+  steps:
+  - stepId: lockWorkspace
+    description: >-
+      Lock the workspace before touching state. HCP Terraform rejects state uploads
+      to an unlocked workspace, and the lock prevents a concurrent run from racing
+      the migration.
+    operationId: LockWorkspace
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        reason: $inputs.lockReason
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.data.attributes.locked == true
+      type: jsonpath
+    outputs:
+      workspaceId: $response.body#/data/id
+      locked: $response.body#/data/attributes/locked
+  - stepId: listStateVersions
+    description: >-
+      List the workspace's existing state versions, newest first, to learn the
+      current serial so the replacement serial can be checked against it.
+    operationId: ListStateVersions
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    - name: page[number]
+      in: query
+      value: 1
+    - name: page[size]
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      currentStateVersionId: $response.body#/data/0/id
+      currentSerial: $response.body#/data/0/attributes/serial
+  - stepId: readCurrentState
+    description: >-
+      Read the current state version for its hosted download URL, giving the caller
+      a retrievable backup of the state about to be superseded.
+    operationId: GetStateVersion
+    parameters:
+    - name: state_version_id
+      in: path
+      value: $steps.listStateVersions.outputs.currentStateVersionId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      backupDownloadUrl: $response.body#/data/attributes/hosted-state-download-url
+      backupSerial: $response.body#/data/attributes/serial
+  - stepId: pushStateVersion
+    description: >-
+      Upload the new state version to the locked workspace, supplying the serial,
+      the MD5 checksum, and the base64-encoded state payload.
+    operationId: CreateStateVersion
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: state-versions
+          attributes:
+            serial: $inputs.stateSerial
+            md5: $inputs.stateMd5
+            state: $inputs.stateBase64
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      newStateVersionId: $response.body#/data/id
+      newSerial: $response.body#/data/attributes/serial
+  - stepId: verifyStateVersion
+    description: >-
+      Read the newly created state version back to confirm it was accepted and
+      recorded with the expected serial before releasing the lock.
+    operationId: GetStateVersion
+    parameters:
+    - name: state_version_id
+      in: path
+      value: $steps.pushStateVersion.outputs.newStateVersionId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      verifiedSerial: $response.body#/data/attributes/serial
+      verifiedSize: $response.body#/data/attributes/size
+  - stepId: unlockWorkspace
+    description: >-
+      Release the workspace lock now that the new state version is confirmed, so
+      runs can resume against the migrated state.
+    operationId: UnlockWorkspace
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.data.attributes.locked == false
+      type: jsonpath
+    outputs:
+      locked: $response.body#/data/attributes/locked
+  outputs:
+    backupDownloadUrl: $steps.readCurrentState.outputs.backupDownloadUrl
+    previousSerial: $steps.listStateVersions.outputs.currentSerial
+    newStateVersionId: $steps.pushStateVersion.outputs.newStateVersionId
+    verifiedSerial: $steps.verifyStateVersion.outputs.verifiedSerial
+    workspaceLocked: $steps.unlockWorkspace.outputs.locked

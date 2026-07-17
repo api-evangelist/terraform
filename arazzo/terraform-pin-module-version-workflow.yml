@@ -1,0 +1,147 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Pin a Module to a Specific Version and Resolve Its Source
+  summary: Compare a module's latest version against the version you intend to pin, then resolve that exact version's download source.
+  description: >-
+    The supply-chain step between finding a module and depending on it. The workflow
+    reads the module's latest version, lists every published version so the intended
+    pin can be confirmed to actually exist, reads the pinned version's metadata, and
+    resolves its download redirect to capture the exact source archive that a
+    module block will pull. Pinning to a version the registry never published is the
+    failure this flow is designed to catch. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: terraformRegistryApi
+  url: ../openapi/terraform-registry-openapi.yml
+  type: openapi
+workflows:
+- workflowId: pin-module-version
+  summary: Verify a specific module version exists and resolve its download source.
+  description: >-
+    Reads the module's latest version for comparison, lists published versions,
+    reads the intended pinned version, and resolves its source archive URL.
+  inputs:
+    type: object
+    required:
+    - namespace
+    - name
+    - provider
+    - pinnedVersion
+    properties:
+      namespace:
+        type: string
+        description: The module namespace or publisher (e.g. "terraform-aws-modules").
+      name:
+        type: string
+        description: The module name (e.g. "vpc").
+      provider:
+        type: string
+        description: The provider the module targets (e.g. "aws").
+      pinnedVersion:
+        type: string
+        description: The exact version to pin to (e.g. "5.1.2").
+  steps:
+  - stepId: readLatestVersion
+    description: >-
+      Read the module's current latest version, giving the caller a baseline to see
+      how far behind the intended pin sits.
+    operationId: GetModuleLatestVersion
+    parameters:
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    - name: name
+      in: path
+      value: $inputs.name
+    - name: provider
+      in: path
+      value: $inputs.provider
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      moduleId: $response.body#/id
+      latestVersion: $response.body#/version
+      verified: $response.body#/verified
+      sourceUrl: $response.body#/source_url
+  - stepId: listVersions
+    description: >-
+      List every version the module has published so the intended pin can be
+      confirmed to exist before anything depends on it.
+    operationId: ListModuleVersions
+    parameters:
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    - name: name
+      in: path
+      value: $inputs.name
+    - name: provider
+      in: path
+      value: $inputs.provider
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.modules[0].versions[?(@.version == "$inputs.pinnedVersion")]
+      type: jsonpath
+    outputs:
+      versions: $response.body#/modules/0/versions
+      moduleSource: $response.body#/modules/0/source
+  - stepId: readPinnedVersion
+    description: >-
+      Read the pinned version's own metadata, confirming its publish date and source
+      rather than trusting the latest version's.
+    operationId: GetModuleVersion
+    parameters:
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    - name: name
+      in: path
+      value: $inputs.name
+    - name: provider
+      in: path
+      value: $inputs.provider
+    - name: version
+      in: path
+      value: $inputs.pinnedVersion
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pinnedModuleId: $response.body#/id
+      pinnedVersion: $response.body#/version
+      pinnedSource: $response.body#/source
+      pinnedSourceUrl: $response.body#/source_url
+      pinnedPublishedAt: $response.body#/published_at
+      pinnedDescription: $response.body#/description
+  - stepId: resolvePinnedDownload
+    description: >-
+      Resolve the pinned version's download redirect to capture the exact source
+      archive URL from the X-Terraform-Get header that Terraform will fetch.
+    operationId: DownloadModuleVersion
+    parameters:
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    - name: name
+      in: path
+      value: $inputs.name
+    - name: provider
+      in: path
+      value: $inputs.provider
+    - name: version
+      in: path
+      value: $inputs.pinnedVersion
+    successCriteria:
+    - condition: $statusCode == 302
+    outputs:
+      downloadSource: $response.header.X-Terraform-Get
+  outputs:
+    moduleId: $steps.readLatestVersion.outputs.moduleId
+    latestVersion: $steps.readLatestVersion.outputs.latestVersion
+    pinnedVersion: $steps.readPinnedVersion.outputs.pinnedVersion
+    pinnedSource: $steps.readPinnedVersion.outputs.pinnedSource
+    pinnedPublishedAt: $steps.readPinnedVersion.outputs.pinnedPublishedAt
+    availableVersions: $steps.listVersions.outputs.versions
+    downloadSource: $steps.resolvePinnedDownload.outputs.downloadSource

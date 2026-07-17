@@ -1,0 +1,171 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Destroy Infrastructure and Delete the Workspace
+  summary: Queue a destroy run, apply it, then delete the emptied workspace.
+  description: >-
+    The safe teardown path for a workspace. Rather than deleting a workspace and
+    orphaning its real infrastructure, this workflow queues a destroy run, polls
+    it to a confirmable plan, applies the destroy, waits for the apply to finish,
+    and only then deletes the now-empty workspace. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: destroy-workspace
+  summary: Destroy a workspace's managed infrastructure and then remove the workspace.
+  description: >-
+    Reads the workspace, queues a destroy run, applies the destroy plan once it is
+    confirmable, waits for the apply to complete, and deletes the workspace.
+  inputs:
+    type: object
+    required:
+    - workspaceId
+    properties:
+      workspaceId:
+        type: string
+        description: The workspace identifier to tear down (e.g. ws-XXXXXXXXXXXX).
+      destroyMessage:
+        type: string
+        description: The message recorded against the destroy run.
+      applyComment:
+        type: string
+        description: The comment recorded when the destroy plan is confirmed.
+      deleteWorkspace:
+        type: boolean
+        description: Whether to delete the workspace record after the destroy applies.
+  steps:
+  - stepId: readWorkspace
+    description: >-
+      Read the workspace to confirm it exists and is unlocked before queueing a
+      destructive run against it.
+    operationId: GetWorkspace
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.data.attributes.locked == false
+      type: jsonpath
+    outputs:
+      workspaceId: $response.body#/data/id
+      workspaceName: $response.body#/data/attributes/name
+  - stepId: createDestroyRun
+    description: >-
+      Queue a destroy run against the workspace. The run plans the removal of every
+      resource the workspace manages but does not apply it yet.
+    operationId: CreateRun
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: runs
+          attributes:
+            message: $inputs.destroyMessage
+            is-destroy: true
+            auto-apply: false
+          relationships:
+            workspace:
+              data:
+                type: workspaces
+                id: $steps.readWorkspace.outputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      runId: $response.body#/data/id
+  - stepId: pollDestroyPlan
+    description: >-
+      Poll the destroy run until its plan settles, repeating while it is still
+      pending, fetching, or planning.
+    operationId: GetRun
+    parameters:
+    - name: run_id
+      in: path
+      value: $steps.createDestroyRun.outputs.runId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      runId: $response.body#/data/id
+      status: $response.body#/data/attributes/status
+    onSuccess:
+    - name: destroyPlanReady
+      type: goto
+      stepId: applyDestroy
+      criteria:
+      - context: $response.body
+        condition: $.data.attributes.status == "planned"
+        type: jsonpath
+    - name: stillPlanning
+      type: retry
+      stepId: pollDestroyPlan
+      retryAfter: 5
+      retryLimit: 120
+      criteria:
+      - context: $response.body
+        condition: $.data.attributes.status in ["pending", "fetching", "planning"]
+        type: jsonpath
+  - stepId: applyDestroy
+    description: >-
+      Confirm and apply the destroy plan, tearing down the infrastructure the
+      workspace manages.
+    operationId: ApplyRun
+    parameters:
+    - name: run_id
+      in: path
+      value: $steps.pollDestroyPlan.outputs.runId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        comment: $inputs.applyComment
+    successCriteria:
+    - condition: $statusCode == 202
+  - stepId: pollDestroyApply
+    description: >-
+      Poll the run until the destroy apply reaches a terminal state, so the
+      workspace is only deleted after its resources are actually gone.
+    operationId: GetRun
+    parameters:
+    - name: run_id
+      in: path
+      value: $steps.pollDestroyPlan.outputs.runId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      status: $response.body#/data/attributes/status
+    onSuccess:
+    - name: destroyApplied
+      type: goto
+      stepId: deleteWorkspace
+      criteria:
+      - context: $response.body
+        condition: $.data.attributes.status == "applied"
+        type: jsonpath
+    - name: stillApplying
+      type: retry
+      stepId: pollDestroyApply
+      retryAfter: 5
+      retryLimit: 120
+      criteria:
+      - context: $response.body
+        condition: $.data.attributes.status in ["confirmed", "applying"]
+        type: jsonpath
+  - stepId: deleteWorkspace
+    description: >-
+      Delete the workspace now that its managed infrastructure has been destroyed
+      and the apply reported success.
+    operationId: DeleteWorkspace
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $steps.readWorkspace.outputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 204
+  outputs:
+    workspaceName: $steps.readWorkspace.outputs.workspaceName
+    destroyRunId: $steps.createDestroyRun.outputs.runId
+    finalStatus: $steps.pollDestroyApply.outputs.status

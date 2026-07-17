@@ -129,6 +129,45 @@ common:
     type: SDKs
   - url: https://www.hashicorp.com/en/blog
     type: Blog
+  - type: Arazzo
+    url: arazzo/terraform-provision-workspace-workflow.yml
+    name: Terraform Provision a Workspace with Initial Variables
+  - type: Arazzo
+    url: arazzo/terraform-plan-and-apply-run-workflow.yml
+    name: Terraform Plan a Run and Apply or Discard It
+  - type: Arazzo
+    url: arazzo/terraform-destroy-workspace-workflow.yml
+    name: Terraform Destroy Infrastructure and Delete the Workspace
+  - type: Arazzo
+    url: arazzo/terraform-upsert-workspace-variable-workflow.yml
+    name: Terraform Upsert a Workspace Variable
+  - type: Arazzo
+    url: arazzo/terraform-cancel-stuck-run-workflow.yml
+    name: Terraform Find and Cancel a Stuck Run
+  - type: Arazzo
+    url: arazzo/terraform-migrate-state-version-workflow.yml
+    name: Terraform Push a New State Version Under Lock
+  - type: Arazzo
+    url: arazzo/terraform-onboard-project-workflow.yml
+    name: Terraform Onboard a Project and Its First Workspace
+  - type: Arazzo
+    url: arazzo/terraform-onboard-policy-workflow.yml
+    name: Terraform Onboard a Sentinel or OPA Policy
+  - type: Arazzo
+    url: arazzo/terraform-onboard-team-workflow.yml
+    name: Terraform Onboard a Team into an Organization
+  - type: Arazzo
+    url: arazzo/terraform-audit-organization-inventory-workflow.yml
+    name: Terraform Audit an Organization's Full Inventory
+  - type: Arazzo
+    url: arazzo/terraform-discover-module-workflow.yml
+    name: Terraform Discover a Registry Module and Vet It
+  - type: Arazzo
+    url: arazzo/terraform-pin-module-version-workflow.yml
+    name: Terraform Pin a Module to a Specific Version and Resolve Its Source
+  - type: Arazzo
+    url: arazzo/terraform-audit-namespace-modules-workflow.yml
+    name: Terraform Audit a Namespace's Published Modules
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

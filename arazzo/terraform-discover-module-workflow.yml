@@ -1,0 +1,151 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Discover a Registry Module and Vet It
+  summary: Search the public registry for a module, read its latest version, and check its versions and download counts.
+  description: >-
+    How a team picks a module off the public Terraform Registry without taking it on
+    faith. The workflow searches the registry for a keyword filtered to a provider,
+    reads the top match's latest version for its source and description, lists the
+    versions it has published to gauge whether it is actively maintained, and pulls
+    the download summary as a popularity signal before anyone writes a module block.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: terraformRegistryApi
+  url: ../openapi/terraform-registry-openapi.yml
+  type: openapi
+workflows:
+- workflowId: discover-module
+  summary: Search the registry for a module and gather the signals needed to vet it.
+  description: >-
+    Searches modules by keyword and provider, reads the top match's latest version,
+    lists its published versions, and retrieves its download metrics.
+  inputs:
+    type: object
+    required:
+    - searchQuery
+    - provider
+    properties:
+      searchQuery:
+        type: string
+        description: The keyword or phrase to search the registry for (e.g. "vpc").
+      provider:
+        type: string
+        description: The provider to filter to (e.g. aws, azurerm, google).
+      verifiedOnly:
+        type: boolean
+        description: Whether to restrict results to HashiCorp-verified modules.
+      resultLimit:
+        type: integer
+        description: How many search results to return, up to 100.
+  steps:
+  - stepId: searchModules
+    description: >-
+      Search the public registry for modules matching the keyword, narrowed to the
+      target provider and optionally to verified publishers only.
+    operationId: SearchModules
+    parameters:
+    - name: q
+      in: query
+      value: $inputs.searchQuery
+    - name: provider
+      in: query
+      value: $inputs.provider
+    - name: verified
+      in: query
+      value: $inputs.verifiedOnly
+    - name: limit
+      in: query
+      value: $inputs.resultLimit
+    - name: offset
+      in: query
+      value: 0
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.modules.length > 0
+      type: jsonpath
+    outputs:
+      modules: $response.body#/modules
+      topNamespace: $response.body#/modules/0/namespace
+      topName: $response.body#/modules/0/name
+      topProvider: $response.body#/modules/0/provider
+      matchCount: $response.body#/meta/module_count
+  - stepId: readLatestVersion
+    description: >-
+      Read the top match's latest version for the specific provider, capturing the
+      source repository, description, and verified flag that decide adoption.
+    operationId: GetModuleLatestVersion
+    parameters:
+    - name: namespace
+      in: path
+      value: $steps.searchModules.outputs.topNamespace
+    - name: name
+      in: path
+      value: $steps.searchModules.outputs.topName
+    - name: provider
+      in: path
+      value: $steps.searchModules.outputs.topProvider
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      moduleId: $response.body#/id
+      latestVersion: $response.body#/version
+      source: $response.body#/source
+      sourceUrl: $response.body#/source_url
+      description: $response.body#/description
+      publishedAt: $response.body#/published_at
+      verified: $response.body#/verified
+      owner: $response.body#/owner
+  - stepId: listVersions
+    description: >-
+      List every version the module has published, so a long gap since the last
+      release or a thin version history shows up before the module is adopted.
+    operationId: ListModuleVersions
+    parameters:
+    - name: namespace
+      in: path
+      value: $steps.searchModules.outputs.topNamespace
+    - name: name
+      in: path
+      value: $steps.searchModules.outputs.topName
+    - name: provider
+      in: path
+      value: $steps.searchModules.outputs.topProvider
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      versions: $response.body#/modules/0/versions
+      moduleSource: $response.body#/modules/0/source
+  - stepId: readDownloadSummary
+    description: >-
+      Pull the module's download metrics as a popularity and liveness signal,
+      distinguishing a widely used module from an abandoned one.
+    operationId: GetModuleDownloadSummary
+    parameters:
+    - name: namespace
+      in: path
+      value: $steps.searchModules.outputs.topNamespace
+    - name: name
+      in: path
+      value: $steps.searchModules.outputs.topName
+    - name: provider
+      in: path
+      value: $steps.searchModules.outputs.topProvider
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalDownloads: $response.body#/data/attributes/total
+      weekDownloads: $response.body#/data/attributes/week
+      monthDownloads: $response.body#/data/attributes/month
+  outputs:
+    moduleId: $steps.readLatestVersion.outputs.moduleId
+    latestVersion: $steps.readLatestVersion.outputs.latestVersion
+    source: $steps.readLatestVersion.outputs.source
+    sourceUrl: $steps.readLatestVersion.outputs.sourceUrl
+    verified: $steps.readLatestVersion.outputs.verified
+    publishedAt: $steps.readLatestVersion.outputs.publishedAt
+    versions: $steps.listVersions.outputs.versions
+    totalDownloads: $steps.readDownloadSummary.outputs.totalDownloads
+    monthDownloads: $steps.readDownloadSummary.outputs.monthDownloads

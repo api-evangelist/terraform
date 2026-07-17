@@ -1,0 +1,181 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Provision a Workspace with Initial Variables
+  summary: Verify an organization, create a workspace, seed its variables, and read it back.
+  description: >-
+    The canonical first integration with HCP Terraform. The workflow confirms the
+    target organization is reachable with the supplied token, creates a workspace
+    inside it, writes an initial Terraform variable and an environment variable
+    onto the new workspace, and then reads the workspace back to confirm it
+    settled with the expected execution mode. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: provision-workspace
+  summary: Create a new HCP Terraform workspace and seed it with variables.
+  description: >-
+    Confirms the organization exists, creates a workspace with the supplied
+    execution settings, attaches a Terraform variable and an environment
+    variable, and reads the workspace back to verify the final state.
+  inputs:
+    type: object
+    required:
+    - organizationName
+    - workspaceName
+    - terraformVariableKey
+    - terraformVariableValue
+    - environmentVariableKey
+    - environmentVariableValue
+    properties:
+      organizationName:
+        type: string
+        description: The HCP Terraform organization name that will own the workspace.
+      workspaceName:
+        type: string
+        description: The name for the new workspace (e.g. "networking-production").
+      workspaceDescription:
+        type: string
+        description: A human readable description for the workspace.
+      executionMode:
+        type: string
+        description: How runs execute for this workspace - remote, local, or agent.
+      terraformVersion:
+        type: string
+        description: The Terraform version the workspace should pin to (e.g. "1.9.5").
+      autoApply:
+        type: boolean
+        description: Whether plans apply automatically without confirmation.
+      terraformVariableKey:
+        type: string
+        description: The key of the initial Terraform variable (e.g. "region").
+      terraformVariableValue:
+        type: string
+        description: The value of the initial Terraform variable (e.g. "us-east-1").
+      environmentVariableKey:
+        type: string
+        description: The key of the initial environment variable (e.g. "AWS_REGION").
+      environmentVariableValue:
+        type: string
+        description: The value of the initial environment variable.
+      environmentVariableSensitive:
+        type: boolean
+        description: Whether the environment variable value should be write-only.
+  steps:
+  - stepId: verifyOrganization
+    description: >-
+      Read the organization to confirm the bearer token can reach it and that the
+      plan is active before creating any billable resources inside it.
+    operationId: GetOrganization
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      organizationId: $response.body#/data/id
+      planExpired: $response.body#/data/attributes/plan-expired
+  - stepId: createWorkspace
+    description: >-
+      Create the workspace inside the verified organization using the supplied
+      name, execution mode, and Terraform version.
+    operationId: CreateWorkspace
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: workspaces
+          attributes:
+            name: $inputs.workspaceName
+            description: $inputs.workspaceDescription
+            execution-mode: $inputs.executionMode
+            terraform-version: $inputs.terraformVersion
+            auto-apply: $inputs.autoApply
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      workspaceId: $response.body#/data/id
+      workspaceName: $response.body#/data/attributes/name
+  - stepId: addTerraformVariable
+    description: >-
+      Attach the initial Terraform variable to the new workspace so the first run
+      has the input it needs.
+    operationId: CreateWorkspaceVariable
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $steps.createWorkspace.outputs.workspaceId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: vars
+          attributes:
+            key: $inputs.terraformVariableKey
+            value: $inputs.terraformVariableValue
+            description: Seeded by the provision-workspace Arazzo workflow.
+            category: terraform
+            hcl: false
+            sensitive: false
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      terraformVariableId: $response.body#/data/id
+  - stepId: addEnvironmentVariable
+    description: >-
+      Attach the initial environment variable, typically a provider credential or
+      region hint, marking it sensitive when requested.
+    operationId: CreateWorkspaceVariable
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $steps.createWorkspace.outputs.workspaceId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: vars
+          attributes:
+            key: $inputs.environmentVariableKey
+            value: $inputs.environmentVariableValue
+            description: Seeded by the provision-workspace Arazzo workflow.
+            category: env
+            hcl: false
+            sensitive: $inputs.environmentVariableSensitive
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      environmentVariableId: $response.body#/data/id
+  - stepId: confirmWorkspace
+    description: >-
+      Read the workspace back to confirm it exists, is unlocked, and settled with
+      the execution mode that was requested.
+    operationId: GetWorkspace
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $steps.createWorkspace.outputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.data.attributes.locked == false
+      type: jsonpath
+    outputs:
+      workspaceId: $response.body#/data/id
+      executionMode: $response.body#/data/attributes/execution-mode
+      createdAt: $response.body#/data/attributes/created-at
+  outputs:
+    organizationId: $steps.verifyOrganization.outputs.organizationId
+    workspaceId: $steps.confirmWorkspace.outputs.workspaceId
+    executionMode: $steps.confirmWorkspace.outputs.executionMode
+    terraformVariableId: $steps.addTerraformVariable.outputs.terraformVariableId
+    environmentVariableId: $steps.addEnvironmentVariable.outputs.environmentVariableId

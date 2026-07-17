@@ -1,0 +1,143 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Onboard a Team into an Organization
+  summary: Check an organization's teams for a name, create the team if missing, and read it back.
+  description: >-
+    The idempotent access-control step that usually precedes granting workspace
+    permissions. The workflow verifies the organization, lists its teams so a rerun
+    does not create a duplicate team under the same name, creates the team with its
+    visibility setting when it is genuinely absent, and reads the team back to
+    report its member count. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: onboard-team
+  summary: Idempotently create a team in an organization and read back its details.
+  description: >-
+    Verifies the organization, checks the team list for the target name, creates the
+    team when absent, and reads the resulting team on either branch.
+  inputs:
+    type: object
+    required:
+    - organizationName
+    - teamName
+    properties:
+      organizationName:
+        type: string
+        description: The organization the team belongs to.
+      teamName:
+        type: string
+        description: The team name (e.g. "platform-engineering").
+      teamVisibility:
+        type: string
+        description: Team visibility, typically "secret" or "organization".
+  steps:
+  - stepId: verifyOrganization
+    description: >-
+      Read the organization to confirm the token can reach it and administer its
+      teams.
+    operationId: GetOrganization
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      organizationId: $response.body#/data/id
+  - stepId: listTeams
+    description: >-
+      List the organization's teams so an existing team with the target name is
+      reused rather than duplicated on a rerun.
+    operationId: ListTeams
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    - name: page[size]
+      in: query
+      value: 100
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      existingTeamId: $response.body#/data/0/id
+    onSuccess:
+    - name: teamExists
+      type: goto
+      stepId: readExistingTeam
+      criteria:
+      - context: $response.body
+        condition: $.data[?(@.attributes.name == "$inputs.teamName")]
+        type: jsonpath
+    - name: teamMissing
+      type: goto
+      stepId: createTeam
+      criteria:
+      - context: $response.body
+        condition: $.data[?(@.attributes.name == "$inputs.teamName")].length == 0
+        type: jsonpath
+  - stepId: createTeam
+    description: >-
+      Create the team with the supplied visibility, since no team with this name
+      exists in the organization yet.
+    operationId: CreateTeam
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: teams
+          attributes:
+            name: $inputs.teamName
+            visibility: $inputs.teamVisibility
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      teamId: $response.body#/data/id
+      teamName: $response.body#/data/attributes/name
+  - stepId: readNewTeam
+    description: >-
+      Read the freshly created team back to confirm its visibility setting and
+      starting member count.
+    operationId: GetTeam
+    parameters:
+    - name: team_id
+      in: path
+      value: $steps.createTeam.outputs.teamId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      teamId: $response.body#/data/id
+      teamName: $response.body#/data/attributes/name
+      usersCount: $response.body#/data/attributes/users-count
+      visibility: $response.body#/data/attributes/visibility
+    onSuccess:
+    - name: onboarded
+      type: end
+  - stepId: readExistingTeam
+    description: >-
+      Read the already-present team instead of creating a duplicate, reporting its
+      current visibility and member count to the caller.
+    operationId: GetTeam
+    parameters:
+    - name: team_id
+      in: path
+      value: $steps.listTeams.outputs.existingTeamId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      teamId: $response.body#/data/id
+      teamName: $response.body#/data/attributes/name
+      usersCount: $response.body#/data/attributes/users-count
+      visibility: $response.body#/data/attributes/visibility
+  outputs:
+    organizationId: $steps.verifyOrganization.outputs.organizationId
+    createdTeamId: $steps.readNewTeam.outputs.teamId
+    existingTeamId: $steps.readExistingTeam.outputs.teamId

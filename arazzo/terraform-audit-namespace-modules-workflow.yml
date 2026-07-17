@@ -1,0 +1,132 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Audit a Namespace's Published Modules
+  summary: List everything a namespace publishes, then read the flagship module's versions and download metrics.
+  description: >-
+    The self-audit a module publisher runs against their own namespace, and the
+    due-diligence pass a consumer runs against a vendor's. The workflow lists every
+    module the namespace has published, reads the latest versions across providers
+    for the module under review, enumerates that module's version history, and pulls
+    its download metrics, so maintenance posture and real adoption are visible side
+    by side. Nothing is written. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: terraformRegistryApi
+  url: ../openapi/terraform-registry-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-namespace-modules
+  summary: Inventory a namespace's registry modules and review one module in depth.
+  description: >-
+    Lists the namespace's published modules, reads the target module's latest
+    versions across providers, lists its versions for one provider, and reports its
+    download metrics.
+  inputs:
+    type: object
+    required:
+    - namespace
+    - moduleName
+    - provider
+    properties:
+      namespace:
+        type: string
+        description: The namespace or publisher to audit (e.g. "terraform-aws-modules").
+      moduleName:
+        type: string
+        description: The module within the namespace to review in depth.
+      provider:
+        type: string
+        description: The provider of the module under review (e.g. "aws").
+      resultLimit:
+        type: integer
+        description: How many modules to list from the namespace, up to 100.
+  steps:
+  - stepId: listNamespaceModules
+    description: >-
+      List every module the namespace has published to the public registry, the full
+      inventory this audit covers.
+    operationId: ListModulesByNamespace
+    parameters:
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    - name: limit
+      in: query
+      value: $inputs.resultLimit
+    - name: offset
+      in: query
+      value: 0
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.modules.length > 0
+      type: jsonpath
+    outputs:
+      modules: $response.body#/modules
+      moduleCount: $response.body#/meta/module_count
+      nextOffset: $response.body#/meta/next_offset
+  - stepId: readModuleLatestVersions
+    description: >-
+      Read the latest version of the module under review across every provider it
+      targets, showing whether the providers are released in step with each other.
+    operationId: GetModuleLatestVersions
+    parameters:
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    - name: name
+      in: path
+      value: $inputs.moduleName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      providerVariants: $response.body#/modules
+  - stepId: listModuleVersions
+    description: >-
+      Enumerate the module's published versions for the target provider, exposing
+      release cadence and how long the current version has stood.
+    operationId: ListModuleVersions
+    parameters:
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    - name: name
+      in: path
+      value: $inputs.moduleName
+    - name: provider
+      in: path
+      value: $inputs.provider
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      versions: $response.body#/modules/0/versions
+      moduleSource: $response.body#/modules/0/source
+  - stepId: readDownloadSummary
+    description: >-
+      Pull the module's download metrics so publish activity can be weighed against
+      actual consumption.
+    operationId: GetModuleDownloadSummary
+    parameters:
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    - name: name
+      in: path
+      value: $inputs.moduleName
+    - name: provider
+      in: path
+      value: $inputs.provider
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalDownloads: $response.body#/data/attributes/total
+      weekDownloads: $response.body#/data/attributes/week
+      monthDownloads: $response.body#/data/attributes/month
+  outputs:
+    namespaceModules: $steps.listNamespaceModules.outputs.modules
+    moduleCount: $steps.listNamespaceModules.outputs.moduleCount
+    providerVariants: $steps.readModuleLatestVersions.outputs.providerVariants
+    versions: $steps.listModuleVersions.outputs.versions
+    totalDownloads: $steps.readDownloadSummary.outputs.totalDownloads
+    monthDownloads: $steps.readDownloadSummary.outputs.monthDownloads

@@ -1,0 +1,144 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Onboard a Project and Its First Workspace
+  summary: Create a project in an organization, place a workspace in it, and list the project's workspaces.
+  description: >-
+    How a platform team carves out space for a new team or application. The
+    workflow verifies the organization, creates a project to group related
+    workspaces, reads the project back, creates the project's first workspace, and
+    then lists the workspaces filtered to that project to confirm the association
+    took. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: onboard-project
+  summary: Create a project and its first workspace inside an organization.
+  description: >-
+    Verifies the organization, creates and reads back a project, creates a
+    workspace, and confirms the workspace is grouped under the project.
+  inputs:
+    type: object
+    required:
+    - organizationName
+    - projectName
+    - workspaceName
+    properties:
+      organizationName:
+        type: string
+        description: The organization that will own the project.
+      projectName:
+        type: string
+        description: The name for the new project (e.g. "payments-platform").
+      projectDescription:
+        type: string
+        description: A human readable description for the project.
+      workspaceName:
+        type: string
+        description: The name for the project's first workspace.
+      workspaceDescription:
+        type: string
+        description: A human readable description for the workspace.
+      executionMode:
+        type: string
+        description: How runs execute for the workspace - remote, local, or agent.
+  steps:
+  - stepId: verifyOrganization
+    description: >-
+      Read the organization to confirm the token can reach it before creating
+      structure inside it.
+    operationId: GetOrganization
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      organizationId: $response.body#/data/id
+  - stepId: createProject
+    description: >-
+      Create the project that will group this team's workspaces under a single
+      permissions and organizational boundary.
+    operationId: CreateProject
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: projects
+          attributes:
+            name: $inputs.projectName
+            description: $inputs.projectDescription
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      projectId: $response.body#/data/id
+      projectName: $response.body#/data/attributes/name
+  - stepId: confirmProject
+    description: >-
+      Read the project back to confirm it was created with the expected name before
+      hanging workspaces off it.
+    operationId: GetProject
+    parameters:
+    - name: project_id
+      in: path
+      value: $steps.createProject.outputs.projectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectId: $response.body#/data/id
+  - stepId: createWorkspace
+    description: >-
+      Create the project's first workspace inside the organization using the
+      supplied execution mode.
+    operationId: CreateWorkspace
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: workspaces
+          attributes:
+            name: $inputs.workspaceName
+            description: $inputs.workspaceDescription
+            execution-mode: $inputs.executionMode
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      workspaceId: $response.body#/data/id
+      workspaceName: $response.body#/data/attributes/name
+  - stepId: listProjectWorkspaces
+    description: >-
+      List the organization's workspaces filtered to the new project, confirming the
+      workspace is grouped where it belongs.
+    operationId: ListWorkspaces
+    parameters:
+    - name: organization_name
+      in: path
+      value: $inputs.organizationName
+    - name: filter[project][id]
+      in: query
+      value: $steps.confirmProject.outputs.projectId
+    - name: page[size]
+      in: query
+      value: 100
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectWorkspaces: $response.body#/data
+      workspaceCount: $response.body#/meta/pagination/total-count
+  outputs:
+    organizationId: $steps.verifyOrganization.outputs.organizationId
+    projectId: $steps.createProject.outputs.projectId
+    workspaceId: $steps.createWorkspace.outputs.workspaceId
+    workspaceCount: $steps.listProjectWorkspaces.outputs.workspaceCount

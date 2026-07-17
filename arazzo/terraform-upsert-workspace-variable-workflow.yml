@@ -1,0 +1,153 @@
+arazzo: 1.0.1
+info:
+  title: Terraform Upsert a Workspace Variable
+  summary: Set a workspace variable to a value whether or not it already exists.
+  description: >-
+    The idempotent configuration pattern every Terraform pipeline needs. The
+    workflow lists the workspace's variables, branches on whether a variable with
+    the target key is already present, and either patches the existing variable or
+    creates a new one, then reads the variable list back to confirm the result.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: hcpTerraformApi
+  url: ../openapi/hcp-terraform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: upsert-workspace-variable
+  summary: Create or update a single workspace variable by key.
+  description: >-
+    Lists the workspace variables, matches on the supplied key, updates the
+    matched variable when one exists, otherwise creates it, and re-reads the list
+    to confirm.
+  inputs:
+    type: object
+    required:
+    - workspaceId
+    - variableKey
+    - variableValue
+    - variableCategory
+    properties:
+      workspaceId:
+        type: string
+        description: The workspace identifier to write the variable to.
+      variableKey:
+        type: string
+        description: The variable key to upsert (e.g. "instance_type").
+      variableValue:
+        type: string
+        description: The value to write for the variable.
+      variableCategory:
+        type: string
+        description: Whether this is a "terraform" input variable or an "env" variable.
+      variableDescription:
+        type: string
+        description: A human readable description stored alongside the variable.
+      variableHcl:
+        type: boolean
+        description: Whether the value should be parsed as HCL rather than a literal string.
+      variableSensitive:
+        type: boolean
+        description: Whether the value should be write-only and hidden from reads.
+  steps:
+  - stepId: listVariables
+    description: >-
+      List every variable on the workspace so the target key can be matched
+      against what is already configured.
+    operationId: ListWorkspaceVariables
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      matchedVariableId: $response.body#/data/0/id
+    onSuccess:
+    - name: variableExists
+      type: goto
+      stepId: updateVariable
+      criteria:
+      - context: $response.body
+        condition: $.data[?(@.attributes.key == "$inputs.variableKey")]
+        type: jsonpath
+    - name: variableMissing
+      type: goto
+      stepId: createVariable
+      criteria:
+      - context: $response.body
+        condition: $.data[?(@.attributes.key == "$inputs.variableKey")].length == 0
+        type: jsonpath
+  - stepId: updateVariable
+    description: >-
+      Patch the existing variable with the new value. Only the supplied attributes
+      change; the variable's category and identity are preserved.
+    operationId: UpdateWorkspaceVariable
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    - name: variable_id
+      in: path
+      value: $steps.listVariables.outputs.matchedVariableId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: vars
+          attributes:
+            key: $inputs.variableKey
+            value: $inputs.variableValue
+            description: $inputs.variableDescription
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      variableId: $response.body#/data/id
+      variableKey: $response.body#/data/attributes/key
+    onSuccess:
+    - name: updated
+      type: goto
+      stepId: confirmVariables
+  - stepId: createVariable
+    description: >-
+      Create the variable on the workspace when no variable with the target key
+      was found.
+    operationId: CreateWorkspaceVariable
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    requestBody:
+      contentType: application/vnd.api+json
+      payload:
+        data:
+          type: vars
+          attributes:
+            key: $inputs.variableKey
+            value: $inputs.variableValue
+            description: $inputs.variableDescription
+            category: $inputs.variableCategory
+            hcl: $inputs.variableHcl
+            sensitive: $inputs.variableSensitive
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      variableId: $response.body#/data/id
+      variableKey: $response.body#/data/attributes/key
+  - stepId: confirmVariables
+    description: >-
+      Read the workspace variable list back to confirm the upsert landed and the
+      workspace holds exactly one variable with the target key.
+    operationId: ListWorkspaceVariables
+    parameters:
+    - name: workspace_id
+      in: path
+      value: $inputs.workspaceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      variableCount: $response.body#/data
+  outputs:
+    updatedVariableId: $steps.updateVariable.outputs.variableId
+    createdVariableId: $steps.createVariable.outputs.variableId
