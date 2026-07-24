@@ -1,0 +1,274 @@
+openapi: 3.1.0
+info:
+  title: HCP Terraform Modules Runs API
+  description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
+  version: '2.0'
+  contact:
+    name: HashiCorp Support
+    url: https://support.hashicorp.com
+  license:
+    name: Business Source License 1.1
+    url: https://github.com/hashicorp/terraform/blob/main/LICENSE
+servers:
+- url: https://app.terraform.io/api/v2
+  description: HCP Terraform Production API
+security:
+- bearerAuth: []
+tags:
+- name: Runs
+  description: Manage Terraform runs and plan/apply lifecycle
+paths:
+  /runs:
+    post:
+      operationId: CreateRun
+      summary: Create a Run
+      description: Creates a new run for a workspace.
+      tags:
+      - Runs
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/RunCreateRequest'
+      responses:
+        '201':
+          description: Run created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/RunResponse'
+  /runs/{run_id}:
+    get:
+      operationId: GetRun
+      summary: Get a Run
+      description: Retrieves details for a specific run.
+      tags:
+      - Runs
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Run details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/RunResponse'
+  /runs/{run_id}/actions/apply:
+    post:
+      operationId: ApplyRun
+      summary: Apply a Run
+      description: Applies a run that is paused waiting for confirmation.
+      tags:
+      - Runs
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+      responses:
+        '202':
+          description: Run apply initiated
+  /runs/{run_id}/actions/discard:
+    post:
+      operationId: DiscardRun
+      summary: Discard a Run
+      description: Discards a run that has not yet been applied.
+      tags:
+      - Runs
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+      responses:
+        '202':
+          description: Run discarded
+  /runs/{run_id}/actions/cancel:
+    post:
+      operationId: CancelRun
+      summary: Cancel a Run
+      description: Cancels a run that is currently in progress.
+      tags:
+      - Runs
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+      responses:
+        '202':
+          description: Run cancelled
+  /workspaces/{workspace_id}/runs:
+    get:
+      operationId: ListWorkspaceRuns
+      summary: List Workspace Runs
+      description: Lists all runs for a given workspace.
+      tags:
+      - Runs
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page[number]
+        in: query
+        schema:
+          type: integer
+      - name: page[size]
+        in: query
+        schema:
+          type: integer
+      - name: filter[status]
+        in: query
+        schema:
+          type: string
+        description: Filter runs by status
+      responses:
+        '200':
+          description: List of runs
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/RunList'
+components:
+  schemas:
+    RunCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - runs
+            attributes:
+              type: object
+              properties:
+                message:
+                  type: string
+                is-destroy:
+                  type: boolean
+                auto-apply:
+                  type: boolean
+            relationships:
+              type: object
+              properties:
+                workspace:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        id:
+                          type: string
+    RunResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Run'
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    RunList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Run'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    Run:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - runs
+        attributes:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - pending
+              - fetching
+              - planning
+              - planned
+              - applying
+              - applied
+              - discarded
+              - canceled
+              - errored
+              - policy_checked
+              - policy_override
+              - force_canceled
+            message:
+              type: string
+            is-destroy:
+              type: boolean
+            auto-apply:
+              type: boolean
+            created-at:
+              type: string
+              format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Use organization, team, or user tokens.

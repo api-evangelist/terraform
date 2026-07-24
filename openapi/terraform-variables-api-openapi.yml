@@ -1,0 +1,210 @@
+openapi: 3.1.0
+info:
+  title: HCP Terraform Modules Variables API
+  description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
+  version: '2.0'
+  contact:
+    name: HashiCorp Support
+    url: https://support.hashicorp.com
+  license:
+    name: Business Source License 1.1
+    url: https://github.com/hashicorp/terraform/blob/main/LICENSE
+servers:
+- url: https://app.terraform.io/api/v2
+  description: HCP Terraform Production API
+security:
+- bearerAuth: []
+tags:
+- name: Variables
+  description: Manage workspace and variable sets
+paths:
+  /workspaces/{workspace_id}/vars:
+    get:
+      operationId: ListWorkspaceVariables
+      summary: List Workspace Variables
+      description: Lists all variables for a workspace.
+      tags:
+      - Variables
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of variables
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/VariableList'
+    post:
+      operationId: CreateWorkspaceVariable
+      summary: Create a Workspace Variable
+      description: Creates a new variable for a workspace.
+      tags:
+      - Variables
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/VariableCreateRequest'
+      responses:
+        '201':
+          description: Variable created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/VariableResponse'
+  /workspaces/{workspace_id}/vars/{variable_id}:
+    patch:
+      operationId: UpdateWorkspaceVariable
+      summary: Update a Workspace Variable
+      description: Updates an existing workspace variable.
+      tags:
+      - Variables
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: variable_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/VariableUpdateRequest'
+      responses:
+        '200':
+          description: Variable updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/VariableResponse'
+    delete:
+      operationId: DeleteWorkspaceVariable
+      summary: Delete a Workspace Variable
+      description: Deletes a workspace variable.
+      tags:
+      - Variables
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: variable_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Variable deleted
+components:
+  schemas:
+    VariableResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Variable'
+    Variable:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - vars
+        attributes:
+          type: object
+          properties:
+            key:
+              type: string
+            value:
+              type: string
+            description:
+              type: string
+            category:
+              type: string
+              enum:
+              - terraform
+              - env
+            hcl:
+              type: boolean
+            sensitive:
+              type: boolean
+    VariableCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - vars
+            attributes:
+              type: object
+              required:
+              - key
+              - category
+              properties:
+                key:
+                  type: string
+                value:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+                  enum:
+                  - terraform
+                  - env
+                hcl:
+                  type: boolean
+                sensitive:
+                  type: boolean
+    VariableUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            attributes:
+              type: object
+              properties:
+                key:
+                  type: string
+                value:
+                  type: string
+                description:
+                  type: string
+    VariableList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Use organization, team, or user tokens.

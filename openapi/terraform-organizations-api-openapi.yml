@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: HCP Terraform Modules Organizations API
+  description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
+  version: '2.0'
+  contact:
+    name: HashiCorp Support
+    url: https://support.hashicorp.com
+  license:
+    name: Business Source License 1.1
+    url: https://github.com/hashicorp/terraform/blob/main/LICENSE
+servers:
+- url: https://app.terraform.io/api/v2
+  description: HCP Terraform Production API
+security:
+- bearerAuth: []
+tags:
+- name: Organizations
+  description: Manage HCP Terraform organizations
+paths:
+  /organizations:
+    get:
+      operationId: ListOrganizations
+      summary: List Organizations
+      description: Lists all organizations accessible by the current token.
+      tags:
+      - Organizations
+      parameters:
+      - name: page[number]
+        in: query
+        schema:
+          type: integer
+        description: Page number for pagination
+      - name: page[size]
+        in: query
+        schema:
+          type: integer
+        description: Number of results per page (max 100)
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query to filter organizations by name
+      responses:
+        '200':
+          description: A list of organizations
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/OrganizationList'
+    post:
+      operationId: CreateOrganization
+      summary: Create an Organization
+      description: Creates a new organization.
+      tags:
+      - Organizations
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/OrganizationCreateRequest'
+      responses:
+        '201':
+          description: Organization created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/OrganizationResponse'
+  /organizations/{organization_name}:
+    get:
+      operationId: GetOrganization
+      summary: Get an Organization
+      description: Retrieves details for a specific organization.
+      tags:
+      - Organizations
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The name of the organization
+      responses:
+        '200':
+          description: Organization details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/OrganizationResponse'
+    patch:
+      operationId: UpdateOrganization
+      summary: Update an Organization
+      description: Updates settings for an existing organization.
+      tags:
+      - Organizations
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/OrganizationUpdateRequest'
+      responses:
+        '200':
+          description: Organization updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/OrganizationResponse'
+    delete:
+      operationId: DeleteOrganization
+      summary: Delete an Organization
+      description: Destroys an organization.
+      tags:
+      - Organizations
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Organization deleted
+components:
+  schemas:
+    OrganizationUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - organizations
+            attributes:
+              type: object
+              properties:
+                email:
+                  type: string
+                session-timeout:
+                  type: integer
+    OrganizationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Organization'
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    OrganizationCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - organizations
+            attributes:
+              type: object
+              required:
+              - name
+              - email
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+    OrganizationList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - organizations
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            created-at:
+              type: string
+              format: date-time
+            session-timeout:
+              type: integer
+            session-remember:
+              type: integer
+            collaborator-auth-policy:
+              type: string
+            plan-expired:
+              type: boolean
+            plan-is-trial:
+              type: boolean
+            plan-is-enterprise:
+              type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Use organization, team, or user tokens.

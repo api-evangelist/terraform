@@ -1,0 +1,199 @@
+openapi: 3.1.0
+info:
+  title: HCP Terraform Modules Policies API
+  description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
+  version: '2.0'
+  contact:
+    name: HashiCorp Support
+    url: https://support.hashicorp.com
+  license:
+    name: Business Source License 1.1
+    url: https://github.com/hashicorp/terraform/blob/main/LICENSE
+servers:
+- url: https://app.terraform.io/api/v2
+  description: HCP Terraform Production API
+security:
+- bearerAuth: []
+tags:
+- name: Policies
+  description: Manage Sentinel and OPA policies
+paths:
+  /organizations/{organization_name}/policies:
+    get:
+      operationId: ListPolicies
+      summary: List Policies
+      description: Lists all policies in an organization.
+      tags:
+      - Policies
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page[number]
+        in: query
+        schema:
+          type: integer
+      - name: page[size]
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of policies
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PolicyList'
+    post:
+      operationId: CreatePolicy
+      summary: Create a Policy
+      description: Creates a new Sentinel or OPA policy.
+      tags:
+      - Policies
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/PolicyCreateRequest'
+      responses:
+        '201':
+          description: Policy created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PolicyResponse'
+  /policies/{policy_id}:
+    get:
+      operationId: GetPolicy
+      summary: Get a Policy
+      description: Retrieves details for a specific policy.
+      tags:
+      - Policies
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Policy details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PolicyResponse'
+    delete:
+      operationId: DeletePolicy
+      summary: Delete a Policy
+      description: Deletes a policy.
+      tags:
+      - Policies
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Policy deleted
+components:
+  schemas:
+    Policy:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - policies
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            enforcement-level:
+              type: string
+              enum:
+              - advisory
+              - soft-mandatory
+              - hard-mandatory
+            kind:
+              type: string
+              enum:
+              - sentinel
+              - opa
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    PolicyList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Policy'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    PolicyResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Policy'
+    PolicyCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - policies
+            attributes:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                enforcement-level:
+                  type: string
+                kind:
+                  type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Use organization, team, or user tokens.

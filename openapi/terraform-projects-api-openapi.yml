@@ -1,0 +1,226 @@
+openapi: 3.1.0
+info:
+  title: HCP Terraform Modules Projects API
+  description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
+  version: '2.0'
+  contact:
+    name: HashiCorp Support
+    url: https://support.hashicorp.com
+  license:
+    name: Business Source License 1.1
+    url: https://github.com/hashicorp/terraform/blob/main/LICENSE
+servers:
+- url: https://app.terraform.io/api/v2
+  description: HCP Terraform Production API
+security:
+- bearerAuth: []
+tags:
+- name: Projects
+  description: Manage projects within organizations
+paths:
+  /organizations/{organization_name}/projects:
+    get:
+      operationId: ListProjects
+      summary: List Projects
+      description: Lists all projects within an organization.
+      tags:
+      - Projects
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page[number]
+        in: query
+        schema:
+          type: integer
+      - name: page[size]
+        in: query
+        schema:
+          type: integer
+      - name: filter[name]
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProjectList'
+    post:
+      operationId: CreateProject
+      summary: Create a Project
+      description: Creates a new project within an organization.
+      tags:
+      - Projects
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreateRequest'
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+  /projects/{project_id}:
+    get:
+      operationId: GetProject
+      summary: Get a Project
+      description: Retrieves details for a specific project.
+      tags:
+      - Projects
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+    patch:
+      operationId: UpdateProject
+      summary: Update a Project
+      description: Updates an existing project.
+      tags:
+      - Projects
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdateRequest'
+      responses:
+        '200':
+          description: Project updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+    delete:
+      operationId: DeleteProject
+      summary: Delete a Project
+      description: Deletes a project.
+      tags:
+      - Projects
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Project deleted
+components:
+  schemas:
+    ProjectResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Project'
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    ProjectUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            attributes:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+    ProjectList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    ProjectCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - projects
+            attributes:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - projects
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Use organization, team, or user tokens.

@@ -1,21 +1,22 @@
 openapi: 3.1.0
 info:
-  title: Terraform Registry API
-  description: >-
-    The Terraform Registry API enables discovery, listing, versioning, and
-    downloading of modules from the public Terraform Registry. It supports
-    searching by keyword, filtering by provider and namespace, and retrieving
-    download metrics.
-  version: '1.0'
+  title: HCP Terraform Modules API
+  description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
+  version: '2.0'
   contact:
     name: HashiCorp Support
     url: https://support.hashicorp.com
+  license:
+    name: Business Source License 1.1
+    url: https://github.com/hashicorp/terraform/blob/main/LICENSE
 servers:
-  - url: https://registry.terraform.io
-    description: Terraform Public Registry
+- url: https://app.terraform.io/api/v2
+  description: HCP Terraform Production API
+security:
+- bearerAuth: []
 tags:
-  - name: Modules
-    description: Browse and search Terraform modules in the public registry
+- name: Modules
+  description: Browse and search Terraform modules in the public registry
 paths:
   /v1/modules:
     get:
@@ -23,31 +24,31 @@ paths:
       summary: List Modules
       description: Lists all modules in the registry with optional filtering and pagination.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            default: 15
-            maximum: 100
-          description: Maximum number of results to return
-        - name: offset
-          in: query
-          schema:
-            type: integer
-            default: 0
-          description: Starting position for pagination
-        - name: provider
-          in: query
-          schema:
-            type: string
-          description: Filter modules by provider (e.g., aws, azurerm, google)
-        - name: verified
-          in: query
-          schema:
-            type: boolean
-          description: Filter to show only HashiCorp-verified modules
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 15
+          maximum: 100
+        description: Maximum number of results to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+        description: Starting position for pagination
+      - name: provider
+        in: query
+        schema:
+          type: string
+        description: Filter modules by provider (e.g., aws, azurerm, google)
+      - name: verified
+        in: query
+        schema:
+          type: boolean
+        description: Filter to show only HashiCorp-verified modules
       responses:
         '200':
           description: A paginated list of modules
@@ -61,24 +62,24 @@ paths:
       summary: List Modules by Namespace
       description: Lists all modules published by a specific namespace.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The namespace (username or organization) to filter by
-        - name: limit
-          in: query
-          schema:
-            type: integer
-          description: Maximum number of results to return
-        - name: offset
-          in: query
-          schema:
-            type: integer
-          description: Starting position for pagination
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The namespace (username or organization) to filter by
+      - name: limit
+        in: query
+        schema:
+          type: integer
+        description: Maximum number of results to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+        description: Starting position for pagination
       responses:
         '200':
           description: Modules in the namespace
@@ -92,34 +93,34 @@ paths:
       summary: Search Modules
       description: Searches modules by keyword or phrase across all namespaces.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: q
-          in: query
-          required: true
-          schema:
-            type: string
-          description: The search query keyword or phrase
-        - name: limit
-          in: query
-          schema:
-            type: integer
-          description: Maximum number of results to return
-        - name: offset
-          in: query
-          schema:
-            type: integer
-          description: Starting position for pagination
-        - name: provider
-          in: query
-          schema:
-            type: string
-          description: Filter results by provider
-        - name: verified
-          in: query
-          schema:
-            type: boolean
-          description: Show only verified modules
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The search query keyword or phrase
+      - name: limit
+        in: query
+        schema:
+          type: integer
+        description: Maximum number of results to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+        description: Starting position for pagination
+      - name: provider
+        in: query
+        schema:
+          type: string
+        description: Filter results by provider
+      - name: verified
+        in: query
+        schema:
+          type: boolean
+        description: Show only verified modules
       responses:
         '200':
           description: Matching modules
@@ -133,18 +134,18 @@ paths:
       summary: Get Module Latest Versions
       description: Returns the latest version of a module for all providers.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Latest module version details
@@ -158,23 +159,23 @@ paths:
       summary: Get Module Latest Version for Provider
       description: Retrieves the latest version of a module for a specific provider.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: provider
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Latest module version
@@ -188,23 +189,23 @@ paths:
       summary: List Module Versions
       description: Lists available versions for a specific module and provider combination.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: provider
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Available module versions
@@ -218,28 +219,28 @@ paths:
       summary: Get a Module Version
       description: Fetches details for a specific module version.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: provider
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: version
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Module version details
@@ -253,23 +254,23 @@ paths:
       summary: Download Module Latest Version
       description: Downloads the latest version of a module. Redirects to the download URL.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: provider
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '302':
           description: Redirect to download URL
@@ -284,28 +285,28 @@ paths:
       summary: Download a Module Version
       description: Downloads a specific version of a module. Redirects to the source archive.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: provider
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: version
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '302':
           description: Redirect to download URL
@@ -320,23 +321,23 @@ paths:
       summary: Get Module Download Summary
       description: Retrieves download metrics and statistics for a specific module.
       tags:
-        - Modules
+      - Modules
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: provider
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Module download summary
@@ -355,6 +356,64 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Module'
+    ModuleVersionList:
+      type: object
+      properties:
+        modules:
+          type: array
+          items:
+            type: object
+            properties:
+              source:
+                type: string
+              versions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    version:
+                      type: string
+    Module:
+      type: object
+      properties:
+        id:
+          type: string
+        owner:
+          type: string
+        namespace:
+          type: string
+        name:
+          type: string
+        provider:
+          type: string
+        source:
+          type: string
+        version:
+          type: string
+        description:
+          type: string
+        published_at:
+          type: string
+          format: date-time
+        downloads:
+          type: integer
+        verified:
+          type: boolean
+    RegistryMeta:
+      type: object
+      properties:
+        limit:
+          type: integer
+        current_offset:
+          type: integer
+        next_offset:
+          type: integer
+        prev_offset:
+          type: integer
+        next_url:
+          type: string
+        module_count:
+          type: integer
     ModuleResponse:
       type: object
       properties:
@@ -387,49 +446,6 @@ components:
           type: integer
         verified:
           type: boolean
-    Module:
-      type: object
-      properties:
-        id:
-          type: string
-        owner:
-          type: string
-        namespace:
-          type: string
-        name:
-          type: string
-        provider:
-          type: string
-        source:
-          type: string
-        version:
-          type: string
-        description:
-          type: string
-        published_at:
-          type: string
-          format: date-time
-        downloads:
-          type: integer
-        verified:
-          type: boolean
-    ModuleVersionList:
-      type: object
-      properties:
-        modules:
-          type: array
-          items:
-            type: object
-            properties:
-              source:
-                type: string
-              versions:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    version:
-                      type: string
     ModuleVersionsResponse:
       type: object
       properties:
@@ -456,18 +472,8 @@ components:
                   type: integer
                 month:
                   type: integer
-    RegistryMeta:
-      type: object
-      properties:
-        limit:
-          type: integer
-        current_offset:
-          type: integer
-        next_offset:
-          type: integer
-        prev_offset:
-          type: integer
-        next_url:
-          type: string
-        module_count:
-          type: integer
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Use organization, team, or user tokens.

@@ -1,0 +1,320 @@
+openapi: 3.1.0
+info:
+  title: HCP Terraform Modules Workspaces API
+  description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
+  version: '2.0'
+  contact:
+    name: HashiCorp Support
+    url: https://support.hashicorp.com
+  license:
+    name: Business Source License 1.1
+    url: https://github.com/hashicorp/terraform/blob/main/LICENSE
+servers:
+- url: https://app.terraform.io/api/v2
+  description: HCP Terraform Production API
+security:
+- bearerAuth: []
+tags:
+- name: Workspaces
+  description: Manage infrastructure workspaces
+paths:
+  /organizations/{organization_name}/workspaces:
+    get:
+      operationId: ListWorkspaces
+      summary: List Workspaces
+      description: Lists workspaces within an organization.
+      tags:
+      - Workspaces
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page[number]
+        in: query
+        schema:
+          type: integer
+      - name: page[size]
+        in: query
+        schema:
+          type: integer
+      - name: search[name]
+        in: query
+        schema:
+          type: string
+        description: Filter workspaces by name
+      - name: search[tags]
+        in: query
+        schema:
+          type: string
+        description: Filter workspaces by tags
+      - name: filter[project][id]
+        in: query
+        schema:
+          type: string
+        description: Filter workspaces by project ID
+      responses:
+        '200':
+          description: List of workspaces
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceList'
+    post:
+      operationId: CreateWorkspace
+      summary: Create a Workspace
+      description: Creates a new workspace within an organization.
+      tags:
+      - Workspaces
+      parameters:
+      - name: organization_name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCreateRequest'
+      responses:
+        '201':
+          description: Workspace created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+  /workspaces/{workspace_id}:
+    get:
+      operationId: GetWorkspace
+      summary: Get a Workspace
+      description: Retrieves details for a specific workspace.
+      tags:
+      - Workspaces
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Workspace details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+    patch:
+      operationId: UpdateWorkspace
+      summary: Update a Workspace
+      description: Updates settings for an existing workspace.
+      tags:
+      - Workspaces
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceUpdateRequest'
+      responses:
+        '200':
+          description: Workspace updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+    delete:
+      operationId: DeleteWorkspace
+      summary: Delete a Workspace
+      description: Destroys a workspace and all its contents.
+      tags:
+      - Workspaces
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Workspace deleted
+  /workspaces/{workspace_id}/actions/lock:
+    post:
+      operationId: LockWorkspace
+      summary: Lock a Workspace
+      description: Locks a workspace to prevent runs.
+      tags:
+      - Workspaces
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: Workspace locked
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+  /workspaces/{workspace_id}/actions/unlock:
+    post:
+      operationId: UnlockWorkspace
+      summary: Unlock a Workspace
+      description: Unlocks a workspace to allow runs.
+      tags:
+      - Workspaces
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Workspace unlocked
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+components:
+  schemas:
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - workspaces
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            auto-apply:
+              type: boolean
+            locked:
+              type: boolean
+            execution-mode:
+              type: string
+              enum:
+              - remote
+              - local
+              - agent
+            terraform-version:
+              type: string
+            working-directory:
+              type: string
+            created-at:
+              type: string
+              format: date-time
+            updated-at:
+              type: string
+              format: date-time
+    WorkspaceList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Workspace'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    WorkspaceCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - workspaces
+            attributes:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                auto-apply:
+                  type: boolean
+                execution-mode:
+                  type: string
+                terraform-version:
+                  type: string
+    WorkspaceResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Workspace'
+    WorkspaceUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - workspaces
+            attributes:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                auto-apply:
+                  type: boolean
+                execution-mode:
+                  type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Use organization, team, or user tokens.

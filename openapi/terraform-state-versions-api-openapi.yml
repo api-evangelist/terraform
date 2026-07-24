@@ -1,0 +1,183 @@
+openapi: 3.1.0
+info:
+  title: HCP Terraform Modules State Versions API
+  description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
+  version: '2.0'
+  contact:
+    name: HashiCorp Support
+    url: https://support.hashicorp.com
+  license:
+    name: Business Source License 1.1
+    url: https://github.com/hashicorp/terraform/blob/main/LICENSE
+servers:
+- url: https://app.terraform.io/api/v2
+  description: HCP Terraform Production API
+security:
+- bearerAuth: []
+tags:
+- name: State Versions
+  description: Manage workspace state versions
+paths:
+  /workspaces/{workspace_id}/state-versions:
+    get:
+      operationId: ListStateVersions
+      summary: List State Versions
+      description: Lists state versions for a workspace.
+      tags:
+      - State Versions
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page[number]
+        in: query
+        schema:
+          type: integer
+      - name: page[size]
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of state versions
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/StateVersionList'
+    post:
+      operationId: CreateStateVersion
+      summary: Create a State Version
+      description: Creates a new state version for a workspace.
+      tags:
+      - State Versions
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/StateVersionCreateRequest'
+      responses:
+        '200':
+          description: State version created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/StateVersionResponse'
+  /state-versions/{state_version_id}:
+    get:
+      operationId: GetStateVersion
+      summary: Get a State Version
+      description: Retrieves details for a specific state version.
+      tags:
+      - State Versions
+      parameters:
+      - name: state_version_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: State version details
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/StateVersionResponse'
+components:
+  schemas:
+    StateVersion:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - state-versions
+        attributes:
+          type: object
+          properties:
+            vcs-commit-sha:
+              type: string
+            vcs-commit-url:
+              type: string
+            created-at:
+              type: string
+              format: date-time
+            serial:
+              type: integer
+            size:
+              type: integer
+            hosted-state-download-url:
+              type: string
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    StateVersionCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - state-versions
+            attributes:
+              type: object
+              required:
+              - serial
+              - md5
+              - state
+              properties:
+                serial:
+                  type: integer
+                md5:
+                  type: string
+                state:
+                  type: string
+                  description: Base64-encoded state file
+    StateVersionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StateVersion'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    StateVersionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StateVersion'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Use organization, team, or user tokens.
