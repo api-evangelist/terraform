@@ -5,7 +5,20 @@ description: >-
   cloud infrastructure using a declarative configuration language (HCL). HCP Terraform and Terraform Enterprise expose a
   comprehensive REST API for automating workspace management, runs, state, policies, and access control.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/terraform.png
 tags:
   - Infrastructure As Code
   - Cloud Infrastructure
@@ -17,50 +30,186 @@ created: '2026-03-16'
 modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
-  - aid: terraform:hcp-terraform-api
-    name: HCP Terraform API
-    description: >-
-      The HCP Terraform API provides programmatic access to all HCP Terraform features including workspace management,
-      runs, state versions, policies, teams, organizations, VCS integrations, and the private module registry. The API
-      follows the JSON API specification and uses bearer token authentication.
-    humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
-    baseURL: https://app.terraform.io/api/v2
-    tags:
-      - Infrastructure As Code
-      - Workspaces
-      - Runs
-      - State Management
-      - Policy
-    properties:
-      - url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
-        type: Documentation
-      - url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
-        type: Documentation
-      - url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
-        type: Documentation
-      - url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
-        type: Documentation
-      - url: https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/openapi/hcp-terraform-openapi.yml
-        type: OpenAPI
-  - aid: terraform:terraform-registry-api
-    name: Terraform Registry API
-    description: >-
-      The Terraform Registry API enables discovery, listing, versioning, and downloading of modules from the public
-      Terraform Registry. It supports searching by keyword, filtering by provider and namespace, and retrieving download
-      metrics.
-    humanURL: https://developer.hashicorp.com/terraform/registry/api-docs
-    baseURL: https://registry.terraform.io
-    tags:
-      - Registry
-      - Modules
-      - Providers
-      - Discovery
-    properties:
-      - url: https://developer.hashicorp.com/terraform/registry/api-docs
-        type: Documentation
-      - url: >-
-          https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/openapi/terraform-registry-openapi.yml
-        type: OpenAPI
+- aid: terraform:terraform-modules-api
+  name: Terraform Modules API
+  description: Browse and search Terraform modules in the public registry
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - Modules
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-modules-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
+- aid: terraform:terraform-organizations-api
+  name: Terraform Organizations API
+  description: Manage HCP Terraform organizations
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
+- aid: terraform:terraform-policies-api
+  name: Terraform Policies API
+  description: Manage Sentinel and OPA policies
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - Policies
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-policies-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
+- aid: terraform:terraform-projects-api
+  name: Terraform Projects API
+  description: Manage projects within organizations
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-projects-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
+- aid: terraform:terraform-runs-api
+  name: Terraform Runs API
+  description: Manage Terraform runs and plan/apply lifecycle
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - Runs
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-runs-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
+- aid: terraform:terraform-state-versions-api
+  name: Terraform State Versions API
+  description: Manage workspace state versions
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - State Versions
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-state-versions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
+- aid: terraform:terraform-teams-api
+  name: Terraform Teams API
+  description: Manage teams and memberships
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - Teams
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-teams-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
+- aid: terraform:terraform-variables-api
+  name: Terraform Variables API
+  description: Manage workspace and variable sets
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - Variables
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-variables-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
+- aid: terraform:terraform-workspaces-api
+  name: Terraform Workspaces API
+  description: Manage infrastructure workspaces
+  humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  baseURL: https://app.terraform.io/api/v2
+  tags:
+  - Workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/terraform-workspaces-api-openapi.yml
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/workspaces
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/cloud-docs/api-docs/state-versions
+  - type: Documentation
+    url: https://developer.hashicorp.com/terraform/registry/api-docs
 common:
   - type: AgenticAccess
     url: agentic-access/terraform-agentic-access.yml
