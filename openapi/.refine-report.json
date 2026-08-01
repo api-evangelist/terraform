@@ -1,0 +1,30 @@
+{
+  "provider": "terraform",
+  "sources": [
+    "terraform-modules-api-openapi.yml",
+    "terraform-organizations-api-openapi.yml",
+    "terraform-policies-api-openapi.yml",
+    "terraform-projects-api-openapi.yml",
+    "terraform-runs-api-openapi.yml",
+    "terraform-state-versions-api-openapi.yml",
+    "terraform-teams-api-openapi.yml",
+    "terraform-variables-api-openapi.yml",
+    "terraform-workspaces-api-openapi.yml"
+  ],
+  "outputs": [
+    "terraform-modules-api-openapi.yml",
+    "terraform-organizations-api-openapi.yml",
+    "terraform-policies-api-openapi.yml",
+    "terraform-projects-api-openapi.yml",
+    "terraform-runs-api-openapi.yml",
+    "terraform-state-versions-api-openapi.yml",
+    "terraform-teams-api-openapi.yml",
+    "terraform-variables-api-openapi.yml",
+    "terraform-workspaces-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
