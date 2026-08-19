@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HCP Terraform Modules Policies API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Policies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Policies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.terraform.io/api/v2/organizations/:organization_name/policies",
+            "params": [
+              {
+                "name": "organization_name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists all policies in an organization."
+        },
+        {
+          "info": {
+            "name": "Create a Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.terraform.io/api/v2/organizations/:organization_name/policies",
+            "params": [
+              {
+                "name": "organization_name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Sentinel or OPA policy."
+        },
+        {
+          "info": {
+            "name": "Get a Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.terraform.io/api/v2/policies/:policy_id",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves details for a specific policy."
+        },
+        {
+          "info": {
+            "name": "Delete a Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.terraform.io/api/v2/policies/:policy_id",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a policy."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

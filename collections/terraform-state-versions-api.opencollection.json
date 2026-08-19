@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HCP Terraform Modules State Versions API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "State Versions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List State Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.terraform.io/api/v2/workspaces/:workspace_id/state-versions",
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists state versions for a workspace."
+        },
+        {
+          "info": {
+            "name": "Create a State Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.terraform.io/api/v2/workspaces/:workspace_id/state-versions",
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new state version for a workspace."
+        },
+        {
+          "info": {
+            "name": "Get a State Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.terraform.io/api/v2/state-versions/:state_version_id",
+            "params": [
+              {
+                "name": "state_version_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves details for a specific state version."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "HCP Terraform Modules Variables API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Variables",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Workspace Variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.terraform.io/api/v2/workspaces/:workspace_id/vars",
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Lists all variables for a workspace."
+        },
+        {
+          "info": {
+            "name": "Create a Workspace Variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.terraform.io/api/v2/workspaces/:workspace_id/vars",
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new variable for a workspace."
+        },
+        {
+          "info": {
+            "name": "Update a Workspace Variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.terraform.io/api/v2/workspaces/:workspace_id/vars/:variable_id",
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "variable_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing workspace variable."
+        },
+        {
+          "info": {
+            "name": "Delete a Workspace Variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.terraform.io/api/v2/workspaces/:workspace_id/vars/:variable_id",
+            "params": [
+              {
+                "name": "workspace_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "variable_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a workspace variable."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
