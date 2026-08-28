@@ -13,8 +13,8 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: terraformRegistryApi
-  url: ../openapi/terraform-registry-openapi.yml
+- name: modulesApi
+  url: ../openapi/terraform-modules-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: pin-module-version

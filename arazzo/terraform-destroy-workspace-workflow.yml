@@ -11,8 +11,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: hcpTerraformApi
-  url: ../openapi/hcp-terraform-openapi.yml
+- name: runsApi
+  url: ../openapi/terraform-runs-api-openapi.yml
+  type: openapi
+- name: workspacesApi
+  url: ../openapi/terraform-workspaces-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: destroy-workspace

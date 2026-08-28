@@ -12,8 +12,8 @@ info:
     can be read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: terraformRegistryApi
-  url: ../openapi/terraform-registry-openapi.yml
+- name: modulesApi
+  url: ../openapi/terraform-modules-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: audit-namespace-modules

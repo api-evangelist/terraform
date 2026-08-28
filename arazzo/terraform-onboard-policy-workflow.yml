@@ -12,8 +12,11 @@ info:
     without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: hcpTerraformApi
-  url: ../openapi/hcp-terraform-openapi.yml
+- name: organizationsApi
+  url: ../openapi/terraform-organizations-api-openapi.yml
+  type: openapi
+- name: policiesApi
+  url: ../openapi/terraform-policies-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: onboard-policy
