@@ -5,6 +5,18 @@ description: >-
   cloud infrastructure using a declarative configuration language (HCL). HCP Terraform and Terraform Enterprise expose a
   comprehensive REST API for automating workspace management, runs, state, policies, and access control.
 type: Index
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: false
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
