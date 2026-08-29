@@ -1,18 +1,10 @@
 {
   "provider": "terraform",
   "sources": [
-    "terraform-modules-api-openapi.yml",
-    "terraform-organizations-api-openapi.yml",
-    "terraform-policies-api-openapi.yml",
-    "terraform-projects-api-openapi.yml",
-    "terraform-runs-api-openapi.yml",
-    "terraform-state-versions-api-openapi.yml",
-    "terraform-teams-api-openapi.yml",
-    "terraform-variables-api-openapi.yml",
-    "terraform-workspaces-api-openapi.yml"
+    "_original/hcp-terraform-openapi.yml",
+    "_original/terraform-registry-openapi.yml"
   ],
   "outputs": [
-    "terraform-modules-api-openapi.yml",
     "terraform-organizations-api-openapi.yml",
     "terraform-policies-api-openapi.yml",
     "terraform-projects-api-openapi.yml",
@@ -20,11 +12,26 @@
     "terraform-state-versions-api-openapi.yml",
     "terraform-teams-api-openapi.yml",
     "terraform-variables-api-openapi.yml",
-    "terraform-workspaces-api-openapi.yml"
+    "terraform-workspaces-api-openapi.yml",
+    "terraform-modules-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "hcp-terraform-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "terraform-registry-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0"
+  ],
+  "skipped": [
+    "terraform-modules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terraform-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terraform-policies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terraform-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terraform-runs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terraform-state-versions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terraform-teams-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terraform-variables-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terraform-workspaces-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

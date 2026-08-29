@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: HCP Terraform Modules Variables API
+  title: HCP Terraform Variables API
   description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
   version: '2.0'
   contact:
@@ -116,6 +116,13 @@ paths:
           description: Variable deleted
 components:
   schemas:
+    VariableList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
     VariableResponse:
       type: object
       properties:
@@ -196,13 +203,6 @@ components:
                   type: string
                 description:
                   type: string
-    VariableList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Variable'
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: HCP Terraform Modules Organizations API
+  title: HCP Terraform Organizations API
   description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
   version: '2.0'
   contact:
@@ -130,77 +130,6 @@ paths:
           description: Organization deleted
 components:
   schemas:
-    OrganizationUpdateRequest:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - organizations
-            attributes:
-              type: object
-              properties:
-                email:
-                  type: string
-                session-timeout:
-                  type: integer
-    OrganizationResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Organization'
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
-    OrganizationCreateRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - organizations
-            attributes:
-              type: object
-              required:
-              - name
-              - email
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-    OrganizationList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Organization'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
     Organization:
       type: object
       properties:
@@ -232,6 +161,77 @@ components:
               type: boolean
             plan-is-enterprise:
               type: boolean
+    OrganizationUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - organizations
+            attributes:
+              type: object
+              properties:
+                email:
+                  type: string
+                session-timeout:
+                  type: integer
+    OrganizationCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - organizations
+            attributes:
+              type: object
+              required:
+              - name
+              - email
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    OrganizationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Organization'
+    OrganizationList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
   securitySchemes:
     bearerAuth:
       type: http

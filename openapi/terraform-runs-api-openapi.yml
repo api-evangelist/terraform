@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: HCP Terraform Modules Runs API
+  title: HCP Terraform Runs API
   description: The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.
   version: '2.0'
   contact:
@@ -199,38 +199,6 @@ components:
                           type: string
                         id:
                           type: string
-    RunResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Run'
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
-    RunList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Run'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
     Run:
       type: object
       properties:
@@ -267,6 +235,38 @@ components:
             created-at:
               type: string
               format: date-time
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    RunResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Run'
+    RunList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Run'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
   securitySchemes:
     bearerAuth:
       type: http
