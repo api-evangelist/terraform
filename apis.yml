@@ -221,6 +221,8 @@ apis:
   humanURL: https://developer.hashicorp.com/terraform/cloud-docs/api-docs
   baseURL: https://app.terraform.io/api/v2
   tags:
+  - Workspace
+  tags_raw:
   - Workspaces
   properties:
   - type: OpenAPI
