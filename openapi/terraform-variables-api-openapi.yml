@@ -116,45 +116,6 @@ paths:
           description: Variable deleted
 components:
   schemas:
-    VariableList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Variable'
-    VariableResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Variable'
-    Variable:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - vars
-        attributes:
-          type: object
-          properties:
-            key:
-              type: string
-            value:
-              type: string
-            description:
-              type: string
-            category:
-              type: string
-              enum:
-              - terraform
-              - env
-            hcl:
-              type: boolean
-            sensitive:
-              type: boolean
     VariableCreateRequest:
       type: object
       required:
@@ -203,6 +164,45 @@ components:
                   type: string
                 description:
                   type: string
+    VariableResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Variable'
+    Variable:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - vars
+        attributes:
+          type: object
+          properties:
+            key:
+              type: string
+            value:
+              type: string
+            description:
+              type: string
+            category:
+              type: string
+              enum:
+              - terraform
+              - env
+            hcl:
+              type: boolean
+            sensitive:
+              type: boolean
+    VariableList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
   securitySchemes:
     bearerAuth:
       type: http

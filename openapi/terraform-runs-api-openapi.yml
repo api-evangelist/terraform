@@ -165,40 +165,33 @@ paths:
                 $ref: '#/components/schemas/RunList'
 components:
   schemas:
-    RunCreateRequest:
+    PaginationMeta:
       type: object
-      required:
-      - data
       properties:
-        data:
+        pagination:
           type: object
           properties:
-            type:
-              type: string
-              enum:
-              - runs
-            attributes:
-              type: object
-              properties:
-                message:
-                  type: string
-                is-destroy:
-                  type: boolean
-                auto-apply:
-                  type: boolean
-            relationships:
-              type: object
-              properties:
-                workspace:
-                  type: object
-                  properties:
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                        id:
-                          type: string
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    RunList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Run'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     Run:
       type: object
       properties:
@@ -235,38 +228,45 @@ components:
             created-at:
               type: string
               format: date-time
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
     RunResponse:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/Run'
-    RunList:
+    RunCreateRequest:
       type: object
+      required:
+      - data
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Run'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - runs
+            attributes:
+              type: object
+              properties:
+                message:
+                  type: string
+                is-destroy:
+                  type: boolean
+                auto-apply:
+                  type: boolean
+            relationships:
+              type: object
+              properties:
+                workspace:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        id:
+                          type: string
   securitySchemes:
     bearerAuth:
       type: http

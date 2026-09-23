@@ -93,6 +93,24 @@ paths:
                 $ref: '#/components/schemas/StateVersionResponse'
 components:
   schemas:
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
     StateVersionCreateRequest:
       type: object
       required:
@@ -119,15 +137,6 @@ components:
                 state:
                   type: string
                   description: Base64-encoded state file
-    StateVersionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StateVersion'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
     StateVersion:
       type: object
       properties:
@@ -153,24 +162,15 @@ components:
               type: integer
             hosted-state-download-url:
               type: string
-    PaginationMeta:
+    StateVersionList:
       type: object
       properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StateVersion'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     StateVersionResponse:
       type: object
       properties:

@@ -108,20 +108,24 @@ paths:
           description: Policy deleted
 components:
   schemas:
-    PolicyResponse:
+    PaginationMeta:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/Policy'
-    PolicyList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Policy'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
     PolicyCreateRequest:
       type: object
       required:
@@ -147,6 +151,20 @@ components:
                   type: string
                 kind:
                   type: string
+    PolicyList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Policy'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    PolicyResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Policy'
     Policy:
       type: object
       properties:
@@ -174,24 +192,6 @@ components:
               enum:
               - sentinel
               - opa
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
   securitySchemes:
     bearerAuth:
       type: http

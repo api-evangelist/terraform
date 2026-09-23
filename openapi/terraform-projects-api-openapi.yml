@@ -137,6 +137,53 @@ paths:
           description: Project deleted
 components:
   schemas:
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    ProjectUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            attributes:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - projects
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
     ProjectCreateRequest:
       type: object
       required:
@@ -163,40 +210,6 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Project'
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
-    Project:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - projects
-        attributes:
-          type: object
-          properties:
-            name:
-              type: string
-            description:
-              type: string
     ProjectList:
       type: object
       properties:
@@ -206,19 +219,6 @@ components:
             $ref: '#/components/schemas/Project'
         meta:
           $ref: '#/components/schemas/PaginationMeta'
-    ProjectUpdateRequest:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            attributes:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
   securitySchemes:
     bearerAuth:
       type: http
