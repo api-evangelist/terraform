@@ -151,6 +151,11 @@ components:
                   type: string
                 kind:
                   type: string
+    PolicyResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Policy'
     PolicyList:
       type: object
       properties:
@@ -160,11 +165,6 @@ components:
             $ref: '#/components/schemas/Policy'
         meta:
           $ref: '#/components/schemas/PaginationMeta'
-    PolicyResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Policy'
     Policy:
       type: object
       properties:

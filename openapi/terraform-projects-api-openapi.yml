@@ -155,35 +155,11 @@ components:
               type: integer
             total-count:
               type: integer
-    ProjectUpdateRequest:
+    ProjectResponse:
       type: object
       properties:
         data:
-          type: object
-          properties:
-            attributes:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-    Project:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - projects
-        attributes:
-          type: object
-          properties:
-            name:
-              type: string
-            description:
-              type: string
+          $ref: '#/components/schemas/Project'
     ProjectCreateRequest:
       type: object
       required:
@@ -205,11 +181,6 @@ components:
                   type: string
                 description:
                   type: string
-    ProjectResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Project'
     ProjectList:
       type: object
       properties:
@@ -219,6 +190,35 @@ components:
             $ref: '#/components/schemas/Project'
         meta:
           $ref: '#/components/schemas/PaginationMeta'
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - projects
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+    ProjectUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            attributes:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
   securitySchemes:
     bearerAuth:
       type: http

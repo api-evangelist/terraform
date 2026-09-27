@@ -108,6 +108,24 @@ paths:
           description: Team deleted
 components:
   schemas:
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - teams
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            users-count:
+              type: integer
+            visibility:
+              type: string
     PaginationMeta:
       type: object
       properties:
@@ -161,24 +179,6 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Team'
-    Team:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - teams
-        attributes:
-          type: object
-          properties:
-            name:
-              type: string
-            users-count:
-              type: integer
-            visibility:
-              type: string
   securitySchemes:
     bearerAuth:
       type: http

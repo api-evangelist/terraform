@@ -197,6 +197,86 @@ paths:
                 $ref: '#/components/schemas/WorkspaceResponse'
 components:
   schemas:
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    WorkspaceResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Workspace'
+    WorkspaceCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - workspaces
+            attributes:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                auto-apply:
+                  type: boolean
+                execution-mode:
+                  type: string
+                terraform-version:
+                  type: string
+    WorkspaceList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Workspace'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    WorkspaceUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - workspaces
+            attributes:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                auto-apply:
+                  type: boolean
+                execution-mode:
+                  type: string
     Workspace:
       type: object
       properties:
@@ -233,86 +313,6 @@ components:
             updated-at:
               type: string
               format: date-time
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
-    WorkspaceList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Workspace'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
-    WorkspaceResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Workspace'
-    WorkspaceUpdateRequest:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - workspaces
-            attributes:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                auto-apply:
-                  type: boolean
-                execution-mode:
-                  type: string
-    WorkspaceCreateRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - workspaces
-            attributes:
-              type: object
-              required:
-              - name
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                auto-apply:
-                  type: boolean
-                execution-mode:
-                  type: string
-                terraform-version:
-                  type: string
   securitySchemes:
     bearerAuth:
       type: http

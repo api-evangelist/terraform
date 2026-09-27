@@ -116,39 +116,13 @@ paths:
           description: Variable deleted
 components:
   schemas:
-    VariableCreateRequest:
+    VariableList:
       type: object
-      required:
-      - data
       properties:
         data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - vars
-            attributes:
-              type: object
-              required:
-              - key
-              - category
-              properties:
-                key:
-                  type: string
-                value:
-                  type: string
-                description:
-                  type: string
-                category:
-                  type: string
-                  enum:
-                  - terraform
-                  - env
-                hcl:
-                  type: boolean
-                sensitive:
-                  type: boolean
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
     VariableUpdateRequest:
       type: object
       properties:
@@ -196,13 +170,39 @@ components:
               type: boolean
             sensitive:
               type: boolean
-    VariableList:
+    VariableCreateRequest:
       type: object
+      required:
+      - data
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Variable'
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - vars
+            attributes:
+              type: object
+              required:
+              - key
+              - category
+              properties:
+                key:
+                  type: string
+                value:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+                  enum:
+                  - terraform
+                  - env
+                hcl:
+                  type: boolean
+                sensitive:
+                  type: boolean
   securitySchemes:
     bearerAuth:
       type: http

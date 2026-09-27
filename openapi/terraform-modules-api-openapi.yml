@@ -342,6 +342,53 @@ paths:
                 $ref: '#/components/schemas/ModuleDownloadSummary'
 components:
   schemas:
+    ModuleResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        owner:
+          type: string
+        namespace:
+          type: string
+        name:
+          type: string
+        provider:
+          type: string
+        source:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+        version:
+          type: string
+        description:
+          type: string
+        source_url:
+          type: string
+        published_at:
+          type: string
+          format: date-time
+        downloads:
+          type: integer
+        verified:
+          type: boolean
+    RegistryMeta:
+      type: object
+      properties:
+        limit:
+          type: integer
+        current_offset:
+          type: integer
+        next_offset:
+          type: integer
+        prev_offset:
+          type: integer
+        next_url:
+          type: string
+        module_count:
+          type: integer
     ModuleDownloadSummary:
       type: object
       properties:
@@ -359,21 +406,24 @@ components:
                   type: integer
                 month:
                   type: integer
-    RegistryMeta:
+    ModuleList:
       type: object
       properties:
-        limit:
-          type: integer
-        current_offset:
-          type: integer
-        next_offset:
-          type: integer
-        prev_offset:
-          type: integer
-        next_url:
-          type: string
-        module_count:
-          type: integer
+        meta:
+          $ref: '#/components/schemas/RegistryMeta'
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
+    ModuleVersionsResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/RegistryMeta'
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
     Module:
       type: object
       properties:
@@ -417,53 +467,3 @@ components:
                   properties:
                     version:
                       type: string
-    ModuleResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        owner:
-          type: string
-        namespace:
-          type: string
-        name:
-          type: string
-        provider:
-          type: string
-        source:
-          type: string
-        versions:
-          type: array
-          items:
-            type: string
-        version:
-          type: string
-        description:
-          type: string
-        source_url:
-          type: string
-        published_at:
-          type: string
-          format: date-time
-        downloads:
-          type: integer
-        verified:
-          type: boolean
-    ModuleList:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/RegistryMeta'
-        modules:
-          type: array
-          items:
-            $ref: '#/components/schemas/Module'
-    ModuleVersionsResponse:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/RegistryMeta'
-        modules:
-          type: array
-          items:
-            $ref: '#/components/schemas/Module'

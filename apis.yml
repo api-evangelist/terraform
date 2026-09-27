@@ -7,6 +7,10 @@ description: >-
 type: Index
 deliveryModel:
   model: unknown
+  license_evidence:
+    repo: hashicorp/terraform
+    spdx: NOASSERTION
+    stars: 49734
   open_source: unknown
   commercial: false
   callable_host: true
@@ -15,7 +19,7 @@ deliveryModel:
   source:
   - openapi
   - repository-unlicensed
-  generated: '2026-08-28'
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -36,7 +40,7 @@ tags:
   - Infrastructure as Code
   - Cloud Infrastructure
   - DevOps
-  - Open-Source
+  - Open Source
   - HashiCorp
 tags_raw:
   - Infrastructure As Code
@@ -44,6 +48,7 @@ tags_raw:
   - DevOps
   - Open Source
   - HashiCorp
+  - Open-Source
 url: https://raw.githubusercontent.com/api-evangelist/terraform/refs/heads/main/apis.yml
 created: '2026-03-16'
 modified: '2026-06-20'
