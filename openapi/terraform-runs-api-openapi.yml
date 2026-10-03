@@ -165,6 +165,38 @@ paths:
                 $ref: '#/components/schemas/RunList'
 components:
   schemas:
+    RunList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Run'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    RunResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Run'
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
     Run:
       type: object
       properties:
@@ -201,24 +233,6 @@ components:
             created-at:
               type: string
               format: date-time
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
     RunCreateRequest:
       type: object
       required:
@@ -253,20 +267,6 @@ components:
                           type: string
                         id:
                           type: string
-    RunList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Run'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
-    RunResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Run'
   securitySchemes:
     bearerAuth:
       type: http

@@ -342,6 +342,15 @@ paths:
                 $ref: '#/components/schemas/ModuleDownloadSummary'
 components:
   schemas:
+    ModuleList:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/RegistryMeta'
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
     ModuleResponse:
       type: object
       properties:
@@ -374,56 +383,6 @@ components:
           type: integer
         verified:
           type: boolean
-    RegistryMeta:
-      type: object
-      properties:
-        limit:
-          type: integer
-        current_offset:
-          type: integer
-        next_offset:
-          type: integer
-        prev_offset:
-          type: integer
-        next_url:
-          type: string
-        module_count:
-          type: integer
-    ModuleDownloadSummary:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-            attributes:
-              type: object
-              properties:
-                total:
-                  type: integer
-                week:
-                  type: integer
-                month:
-                  type: integer
-    ModuleList:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/RegistryMeta'
-        modules:
-          type: array
-          items:
-            $ref: '#/components/schemas/Module'
-    ModuleVersionsResponse:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/RegistryMeta'
-        modules:
-          type: array
-          items:
-            $ref: '#/components/schemas/Module'
     Module:
       type: object
       properties:
@@ -450,6 +409,30 @@ components:
           type: integer
         verified:
           type: boolean
+    ModuleVersionsResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/RegistryMeta'
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Module'
+    RegistryMeta:
+      type: object
+      properties:
+        limit:
+          type: integer
+        current_offset:
+          type: integer
+        next_offset:
+          type: integer
+        prev_offset:
+          type: integer
+        next_url:
+          type: string
+        module_count:
+          type: integer
     ModuleVersionList:
       type: object
       properties:
@@ -467,3 +450,20 @@ components:
                   properties:
                     version:
                       type: string
+    ModuleDownloadSummary:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+            attributes:
+              type: object
+              properties:
+                total:
+                  type: integer
+                week:
+                  type: integer
+                month:
+                  type: integer

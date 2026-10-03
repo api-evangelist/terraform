@@ -137,6 +137,15 @@ components:
                 state:
                   type: string
                   description: Base64-encoded state file
+    StateVersionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StateVersion'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     StateVersion:
       type: object
       properties:
@@ -162,15 +171,6 @@ components:
               type: integer
             hosted-state-download-url:
               type: string
-    StateVersionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StateVersion'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
     StateVersionResponse:
       type: object
       properties:

@@ -197,29 +197,20 @@ paths:
                 $ref: '#/components/schemas/WorkspaceResponse'
 components:
   schemas:
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
     WorkspaceResponse:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/Workspace'
+    WorkspaceList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Workspace'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     WorkspaceCreateRequest:
       type: object
       required:
@@ -246,36 +237,6 @@ components:
                 execution-mode:
                   type: string
                 terraform-version:
-                  type: string
-    WorkspaceList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Workspace'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
-    WorkspaceUpdateRequest:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - workspaces
-            attributes:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                auto-apply:
-                  type: boolean
-                execution-mode:
                   type: string
     Workspace:
       type: object
@@ -313,6 +274,45 @@ components:
             updated-at:
               type: string
               format: date-time
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    WorkspaceUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - workspaces
+            attributes:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                auto-apply:
+                  type: boolean
+                execution-mode:
+                  type: string
   securitySchemes:
     bearerAuth:
       type: http

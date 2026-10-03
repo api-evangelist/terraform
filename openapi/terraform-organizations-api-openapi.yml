@@ -130,51 +130,15 @@ paths:
           description: Organization deleted
 components:
   schemas:
-    PaginationMeta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            current-page:
-              type: integer
-            prev-page:
-              type: integer
-              nullable: true
-            next-page:
-              type: integer
-              nullable: true
-            last-page:
-              type: integer
-            total-count:
-              type: integer
-    OrganizationResponse:
+    OrganizationList:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/Organization'
-    OrganizationCreateRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - organizations
-            attributes:
-              type: object
-              required:
-              - name
-              - email
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     Organization:
       type: object
       properties:
@@ -206,6 +170,51 @@ components:
               type: boolean
             plan-is-enterprise:
               type: boolean
+    PaginationMeta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            current-page:
+              type: integer
+            prev-page:
+              type: integer
+              nullable: true
+            next-page:
+              type: integer
+              nullable: true
+            last-page:
+              type: integer
+            total-count:
+              type: integer
+    OrganizationCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - organizations
+            attributes:
+              type: object
+              required:
+              - name
+              - email
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+    OrganizationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Organization'
     OrganizationUpdateRequest:
       type: object
       properties:
@@ -223,15 +232,6 @@ components:
                   type: string
                 session-timeout:
                   type: integer
-    OrganizationList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Organization'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
   securitySchemes:
     bearerAuth:
       type: http

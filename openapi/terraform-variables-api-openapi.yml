@@ -116,13 +116,6 @@ paths:
           description: Variable deleted
 components:
   schemas:
-    VariableList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Variable'
     VariableUpdateRequest:
       type: object
       properties:
@@ -203,6 +196,13 @@ components:
                   type: boolean
                 sensitive:
                   type: boolean
+    VariableList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
   securitySchemes:
     bearerAuth:
       type: http

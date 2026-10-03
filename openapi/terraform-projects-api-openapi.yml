@@ -137,6 +137,36 @@ paths:
           description: Project deleted
 components:
   schemas:
+    ProjectList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    ProjectCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - projects
+            attributes:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
     PaginationMeta:
       type: object
       properties:
@@ -160,36 +190,6 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Project'
-    ProjectCreateRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - projects
-            attributes:
-              type: object
-              required:
-              - name
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-    ProjectList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
     Project:
       type: object
       properties:

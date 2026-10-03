@@ -108,24 +108,15 @@ paths:
           description: Team deleted
 components:
   schemas:
-    Team:
+    TeamList:
       type: object
       properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - teams
-        attributes:
-          type: object
-          properties:
-            name:
-              type: string
-            users-count:
-              type: integer
-            visibility:
-              type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Team'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     PaginationMeta:
       type: object
       properties:
@@ -144,15 +135,24 @@ components:
               type: integer
             total-count:
               type: integer
-    TeamList:
+    Team:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Team'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - teams
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            users-count:
+              type: integer
+            visibility:
+              type: string
     TeamCreateRequest:
       type: object
       required:

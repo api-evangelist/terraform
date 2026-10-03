@@ -126,45 +126,11 @@ components:
               type: integer
             total-count:
               type: integer
-    PolicyCreateRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - policies
-            attributes:
-              type: object
-              required:
-              - name
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                enforcement-level:
-                  type: string
-                kind:
-                  type: string
     PolicyResponse:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/Policy'
-    PolicyList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Policy'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
     Policy:
       type: object
       properties:
@@ -192,6 +158,40 @@ components:
               enum:
               - sentinel
               - opa
+    PolicyList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Policy'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    PolicyCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - policies
+            attributes:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                enforcement-level:
+                  type: string
+                kind:
+                  type: string
   securitySchemes:
     bearerAuth:
       type: http
