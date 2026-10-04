@@ -243,6 +243,9 @@ apis:
   - type: Documentation
     url: https://developer.hashicorp.com/terraform/registry/api-docs
 common:
+  - type: CapabilityMap
+    url: capabilities/terraform-capability-edges.yml
+    name: Terraform Business Capability Map
   - type: AgenticAccess
     url: agentic-access/terraform-agentic-access.yml
   - type: DomainSecurity
