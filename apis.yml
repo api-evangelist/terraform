@@ -243,6 +243,12 @@ apis:
   - type: Documentation
     url: https://developer.hashicorp.com/terraform/registry/api-docs
 common:
+  - type: Plans
+    url: plans/terraform-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/terraform-rate-limits.yml
+  - type: FinOps
+    url: finops/terraform-finops.yml
   - type: CapabilityMap
     url: capabilities/terraform-capability-edges.yml
     name: Terraform Business Capability Map
