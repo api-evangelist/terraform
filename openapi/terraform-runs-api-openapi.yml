@@ -165,6 +165,11 @@ paths:
                 $ref: '#/components/schemas/RunList'
 components:
   schemas:
+    RunResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Run'
     PaginationMeta:
       type: object
       properties:
@@ -183,45 +188,6 @@ components:
               type: integer
             total-count:
               type: integer
-    RunResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Run'
-    RunCreateRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - runs
-            attributes:
-              type: object
-              properties:
-                message:
-                  type: string
-                is-destroy:
-                  type: boolean
-                auto-apply:
-                  type: boolean
-            relationships:
-              type: object
-              properties:
-                workspace:
-                  type: object
-                  properties:
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                        id:
-                          type: string
     RunList:
       type: object
       properties:
@@ -267,6 +233,40 @@ components:
             created-at:
               type: string
               format: date-time
+    RunCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - runs
+            attributes:
+              type: object
+              properties:
+                message:
+                  type: string
+                is-destroy:
+                  type: boolean
+                auto-apply:
+                  type: boolean
+            relationships:
+              type: object
+              properties:
+                workspace:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        id:
+                          type: string
   securitySchemes:
     bearerAuth:
       type: http

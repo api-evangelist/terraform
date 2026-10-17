@@ -126,6 +126,11 @@ components:
               type: integer
             total-count:
               type: integer
+    PolicyResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Policy'
     PolicyCreateRequest:
       type: object
       required:
@@ -151,15 +156,6 @@ components:
                   type: string
                 kind:
                   type: string
-    PolicyList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Policy'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
     Policy:
       type: object
       properties:
@@ -187,11 +183,15 @@ components:
               enum:
               - sentinel
               - opa
-    PolicyResponse:
+    PolicyList:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/Policy'
+          type: array
+          items:
+            $ref: '#/components/schemas/Policy'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
   securitySchemes:
     bearerAuth:
       type: http

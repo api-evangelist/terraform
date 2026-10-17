@@ -116,6 +116,33 @@ paths:
           description: Variable deleted
 components:
   schemas:
+    Variable:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - vars
+        attributes:
+          type: object
+          properties:
+            key:
+              type: string
+            value:
+              type: string
+            description:
+              type: string
+            category:
+              type: string
+              enum:
+              - terraform
+              - env
+            hcl:
+              type: boolean
+            sensitive:
+              type: boolean
     VariableCreateRequest:
       type: object
       required:
@@ -149,33 +176,13 @@ components:
                   type: boolean
                 sensitive:
                   type: boolean
-    Variable:
+    VariableList:
       type: object
       properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - vars
-        attributes:
-          type: object
-          properties:
-            key:
-              type: string
-            value:
-              type: string
-            description:
-              type: string
-            category:
-              type: string
-              enum:
-              - terraform
-              - env
-            hcl:
-              type: boolean
-            sensitive:
-              type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
     VariableUpdateRequest:
       type: object
       properties:
@@ -191,13 +198,6 @@ components:
                   type: string
                 description:
                   type: string
-    VariableList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Variable'
     VariableResponse:
       type: object
       properties:

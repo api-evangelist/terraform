@@ -137,6 +137,20 @@ paths:
           description: Project deleted
 components:
   schemas:
+    ProjectResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Project'
+    ProjectList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     PaginationMeta:
       type: object
       properties:
@@ -155,33 +169,6 @@ components:
               type: integer
             total-count:
               type: integer
-    ProjectUpdateRequest:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            attributes:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-    ProjectResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Project'
-    ProjectList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
     ProjectCreateRequest:
       type: object
       required:
@@ -219,6 +206,19 @@ components:
               type: string
             description:
               type: string
+    ProjectUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            attributes:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
   securitySchemes:
     bearerAuth:
       type: http

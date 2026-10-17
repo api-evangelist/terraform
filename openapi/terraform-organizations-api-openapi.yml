@@ -130,6 +130,28 @@ paths:
           description: Organization deleted
 components:
   schemas:
+    OrganizationCreateRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - organizations
+            attributes:
+              type: object
+              required:
+              - name
+              - email
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
     PaginationMeta:
       type: object
       properties:
@@ -210,28 +232,6 @@ components:
               type: boolean
             plan-is-enterprise:
               type: boolean
-    OrganizationCreateRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - organizations
-            attributes:
-              type: object
-              required:
-              - name
-              - email
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
   securitySchemes:
     bearerAuth:
       type: http

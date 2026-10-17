@@ -111,6 +111,20 @@ components:
               type: integer
             total-count:
               type: integer
+    StateVersionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StateVersion'
+    StateVersionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StateVersion'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     StateVersionCreateRequest:
       type: object
       required:
@@ -162,20 +176,6 @@ components:
               type: integer
             hosted-state-download-url:
               type: string
-    StateVersionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StateVersion'
-        meta:
-          $ref: '#/components/schemas/PaginationMeta'
-    StateVersionResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/StateVersion'
   securitySchemes:
     bearerAuth:
       type: http
