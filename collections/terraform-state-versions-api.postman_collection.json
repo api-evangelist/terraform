@@ -1,356 +1,375 @@
 {
+  "info": {
+    "_postman_id": "29f0e99c-96f0-4ac7-9bd1-1b70d4513067",
+    "name": "HCP Terraform State Versions API",
+    "description": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:18:56.000Z",
+    "updatedAt": "2026-10-22T02:18:57.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-29f0e99c-96f0-4ac7-9bd1-1b70d4513067"
+  },
   "item": [
     {
-      "id": "93f93d32-f3f8-47f3-96dc-7f8ff8fbc763",
-      "name": "State Versions",
-      "description": {
-        "content": "Manage workspace state versions",
-        "type": "text/plain"
-      },
+      "name": "workspaces",
       "item": [
         {
-          "id": "a5da3612-f459-4ba3-a96f-6d5555a649f4",
-          "name": "List State Versions",
-          "request": {
-            "name": "List State Versions",
-            "description": {
-              "content": "Lists state versions for a workspace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "state-versions"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "page[number]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "page[size]",
-                  "value": "<integer>"
-                }
-              ],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "{workspace_id}",
+          "item": [
             {
-              "id": "edd39c8a-5cd7-4061-906a-6d79ba39c61b",
-              "name": "List of state versions",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "state-versions"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "page[number]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "page[size]",
-                      "value": "<integer>"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+              "name": "state-versions",
+              "item": [
+                {
+                  "name": "List State Versions",
+                  "id": "0a1017f0-1b07-4639-9cd8-e51d5ef9602f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/workspaces/:workspace_id/state-versions?page[number]=<integer>&page[size]=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "workspaces",
+                        ":workspace_id",
+                        "state-versions"
+                      ],
+                      "query": [
+                        {
+                          "key": "page[number]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "key": "page[size]",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "aa64133c-8d55-4936-9c7e-7c3cb167188b",
+                          "key": "workspace_id",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Lists state versions for a workspace."
+                  },
+                  "response": [
+                    {
+                      "id": "d5ccbd28-d9f2-4a90-9835-f9a023e40dba",
+                      "name": "List of state versions",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/state-versions?page[number]=<integer>&page[size]=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "state-versions"
+                          ],
+                          "query": [
+                            {
+                              "key": "page[number]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "page[size]",
+                              "value": "<integer>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "workspace_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"state-versions\",\n      \"attributes\": {\n        \"vcs-commit-sha\": \"<string>\",\n        \"vcs-commit-url\": \"<string>\",\n        \"created-at\": \"<dateTime>\",\n        \"serial\": \"<integer>\",\n        \"size\": \"<integer>\",\n        \"hosted-state-download-url\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"state-versions\",\n      \"attributes\": {\n        \"vcs-commit-sha\": \"<string>\",\n        \"vcs-commit-url\": \"<string>\",\n        \"created-at\": \"<dateTime>\",\n        \"serial\": \"<integer>\",\n        \"size\": \"<integer>\",\n        \"hosted-state-download-url\": \"<string>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": \"<integer>\",\n      \"prev-page\": \"<integer>\",\n      \"next-page\": \"<integer>\",\n      \"last-page\": \"<integer>\",\n      \"total-count\": \"<integer>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:18:57.000Z",
+                      "updatedAt": "2026-10-22T02:18:57.000Z",
+                      "uid": "35240-d5ccbd28-d9f2-4a90-9835-f9a023e40dba"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:18:57.000Z",
+                  "updatedAt": "2026-10-22T02:18:57.000Z",
+                  "uid": "35240-0a1017f0-1b07-4639-9cd8-e51d5ef9602f"
+                },
+                {
+                  "name": "Create a State Version",
+                  "id": "5983298e-cb4d-4885-b8a3-e411516fa220",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"type\": \"state-versions\",\n    \"attributes\": {\n      \"serial\": \"<integer>\",\n      \"md5\": \"<string>\",\n      \"state\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/workspaces/:workspace_id/state-versions",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "workspaces",
+                        ":workspace_id",
+                        "state-versions"
+                      ],
+                      "variable": [
+                        {
+                          "id": "6aae76d1-cda8-4dda-91dd-53233d998bcd",
+                          "key": "workspace_id",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Creates a new state version for a workspace."
+                  },
+                  "response": [
+                    {
+                      "id": "0d792f86-cc26-4e17-8f78-3775dcba369e",
+                      "name": "State version created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"data\": {\n    \"type\": \"state-versions\",\n    \"attributes\": {\n      \"serial\": \"<integer>\",\n      \"md5\": \"<string>\",\n      \"state\": \"<string>\"\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/state-versions",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "state-versions"
+                          ],
+                          "variable": [
+                            {
+                              "key": "workspace_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"state-versions\",\n    \"attributes\": {\n      \"vcs-commit-sha\": \"<string>\",\n      \"vcs-commit-url\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"serial\": \"<integer>\",\n      \"size\": \"<integer>\",\n      \"hosted-state-download-url\": \"<string>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:18:57.000Z",
+                      "updatedAt": "2026-10-22T02:18:57.000Z",
+                      "uid": "35240-0d792f86-cc26-4e17-8f78-3775dcba369e"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:18:57.000Z",
+                  "updatedAt": "2026-10-22T02:18:57.000Z",
+                  "uid": "35240-5983298e-cb4d-4885-b8a3-e411516fa220"
+                }
+              ],
+              "id": "37454d07-6473-45e4-8596-d9da65770475",
+              "createdAt": "2026-10-22T02:18:57.000Z",
+              "updatedAt": "2026-10-22T02:18:57.000Z",
+              "uid": "35240-37454d07-6473-45e4-8596-d9da65770475"
+            }
+          ],
+          "id": "1ed2259d-a7e8-490e-ab43-050a7ec4ba7a",
+          "createdAt": "2026-10-22T02:18:57.000Z",
+          "updatedAt": "2026-10-22T02:18:57.000Z",
+          "uid": "35240-1ed2259d-a7e8-490e-ab43-050a7ec4ba7a"
+        }
+      ],
+      "id": "06f64eaa-ffae-4ee7-a007-c99b94f6d6f3",
+      "createdAt": "2026-10-22T02:18:57.000Z",
+      "updatedAt": "2026-10-22T02:18:57.000Z",
+      "uid": "35240-06f64eaa-ffae-4ee7-a007-c99b94f6d6f3"
+    },
+    {
+      "name": "state-versions",
+      "item": [
+        {
+          "name": "{state_version_id}",
+          "item": [
+            {
+              "name": "Get a State Version",
+              "id": "936b2f5e-2725-4714-85ae-5dec68b877c0",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
                 "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"state-versions\",\n      \"attributes\": {\n        \"vcs-commit-sha\": \"string\",\n        \"vcs-commit-url\": \"string\",\n        \"created-at\": \"1981-03-18T13:22:22.402Z\",\n        \"serial\": 3442,\n        \"size\": 2268,\n        \"hosted-state-download-url\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"state-versions\",\n      \"attributes\": {\n        \"vcs-commit-sha\": \"string\",\n        \"vcs-commit-url\": \"string\",\n        \"created-at\": \"1950-10-01T01:20:02.372Z\",\n        \"serial\": 2859,\n        \"size\": 7184,\n        \"hosted-state-download-url\": \"string\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": 8435,\n      \"prev-page\": 2851,\n      \"next-page\": 3708,\n      \"last-page\": 8992,\n      \"total-count\": 5710\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "2f94c51d-8934-4d21-98a3-6d5e6f5fd1af",
-          "name": "Create a State Version",
-          "request": {
-            "name": "Create a State Version",
-            "description": {
-              "content": "Creates a new state version for a workspace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "state-versions"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"serial\": \"<integer>\",\n      \"md5\": \"<string>\",\n      \"state\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "96504c46-df69-4d59-9da8-ebab6b9dc04e",
-              "name": "State version created",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "state-versions"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/vnd.api+json"
                   }
                 ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"serial\": \"<integer>\",\n      \"md5\": \"<string>\",\n      \"state\": \"<string>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"state-versions\",\n    \"attributes\": {\n      \"vcs-commit-sha\": \"string\",\n      \"vcs-commit-url\": \"string\",\n      \"created-at\": \"1980-05-09T08:18:55.230Z\",\n      \"serial\": 6549,\n      \"size\": 5993,\n      \"hosted-state-download-url\": \"string\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "ec051e90-12a1-479b-a1bf-922c28a1ea15",
-          "name": "Get a State Version",
-          "request": {
-            "name": "Get a State Version",
-            "description": {
-              "content": "Retrieves details for a specific state version.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "state-versions",
-                ":state_version_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "state_version_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "f047b7dc-124f-4303-9a58-f4e36b11aae0",
-              "name": "State version details",
-              "originalRequest": {
                 "url": {
+                  "raw": "{{baseUrl}}/state-versions/:state_version_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "state-versions",
                     ":state_version_id"
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
                   "variable": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
+                      "id": "fefb141c-e73d-4674-bb0b-32d6482599a9",
                       "key": "state_version_id",
+                      "value": "<string>",
                       "description": "(Required) "
                     }
                   ]
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
+                "description": "Retrieves details for a specific state version."
               },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "response": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
+                  "id": "af159074-c5d6-4cf8-b7b6-23ebcbc7b903",
+                  "name": "State version details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/state-versions/:state_version_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "state-versions",
+                        ":state_version_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "state_version_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"state-versions\",\n    \"attributes\": {\n      \"vcs-commit-sha\": \"<string>\",\n      \"vcs-commit-url\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"serial\": \"<integer>\",\n      \"size\": \"<integer>\",\n      \"hosted-state-download-url\": \"<string>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:18:57.000Z",
+                  "updatedAt": "2026-10-22T02:18:57.000Z",
+                  "uid": "35240-af159074-c5d6-4cf8-b7b6-23ebcbc7b903"
                 }
               ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"state-versions\",\n    \"attributes\": {\n      \"vcs-commit-sha\": \"string\",\n      \"vcs-commit-url\": \"string\",\n      \"created-at\": \"1980-05-09T08:18:55.230Z\",\n      \"serial\": 6549,\n      \"size\": 5993,\n      \"hosted-state-download-url\": \"string\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "createdAt": "2026-10-22T02:18:57.000Z",
+              "updatedAt": "2026-10-22T02:18:57.000Z",
+              "uid": "35240-936b2f5e-2725-4714-85ae-5dec68b877c0"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "042d5016-4f35-4203-9307-a555563171a1",
+          "createdAt": "2026-10-22T02:18:57.000Z",
+          "updatedAt": "2026-10-22T02:18:57.000Z",
+          "uid": "35240-042d5016-4f35-4203-9307-a555563171a1"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
-    {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "id": "3dd6b17b-2652-4ec8-9f28-c2cea5006311",
+      "createdAt": "2026-10-22T02:18:57.000Z",
+      "updatedAt": "2026-10-22T02:18:57.000Z",
+      "uid": "35240-3dd6b17b-2652-4ec8-9f28-c2cea5006311"
     }
   ],
   "auth": {
@@ -358,17 +377,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "273092de-70bb-494a-9fe1-ce7327ccf653",
-    "name": "HCP Terraform Modules State Versions API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.terraform.io/api/v2"
     }
-  }
+  ]
 }

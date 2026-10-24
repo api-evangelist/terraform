@@ -1,479 +1,474 @@
 {
+  "info": {
+    "_postman_id": "e863d89e-0b92-426f-9a3a-8c8d072859dc",
+    "name": "HCP Terraform Variables API",
+    "description": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:19:09.000Z",
+    "updatedAt": "2026-10-22T02:19:09.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e863d89e-0b92-426f-9a3a-8c8d072859dc"
+  },
   "item": [
     {
-      "id": "e0962f4e-812a-48d7-8de8-76773910cc06",
-      "name": "Variables",
-      "description": {
-        "content": "Manage workspace and variable sets",
-        "type": "text/plain"
-      },
+      "name": "workspaces",
       "item": [
         {
-          "id": "c6646ad0-3790-4138-a61e-a8dd5d22b0c4",
-          "name": "List Workspace Variables",
-          "request": {
-            "name": "List Workspace Variables",
-            "description": {
-              "content": "Lists all variables for a workspace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "vars"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "{workspace_id}",
+          "item": [
             {
-              "id": "7d7a4ba0-16bd-4264-be6c-5fb8fb39c297",
-              "name": "List of variables",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "vars"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
+              "name": "vars",
+              "item": [
+                {
+                  "name": "{variable_id}",
+                  "item": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                      "name": "Update a Workspace Variable",
+                      "id": "eec972ca-abb8-447d-b0bd-0239c326ef58",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/vars/:variable_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "vars",
+                            ":variable_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "02a4b4d7-0860-4c48-ad62-e61b02d9cfc1",
+                              "key": "workspace_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            },
+                            {
+                              "id": "91d74c7c-5a85-4d71-991b-9d4f3d5c34fc",
+                              "key": "variable_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Updates an existing workspace variable."
+                      },
+                      "response": [
+                        {
+                          "id": "ff2063c6-d87f-48ef-a5cc-b80e2584fb64",
+                          "name": "Variable updated",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/vnd.api+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/vnd.api+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/workspaces/:workspace_id/vars/:variable_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "workspaces",
+                                ":workspace_id",
+                                "vars",
+                                ":variable_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "workspace_id"
+                                },
+                                {
+                                  "key": "variable_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/vnd.api+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"vars\",\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\",\n      \"category\": \"env\",\n      \"hcl\": \"<boolean>\",\n      \"sensitive\": \"<boolean>\"\n    }\n  }\n}",
+                          "createdAt": "2026-10-22T02:19:10.000Z",
+                          "updatedAt": "2026-10-22T02:19:10.000Z",
+                          "uid": "35240-ff2063c6-d87f-48ef-a5cc-b80e2584fb64"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:19:10.000Z",
+                      "updatedAt": "2026-10-22T02:19:10.000Z",
+                      "uid": "35240-eec972ca-abb8-447d-b0bd-0239c326ef58"
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    {
+                      "name": "Delete a Workspace Variable",
+                      "id": "adb72237-5f6e-408a-9449-5cc1b03b3185",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/vars/:variable_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "vars",
+                            ":variable_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "24a1972e-01b5-450c-afed-06b86be333d6",
+                              "key": "workspace_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            },
+                            {
+                              "id": "d7bce1c8-eb1e-4ddb-84a2-6e82203f7f1d",
+                              "key": "variable_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Deletes a workspace variable."
+                      },
+                      "response": [
+                        {
+                          "id": "9d3682c7-7b3d-4e85-8da3-78822fd311c5",
+                          "name": "Variable deleted",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/workspaces/:workspace_id/vars/:variable_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "workspaces",
+                                ":workspace_id",
+                                "vars",
+                                ":variable_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "workspace_id"
+                                },
+                                {
+                                  "key": "variable_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-10-22T02:19:10.000Z",
+                          "updatedAt": "2026-10-22T02:19:10.000Z",
+                          "uid": "35240-9d3682c7-7b3d-4e85-8da3-78822fd311c5"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:19:10.000Z",
+                      "updatedAt": "2026-10-22T02:19:10.000Z",
+                      "uid": "35240-adb72237-5f6e-408a-9449-5cc1b03b3185"
+                    }
+                  ],
+                  "id": "14ed4984-ee6e-4fa2-8f06-03a8badf0912",
+                  "createdAt": "2026-10-22T02:19:10.000Z",
+                  "updatedAt": "2026-10-22T02:19:10.000Z",
+                  "uid": "35240-14ed4984-ee6e-4fa2-8f06-03a8badf0912"
+                },
+                {
+                  "name": "List Workspace Variables",
+                  "id": "da16d6a3-224b-43c3-b269-01f44c0edbf2",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"vars\",\n      \"attributes\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"description\": \"string\",\n        \"category\": \"terraform\",\n        \"hcl\": false,\n        \"sensitive\": true\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"vars\",\n      \"attributes\": {\n        \"key\": \"string\",\n        \"value\": \"string\",\n        \"description\": \"string\",\n        \"category\": \"terraform\",\n        \"hcl\": false,\n        \"sensitive\": false\n      }\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "6de16e54-9a43-4fb3-829c-6d5bf7e413e0",
-          "name": "Create a Workspace Variable",
-          "request": {
-            "name": "Create a Workspace Variable",
-            "description": {
-              "content": "Creates a new variable for a workspace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "vars"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"category\": \"<string>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\",\n      \"hcl\": \"<boolean>\",\n      \"sensitive\": \"<boolean>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "1ee918e0-9198-43ec-9d6e-03b06f689815",
-              "name": "Variable created",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "vars"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/workspaces/:workspace_id/vars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "workspaces",
+                        ":workspace_id",
+                        "vars"
+                      ],
+                      "variable": [
+                        {
+                          "id": "fc442089-f755-4261-8476-1003794fe0d7",
+                          "key": "workspace_id",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "description": "Lists all variables for a workspace."
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"category\": \"<string>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\",\n      \"hcl\": \"<boolean>\",\n      \"sensitive\": \"<boolean>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
+                  "response": [
+                    {
+                      "id": "e1c5f5f4-3a02-4a9c-b5d0-2f762d8680a9",
+                      "name": "List of variables",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/vars",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "vars"
+                          ],
+                          "variable": [
+                            {
+                              "key": "workspace_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"vars\",\n      \"attributes\": {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\",\n        \"description\": \"<string>\",\n        \"category\": \"env\",\n        \"hcl\": \"<boolean>\",\n        \"sensitive\": \"<boolean>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"vars\",\n      \"attributes\": {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\",\n        \"description\": \"<string>\",\n        \"category\": \"env\",\n        \"hcl\": \"<boolean>\",\n        \"sensitive\": \"<boolean>\"\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-10-22T02:19:10.000Z",
+                      "updatedAt": "2026-10-22T02:19:10.000Z",
+                      "uid": "35240-e1c5f5f4-3a02-4a9c-b5d0-2f762d8680a9"
                     }
-                  }
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"vars\",\n    \"attributes\": {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"description\": \"string\",\n      \"category\": \"env\",\n      \"hcl\": true,\n      \"sensitive\": false\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "bc8cab12-9e12-4d91-b56f-426ad98bcb65",
-          "name": "Update a Workspace Variable",
-          "request": {
-            "name": "Update a Workspace Variable",
-            "description": {
-              "content": "Updates an existing workspace variable.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "vars",
-                ":variable_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
+                  ],
+                  "createdAt": "2026-10-22T02:19:10.000Z",
+                  "updatedAt": "2026-10-22T02:19:10.000Z",
+                  "uid": "35240-da16d6a3-224b-43c3-b269-01f44c0edbf2"
                 },
                 {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "variable_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "PATCH",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "6dd9c7a2-79b5-4483-9a20-b19ef3173c4a",
-              "name": "Variable updated",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "vars",
-                    ":variable_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "variable_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                  "name": "Create a Workspace Variable",
+                  "id": "e92b8b13-10bb-40a0-90ff-4f8c1ff3c7d8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "PATCH",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"type\": \"vars\",\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"category\": \"env\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\",\n      \"hcl\": \"<boolean>\",\n      \"sensitive\": \"<boolean>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/workspaces/:workspace_id/vars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "workspaces",
+                        ":workspace_id",
+                        "vars"
+                      ],
+                      "variable": [
+                        {
+                          "id": "0b6a57dc-bdd3-4ff0-8552-fe0b2577aea5",
+                          "key": "workspace_id",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Creates a new variable for a workspace."
+                  },
+                  "response": [
+                    {
+                      "id": "7fcdf10a-4ec5-4682-825d-e2895d71eced",
+                      "name": "Variable created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"data\": {\n    \"type\": \"vars\",\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"category\": \"env\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\",\n      \"hcl\": \"<boolean>\",\n      \"sensitive\": \"<boolean>\"\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/vars",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "vars"
+                          ],
+                          "variable": [
+                            {
+                              "key": "workspace_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"vars\",\n    \"attributes\": {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"description\": \"<string>\",\n      \"category\": \"env\",\n      \"hcl\": \"<boolean>\",\n      \"sensitive\": \"<boolean>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:19:10.000Z",
+                      "updatedAt": "2026-10-22T02:19:10.000Z",
+                      "uid": "35240-7fcdf10a-4ec5-4682-825d-e2895d71eced"
                     }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
+                  ],
+                  "createdAt": "2026-10-22T02:19:10.000Z",
+                  "updatedAt": "2026-10-22T02:19:10.000Z",
+                  "uid": "35240-e92b8b13-10bb-40a0-90ff-4f8c1ff3c7d8"
                 }
               ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"vars\",\n    \"attributes\": {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"description\": \"string\",\n      \"category\": \"env\",\n      \"hcl\": true,\n      \"sensitive\": false\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "id": "8431c1eb-3883-4761-8e8e-1c1cd68fcffb",
+              "createdAt": "2026-10-22T02:19:10.000Z",
+              "updatedAt": "2026-10-22T02:19:10.000Z",
+              "uid": "35240-8431c1eb-3883-4761-8e8e-1c1cd68fcffb"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "4aae2c5f-9d4a-4e13-9f68-d13531cc8f1f",
-          "name": "Delete a Workspace Variable",
-          "request": {
-            "name": "Delete a Workspace Variable",
-            "description": {
-              "content": "Deletes a workspace variable.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "vars",
-                ":variable_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "variable_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "method": "DELETE",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "15ceb540-526f-4059-8dd1-965e2648a0a5",
-              "name": "Variable deleted",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "vars",
-                    ":variable_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "variable_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "No Content",
-              "code": 204,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "87e268f3-8948-4f03-a38a-4ae4f82e8658",
+          "createdAt": "2026-10-22T02:19:10.000Z",
+          "updatedAt": "2026-10-22T02:19:10.000Z",
+          "uid": "35240-87e268f3-8948-4f03-a38a-4ae4f82e8658"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
-    {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "id": "c6991cd4-cd15-40fc-aaca-6c8aaee982ec",
+      "createdAt": "2026-10-22T02:19:10.000Z",
+      "updatedAt": "2026-10-22T02:19:10.000Z",
+      "uid": "35240-c6991cd4-cd15-40fc-aaca-6c8aaee982ec"
     }
   ],
   "auth": {
@@ -481,17 +476,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "388660d4-320d-4dcb-9f63-30d3bdbdba3c",
-    "name": "HCP Terraform Modules Variables API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.terraform.io/api/v2"
     }
-  }
+  ]
 }

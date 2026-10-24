@@ -1,442 +1,449 @@
 {
+  "info": {
+    "_postman_id": "982d51a9-19d9-409e-9ffd-dd353554f839",
+    "name": "HCP Terraform Policies API",
+    "description": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:18:38.000Z",
+    "updatedAt": "2026-10-22T02:18:39.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-982d51a9-19d9-409e-9ffd-dd353554f839"
+  },
   "item": [
     {
-      "id": "d90491f6-e42d-4996-ae24-bf1e72c2341e",
-      "name": "Policies",
-      "description": {
-        "content": "Manage Sentinel and OPA policies",
-        "type": "text/plain"
-      },
+      "name": "organizations",
       "item": [
         {
-          "id": "9b42789b-ff63-4f21-b633-eb935b401820",
-          "name": "List Policies",
-          "request": {
-            "name": "List Policies",
-            "description": {
-              "content": "Lists all policies in an organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name",
-                "policies"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "page[number]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "page[size]",
-                  "value": "<integer>"
-                }
-              ],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "{organization_name}",
+          "item": [
             {
-              "id": "61a41e42-aa4c-404b-9d6c-d37e949cd82b",
-              "name": "List of policies",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name",
-                    "policies"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "page[number]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "page[size]",
-                      "value": "<integer>"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+              "name": "policies",
+              "item": [
+                {
+                  "name": "List Policies",
+                  "id": "6de360de-6e89-431b-96da-57960714b0da",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"policies\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"enforcement-level\": \"advisory\",\n        \"kind\": \"opa\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"policies\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"enforcement-level\": \"advisory\",\n        \"kind\": \"sentinel\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": 4941,\n      \"prev-page\": 3796,\n      \"next-page\": 426,\n      \"last-page\": 446,\n      \"total-count\": 7290\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "009c8ba3-4505-49f6-88b1-3753ba12f451",
-          "name": "Create a Policy",
-          "request": {
-            "name": "Create a Policy",
-            "description": {
-              "content": "Creates a new Sentinel or OPA policy.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name",
-                "policies"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enforcement-level\": \"<string>\",\n      \"kind\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "758f4b04-37d2-48b6-910d-222e14e2c436",
-              "name": "Policy created",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name",
-                    "policies"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name/policies?page[number]=<integer>&page[size]=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name",
+                        "policies"
+                      ],
+                      "query": [
+                        {
+                          "key": "page[number]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "key": "page[size]",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "3cd92f1d-d681-478f-94fc-f0d542a3a7e3",
+                          "key": "organization_name",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "description": "Lists all policies in an organization."
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enforcement-level\": \"<string>\",\n      \"kind\": \"<string>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"policies\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"enforcement-level\": \"advisory\",\n      \"kind\": \"opa\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "c9d7a9fa-9360-4e96-a96c-74ef198abf78",
-          "name": "Get a Policy",
-          "request": {
-            "name": "Get a Policy",
-            "description": {
-              "content": "Retrieves details for a specific policy.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "policies",
-                ":policy_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "policy_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "9677c3b2-4b96-4165-bba1-37e6288d0297",
-              "name": "Policy details",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "policies",
-                    ":policy_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
+                  "response": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "policy_id",
-                      "description": "(Required) "
+                      "id": "07f51095-512e-4e39-aabc-713149870cbb",
+                      "name": "List of policies",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/organizations/:organization_name/policies?page[number]=<integer>&page[size]=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "organizations",
+                            ":organization_name",
+                            "policies"
+                          ],
+                          "query": [
+                            {
+                              "key": "page[number]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "page[size]",
+                              "value": "<integer>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "organization_name"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"policies\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"enforcement-level\": \"soft-mandatory\",\n        \"kind\": \"opa\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"policies\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"enforcement-level\": \"soft-mandatory\",\n        \"kind\": \"opa\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": \"<integer>\",\n      \"prev-page\": \"<integer>\",\n      \"next-page\": \"<integer>\",\n      \"last-page\": \"<integer>\",\n      \"total-count\": \"<integer>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:18:39.000Z",
+                      "updatedAt": "2026-10-22T02:18:39.000Z",
+                      "uid": "35240-07f51095-512e-4e39-aabc-713149870cbb"
                     }
-                  ]
+                  ],
+                  "createdAt": "2026-10-22T02:18:39.000Z",
+                  "updatedAt": "2026-10-22T02:18:39.000Z",
+                  "uid": "35240-6de360de-6e89-431b-96da-57960714b0da"
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                {
+                  "name": "Create a Policy",
+                  "id": "a6c0cccf-1aa6-4a4e-ae36-7a89a517d1d0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"policies\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"enforcement-level\": \"advisory\",\n      \"kind\": \"opa\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "e33e925f-fa76-4e25-853f-c97271b3486b",
-          "name": "Delete a Policy",
-          "request": {
-            "name": "Delete a Policy",
-            "description": {
-              "content": "Deletes a policy.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "policies",
-                ":policy_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "policy_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "method": "DELETE",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "89795bbe-d441-4f12-9c18-d379ce7f48cc",
-              "name": "Policy deleted",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "policies",
-                    ":policy_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "policy_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"type\": \"policies\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enforcement-level\": \"<string>\",\n      \"kind\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "No Content",
-              "code": 204,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name/policies",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name",
+                        "policies"
+                      ],
+                      "variable": [
+                        {
+                          "id": "eb536ef7-8f82-43fa-b297-4098be4fd194",
+                          "key": "organization_name",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Creates a new Sentinel or OPA policy."
+                  },
+                  "response": [
+                    {
+                      "id": "9d371bba-f845-487f-9aa3-95707e7a749b",
+                      "name": "Policy created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"data\": {\n    \"type\": \"policies\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enforcement-level\": \"<string>\",\n      \"kind\": \"<string>\"\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/organizations/:organization_name/policies",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "organizations",
+                            ":organization_name",
+                            "policies"
+                          ],
+                          "variable": [
+                            {
+                              "key": "organization_name"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"policies\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enforcement-level\": \"hard-mandatory\",\n      \"kind\": \"opa\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:18:39.000Z",
+                      "updatedAt": "2026-10-22T02:18:39.000Z",
+                      "uid": "35240-9d371bba-f845-487f-9aa3-95707e7a749b"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:18:39.000Z",
+                  "updatedAt": "2026-10-22T02:18:39.000Z",
+                  "uid": "35240-a6c0cccf-1aa6-4a4e-ae36-7a89a517d1d0"
                 }
               ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
+              "id": "05775174-8280-452f-b47b-172abcb92a82",
+              "createdAt": "2026-10-22T02:18:39.000Z",
+              "updatedAt": "2026-10-22T02:18:39.000Z",
+              "uid": "35240-05775174-8280-452f-b47b-172abcb92a82"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "ce942308-64cd-4510-8ae9-862af0a10481",
+          "createdAt": "2026-10-22T02:18:39.000Z",
+          "updatedAt": "2026-10-22T02:18:39.000Z",
+          "uid": "35240-ce942308-64cd-4510-8ae9-862af0a10481"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
+      "id": "3af2f1ca-8691-44f3-9687-3b9729ac7a26",
+      "createdAt": "2026-10-22T02:18:39.000Z",
+      "updatedAt": "2026-10-22T02:18:39.000Z",
+      "uid": "35240-3af2f1ca-8691-44f3-9687-3b9729ac7a26"
+    },
     {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "name": "policies",
+      "item": [
+        {
+          "name": "{policy_id}",
+          "item": [
+            {
+              "name": "Get a Policy",
+              "id": "212e8d82-9ead-413a-8c18-aa12318c62c3",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/policies/:policy_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "policies",
+                    ":policy_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "2d9df9e4-6bb4-4a63-8d15-3b38ed9dbb40",
+                      "key": "policy_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Retrieves details for a specific policy."
+              },
+              "response": [
+                {
+                  "id": "c255a11a-4e3f-44d5-a170-318b99c2fd17",
+                  "name": "Policy details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/policies/:policy_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "policies",
+                        ":policy_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "policy_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"policies\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"enforcement-level\": \"hard-mandatory\",\n      \"kind\": \"opa\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:18:39.000Z",
+                  "updatedAt": "2026-10-22T02:18:39.000Z",
+                  "uid": "35240-c255a11a-4e3f-44d5-a170-318b99c2fd17"
+                }
+              ],
+              "createdAt": "2026-10-22T02:18:39.000Z",
+              "updatedAt": "2026-10-22T02:18:39.000Z",
+              "uid": "35240-212e8d82-9ead-413a-8c18-aa12318c62c3"
+            },
+            {
+              "name": "Delete a Policy",
+              "id": "156909af-702b-48b2-a475-9e784e0a229e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/policies/:policy_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "policies",
+                    ":policy_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "3e8b3175-b050-4df9-ac57-0cbd81b2a50a",
+                      "key": "policy_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Deletes a policy."
+              },
+              "response": [
+                {
+                  "id": "ac0cf6e0-cd7d-4706-9981-1eb86f33bc5d",
+                  "name": "Policy deleted",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/policies/:policy_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "policies",
+                        ":policy_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "policy_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:18:39.000Z",
+                  "updatedAt": "2026-10-22T02:18:39.000Z",
+                  "uid": "35240-ac0cf6e0-cd7d-4706-9981-1eb86f33bc5d"
+                }
+              ],
+              "createdAt": "2026-10-22T02:18:39.000Z",
+              "updatedAt": "2026-10-22T02:18:39.000Z",
+              "uid": "35240-156909af-702b-48b2-a475-9e784e0a229e"
+            }
+          ],
+          "id": "c103f066-35a4-4610-b39b-618aab4c6202",
+          "createdAt": "2026-10-22T02:18:39.000Z",
+          "updatedAt": "2026-10-22T02:18:39.000Z",
+          "uid": "35240-c103f066-35a4-4610-b39b-618aab4c6202"
+        }
+      ],
+      "id": "c5bbb14c-2957-4a85-ba5a-3ef0e89e6e90",
+      "createdAt": "2026-10-22T02:18:39.000Z",
+      "updatedAt": "2026-10-22T02:18:39.000Z",
+      "uid": "35240-c5bbb14c-2957-4a85-ba5a-3ef0e89e6e90"
     }
   ],
   "auth": {
@@ -444,17 +451,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "4ddfed25-7f5c-44a6-bc1b-54d3ce4b8b4c",
-    "name": "HCP Terraform Modules Policies API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.terraform.io/api/v2"
     }
-  }
+  ]
 }

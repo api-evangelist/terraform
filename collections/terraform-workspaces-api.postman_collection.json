@@ -1,810 +1,834 @@
 {
+  "info": {
+    "_postman_id": "19627c45-479d-4309-8798-fab89af6254d",
+    "name": "HCP Terraform Workspaces API",
+    "description": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:19:14.000Z",
+    "updatedAt": "2026-10-22T02:19:15.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-19627c45-479d-4309-8798-fab89af6254d"
+  },
   "item": [
     {
-      "id": "1b094015-a277-4fe8-93c7-774f9f1de9b7",
-      "name": "Workspaces",
-      "description": {
-        "content": "Manage infrastructure workspaces",
-        "type": "text/plain"
-      },
+      "name": "organizations",
       "item": [
         {
-          "id": "464402a5-c5f3-42ec-81df-10cbf3f27951",
-          "name": "List Workspaces",
-          "request": {
-            "name": "List Workspaces",
-            "description": {
-              "content": "Lists workspaces within an organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name",
-                "workspaces"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "page[number]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "page[size]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "search[name]",
-                  "value": "<string>",
-                  "description": "Filter workspaces by name"
-                },
-                {
-                  "disabled": false,
-                  "key": "search[tags]",
-                  "value": "<string>",
-                  "description": "Filter workspaces by tags"
-                },
-                {
-                  "disabled": false,
-                  "key": "filter[project][id]",
-                  "value": "<string>",
-                  "description": "Filter workspaces by project ID"
-                }
-              ],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "{organization_name}",
+          "item": [
             {
-              "id": "f84c840b-6c14-411c-8af1-b0d41be70bc0",
-              "name": "List of workspaces",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name",
-                    "workspaces"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "page[number]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "page[size]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "search[name]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "search[tags]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "filter[project][id]",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+              "name": "workspaces",
+              "item": [
+                {
+                  "name": "List Workspaces",
+                  "id": "f911968c-bc44-421d-b796-579063f11bd1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"workspaces\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"auto-apply\": true,\n        \"locked\": true,\n        \"execution-mode\": \"remote\",\n        \"terraform-version\": \"string\",\n        \"working-directory\": \"string\",\n        \"created-at\": \"2009-08-03T08:15:41.917Z\",\n        \"updated-at\": \"1998-01-22T11:22:56.673Z\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"workspaces\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"auto-apply\": false,\n        \"locked\": true,\n        \"execution-mode\": \"agent\",\n        \"terraform-version\": \"string\",\n        \"working-directory\": \"string\",\n        \"created-at\": \"2022-03-11T10:36:18.020Z\",\n        \"updated-at\": \"2012-10-28T04:03:36.310Z\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": 5138,\n      \"prev-page\": 7088,\n      \"next-page\": 8994,\n      \"last-page\": 5629,\n      \"total-count\": 668\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "4cd2b7ab-9c15-49c1-83e9-20d7d422869b",
-          "name": "Create a Workspace",
-          "request": {
-            "name": "Create a Workspace",
-            "description": {
-              "content": "Creates a new workspace within an organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name",
-                "workspaces"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"execution-mode\": \"<string>\",\n      \"terraform-version\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "d83eef05-c0c7-47b0-a07e-4bd77c0c9ef7",
-              "name": "Workspace created",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name",
-                    "workspaces"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name/workspaces?page[number]=<integer>&page[size]=<integer>&search[name]=<string>&search[tags]=<string>&filter[project][id]=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name",
+                        "workspaces"
+                      ],
+                      "query": [
+                        {
+                          "key": "page[number]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "key": "page[size]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Filter workspaces by name",
+                          "key": "search[name]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter workspaces by tags",
+                          "key": "search[tags]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter workspaces by project ID",
+                          "key": "filter[project][id]",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "badb7df9-c78e-4ac6-96d6-be955bfc5400",
+                          "key": "organization_name",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "description": "Lists workspaces within an organization."
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"execution-mode\": \"<string>\",\n      \"terraform-version\": \"<string>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"auto-apply\": false,\n      \"locked\": true,\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"string\",\n      \"working-directory\": \"string\",\n      \"created-at\": \"1962-05-25T03:09:49.309Z\",\n      \"updated-at\": \"1996-08-10T21:26:07.093Z\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "de2906a7-44a9-457f-b95a-5db959bdbeda",
-          "name": "Get a Workspace",
-          "request": {
-            "name": "Get a Workspace",
-            "description": {
-              "content": "Retrieves details for a specific workspace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "c1f8689a-1cb8-46a1-8818-01db7e2305e8",
-              "name": "Workspace details",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
+                  "response": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
+                      "id": "2e38c093-764f-432e-9b8d-1b058c4887da",
+                      "name": "List of workspaces",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/organizations/:organization_name/workspaces?page[number]=<integer>&page[size]=<integer>&search[name]=<string>&search[tags]=<string>&filter[project][id]=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "organizations",
+                            ":organization_name",
+                            "workspaces"
+                          ],
+                          "query": [
+                            {
+                              "key": "page[number]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "page[size]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Filter workspaces by name",
+                              "key": "search[name]",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter workspaces by tags",
+                              "key": "search[tags]",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter workspaces by project ID",
+                              "key": "filter[project][id]",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "organization_name"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"workspaces\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"auto-apply\": \"<boolean>\",\n        \"locked\": \"<boolean>\",\n        \"execution-mode\": \"local\",\n        \"terraform-version\": \"<string>\",\n        \"working-directory\": \"<string>\",\n        \"created-at\": \"<dateTime>\",\n        \"updated-at\": \"<dateTime>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"workspaces\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"auto-apply\": \"<boolean>\",\n        \"locked\": \"<boolean>\",\n        \"execution-mode\": \"agent\",\n        \"terraform-version\": \"<string>\",\n        \"working-directory\": \"<string>\",\n        \"created-at\": \"<dateTime>\",\n        \"updated-at\": \"<dateTime>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": \"<integer>\",\n      \"prev-page\": \"<integer>\",\n      \"next-page\": \"<integer>\",\n      \"last-page\": \"<integer>\",\n      \"total-count\": \"<integer>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:19:15.000Z",
+                      "updatedAt": "2026-10-22T02:19:15.000Z",
+                      "uid": "35240-2e38c093-764f-432e-9b8d-1b058c4887da"
                     }
-                  ]
+                  ],
+                  "createdAt": "2026-10-22T02:19:15.000Z",
+                  "updatedAt": "2026-10-22T02:19:15.000Z",
+                  "uid": "35240-f911968c-bc44-421d-b796-579063f11bd1"
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                {
+                  "name": "Create a Workspace",
+                  "id": "afba4105-7dfb-4ed0-b70b-2e483931d950",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"auto-apply\": false,\n      \"locked\": true,\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"string\",\n      \"working-directory\": \"string\",\n      \"created-at\": \"1962-05-25T03:09:49.309Z\",\n      \"updated-at\": \"1996-08-10T21:26:07.093Z\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "cac8ffb9-f7cc-46de-b7ef-5179dcaef399",
-          "name": "Update a Workspace",
-          "request": {
-            "name": "Update a Workspace",
-            "description": {
-              "content": "Updates settings for an existing workspace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "PATCH",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"execution-mode\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "eb234838-3147-4305-88ab-345e03f6ea54",
-              "name": "Workspace updated",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"execution-mode\": \"<string>\",\n      \"terraform-version\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name/workspaces",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name",
+                        "workspaces"
+                      ],
+                      "variable": [
+                        {
+                          "id": "47973f97-068f-4ed9-acbe-756346304776",
+                          "key": "organization_name",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Creates a new workspace within an organization."
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "PATCH",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"execution-mode\": \"<string>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"auto-apply\": false,\n      \"locked\": true,\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"string\",\n      \"working-directory\": \"string\",\n      \"created-at\": \"1962-05-25T03:09:49.309Z\",\n      \"updated-at\": \"1996-08-10T21:26:07.093Z\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "b4de90b5-6b5b-46ed-85e1-27e92862cac3",
-          "name": "Delete a Workspace",
-          "request": {
-            "name": "Delete a Workspace",
-            "description": {
-              "content": "Destroys a workspace and all its contents.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "method": "DELETE",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "bfb72459-5e8d-4cea-9a6e-547ad221dc28",
-              "name": "Workspace deleted",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
+                  "response": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
+                      "id": "dd419d93-7b98-483a-8325-40e1502ee953",
+                      "name": "Workspace created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"data\": {\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"execution-mode\": \"<string>\",\n      \"terraform-version\": \"<string>\"\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/organizations/:organization_name/workspaces",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "organizations",
+                            ":organization_name",
+                            "workspaces"
+                          ],
+                          "variable": [
+                            {
+                              "key": "organization_name"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"locked\": \"<boolean>\",\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"<string>\",\n      \"working-directory\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"updated-at\": \"<dateTime>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:19:15.000Z",
+                      "updatedAt": "2026-10-22T02:19:15.000Z",
+                      "uid": "35240-dd419d93-7b98-483a-8325-40e1502ee953"
                     }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "No Content",
-              "code": 204,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
+                  ],
+                  "createdAt": "2026-10-22T02:19:15.000Z",
+                  "updatedAt": "2026-10-22T02:19:15.000Z",
+                  "uid": "35240-afba4105-7dfb-4ed0-b70b-2e483931d950"
                 }
               ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
+              "id": "5bcb7000-44f9-4e5a-808b-b76092b8d1e6",
+              "createdAt": "2026-10-22T02:19:15.000Z",
+              "updatedAt": "2026-10-22T02:19:15.000Z",
+              "uid": "35240-5bcb7000-44f9-4e5a-808b-b76092b8d1e6"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "eafd8b89-b9c9-4816-989f-db43cee05683",
-          "name": "Lock a Workspace",
-          "request": {
-            "name": "Lock a Workspace",
-            "description": {
-              "content": "Locks a workspace to prevent runs.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "actions",
-                "lock"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"reason\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "acf05ffb-d269-4681-bb50-009c14fdac43",
-              "name": "Workspace locked",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "actions",
-                    "lock"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"reason\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"auto-apply\": false,\n      \"locked\": true,\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"string\",\n      \"working-directory\": \"string\",\n      \"created-at\": \"1962-05-25T03:09:49.309Z\",\n      \"updated-at\": \"1996-08-10T21:26:07.093Z\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "f10717bb-386d-4a9d-ac6a-a6143ba4bd47",
-          "name": "Unlock a Workspace",
-          "request": {
-            "name": "Unlock a Workspace",
-            "description": {
-              "content": "Unlocks a workspace to allow runs.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "actions",
-                "unlock"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "4562ac1c-68d4-4edb-821a-f8857c2a9b21",
-              "name": "Workspace unlocked",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "actions",
-                    "unlock"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "POST",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"auto-apply\": false,\n      \"locked\": true,\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"string\",\n      \"working-directory\": \"string\",\n      \"created-at\": \"1962-05-25T03:09:49.309Z\",\n      \"updated-at\": \"1996-08-10T21:26:07.093Z\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "e7de2d2f-9d60-447d-a2ef-b4dbbeaab8d1",
+          "createdAt": "2026-10-22T02:19:15.000Z",
+          "updatedAt": "2026-10-22T02:19:15.000Z",
+          "uid": "35240-e7de2d2f-9d60-447d-a2ef-b4dbbeaab8d1"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
+      "id": "56d42d76-fed2-4b7d-8958-ebcd4ed13c4c",
+      "createdAt": "2026-10-22T02:19:15.000Z",
+      "updatedAt": "2026-10-22T02:19:15.000Z",
+      "uid": "35240-56d42d76-fed2-4b7d-8958-ebcd4ed13c4c"
+    },
     {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "name": "workspaces",
+      "item": [
+        {
+          "name": "{workspace_id}",
+          "item": [
+            {
+              "name": "actions",
+              "item": [
+                {
+                  "name": "lock",
+                  "item": [
+                    {
+                      "name": "Lock a Workspace",
+                      "id": "430e4a2f-c442-4910-8262-e3d21b117cec",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"reason\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/actions/lock",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "actions",
+                            "lock"
+                          ],
+                          "variable": [
+                            {
+                              "id": "3bedc699-6252-435b-a890-05bc8db6c61a",
+                              "key": "workspace_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Locks a workspace to prevent runs."
+                      },
+                      "response": [
+                        {
+                          "id": "267e8ac0-399a-46be-9be6-2e31834978af",
+                          "name": "Workspace locked",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/vnd.api+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/vnd.api+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"reason\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/workspaces/:workspace_id/actions/lock",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "workspaces",
+                                ":workspace_id",
+                                "actions",
+                                "lock"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "workspace_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/vnd.api+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"locked\": \"<boolean>\",\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"<string>\",\n      \"working-directory\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"updated-at\": \"<dateTime>\"\n    }\n  }\n}",
+                          "createdAt": "2026-10-22T02:19:15.000Z",
+                          "updatedAt": "2026-10-22T02:19:15.000Z",
+                          "uid": "35240-267e8ac0-399a-46be-9be6-2e31834978af"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:19:15.000Z",
+                      "updatedAt": "2026-10-22T02:19:15.000Z",
+                      "uid": "35240-430e4a2f-c442-4910-8262-e3d21b117cec"
+                    }
+                  ],
+                  "id": "753d0540-d893-4c62-8197-c8d51b0808cd",
+                  "createdAt": "2026-10-22T02:19:15.000Z",
+                  "updatedAt": "2026-10-22T02:19:15.000Z",
+                  "uid": "35240-753d0540-d893-4c62-8197-c8d51b0808cd"
+                },
+                {
+                  "name": "unlock",
+                  "item": [
+                    {
+                      "name": "Unlock a Workspace",
+                      "id": "3746e8b0-3140-4944-a13d-22df09b941ab",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/actions/unlock",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "actions",
+                            "unlock"
+                          ],
+                          "variable": [
+                            {
+                              "id": "83f52e53-f227-4a38-bbb2-461bf9be9ea6",
+                              "key": "workspace_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Unlocks a workspace to allow runs."
+                      },
+                      "response": [
+                        {
+                          "id": "ac53ec86-9de2-4afe-90db-01ac0a12e2d1",
+                          "name": "Workspace unlocked",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/vnd.api+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/workspaces/:workspace_id/actions/unlock",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "workspaces",
+                                ":workspace_id",
+                                "actions",
+                                "unlock"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "workspace_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/vnd.api+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"locked\": \"<boolean>\",\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"<string>\",\n      \"working-directory\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"updated-at\": \"<dateTime>\"\n    }\n  }\n}",
+                          "createdAt": "2026-10-22T02:19:15.000Z",
+                          "updatedAt": "2026-10-22T02:19:15.000Z",
+                          "uid": "35240-ac53ec86-9de2-4afe-90db-01ac0a12e2d1"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:19:15.000Z",
+                      "updatedAt": "2026-10-22T02:19:15.000Z",
+                      "uid": "35240-3746e8b0-3140-4944-a13d-22df09b941ab"
+                    }
+                  ],
+                  "id": "fd8fa8c7-ecd4-4042-835e-70e82a344175",
+                  "createdAt": "2026-10-22T02:19:15.000Z",
+                  "updatedAt": "2026-10-22T02:19:15.000Z",
+                  "uid": "35240-fd8fa8c7-ecd4-4042-835e-70e82a344175"
+                }
+              ],
+              "id": "8d9a469a-e9b6-4119-8eaf-1908d2b7afe4",
+              "createdAt": "2026-10-22T02:19:15.000Z",
+              "updatedAt": "2026-10-22T02:19:15.000Z",
+              "uid": "35240-8d9a469a-e9b6-4119-8eaf-1908d2b7afe4"
+            },
+            {
+              "name": "Get a Workspace",
+              "id": "8396fedf-eafb-45be-b008-c860187145ec",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/workspaces/:workspace_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "workspaces",
+                    ":workspace_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "932d0d60-1e91-4c20-bbfe-ed92ee791c00",
+                      "key": "workspace_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Retrieves details for a specific workspace."
+              },
+              "response": [
+                {
+                  "id": "b516e8ed-0ff9-48d5-b7d9-5af7e9ca82fc",
+                  "name": "Workspace details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/workspaces/:workspace_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "workspaces",
+                        ":workspace_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "workspace_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"locked\": \"<boolean>\",\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"<string>\",\n      \"working-directory\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"updated-at\": \"<dateTime>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:19:15.000Z",
+                  "updatedAt": "2026-10-22T02:19:15.000Z",
+                  "uid": "35240-b516e8ed-0ff9-48d5-b7d9-5af7e9ca82fc"
+                }
+              ],
+              "createdAt": "2026-10-22T02:19:15.000Z",
+              "updatedAt": "2026-10-22T02:19:15.000Z",
+              "uid": "35240-8396fedf-eafb-45be-b008-c860187145ec"
+            },
+            {
+              "name": "Update a Workspace",
+              "id": "a4ed9f02-1257-403e-a44e-d18d109ca1df",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/vnd.api+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"execution-mode\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/workspaces/:workspace_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "workspaces",
+                    ":workspace_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "1e0b5a1a-2f52-4fc1-ab62-466e90f9f88a",
+                      "key": "workspace_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Updates settings for an existing workspace."
+              },
+              "response": [
+                {
+                  "id": "559c879e-260f-4ccd-a894-eda74507c01c",
+                  "name": "Workspace updated",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"execution-mode\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/workspaces/:workspace_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "workspaces",
+                        ":workspace_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "workspace_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"workspaces\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"auto-apply\": \"<boolean>\",\n      \"locked\": \"<boolean>\",\n      \"execution-mode\": \"local\",\n      \"terraform-version\": \"<string>\",\n      \"working-directory\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"updated-at\": \"<dateTime>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:19:15.000Z",
+                  "updatedAt": "2026-10-22T02:19:15.000Z",
+                  "uid": "35240-559c879e-260f-4ccd-a894-eda74507c01c"
+                }
+              ],
+              "createdAt": "2026-10-22T02:19:15.000Z",
+              "updatedAt": "2026-10-22T02:19:15.000Z",
+              "uid": "35240-a4ed9f02-1257-403e-a44e-d18d109ca1df"
+            },
+            {
+              "name": "Delete a Workspace",
+              "id": "72547a3a-3672-4055-90d6-6945dcaee6f8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/workspaces/:workspace_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "workspaces",
+                    ":workspace_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "96478f68-d86d-4aa7-8175-92fe48f9f88e",
+                      "key": "workspace_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Destroys a workspace and all its contents."
+              },
+              "response": [
+                {
+                  "id": "0683e19b-81db-4766-8221-da4a5688a77a",
+                  "name": "Workspace deleted",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/workspaces/:workspace_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "workspaces",
+                        ":workspace_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "workspace_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:19:15.000Z",
+                  "updatedAt": "2026-10-22T02:19:15.000Z",
+                  "uid": "35240-0683e19b-81db-4766-8221-da4a5688a77a"
+                }
+              ],
+              "createdAt": "2026-10-22T02:19:15.000Z",
+              "updatedAt": "2026-10-22T02:19:15.000Z",
+              "uid": "35240-72547a3a-3672-4055-90d6-6945dcaee6f8"
+            }
+          ],
+          "id": "959dea2c-5d04-4830-b975-87cbf43b5974",
+          "createdAt": "2026-10-22T02:19:15.000Z",
+          "updatedAt": "2026-10-22T02:19:15.000Z",
+          "uid": "35240-959dea2c-5d04-4830-b975-87cbf43b5974"
+        }
+      ],
+      "id": "bb04ee34-f2ab-4529-8824-d0d3765642b6",
+      "createdAt": "2026-10-22T02:19:15.000Z",
+      "updatedAt": "2026-10-22T02:19:15.000Z",
+      "uid": "35240-bb04ee34-f2ab-4529-8824-d0d3765642b6"
     }
   ],
   "auth": {
@@ -812,17 +836,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "c8eca1f0-9570-422e-96cf-ff7029763576",
-    "name": "HCP Terraform Modules Workspaces API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.terraform.io/api/v2"
     }
-  }
+  ]
 }

@@ -1,442 +1,449 @@
 {
+  "info": {
+    "_postman_id": "a55bd623-19f3-452e-a9f3-b746b5b51be7",
+    "name": "HCP Terraform Teams API",
+    "description": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:19:02.000Z",
+    "updatedAt": "2026-10-22T02:19:03.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a55bd623-19f3-452e-a9f3-b746b5b51be7"
+  },
   "item": [
     {
-      "id": "de8a2838-f690-4cde-ac56-9519931ee38d",
-      "name": "Teams",
-      "description": {
-        "content": "Manage teams and memberships",
-        "type": "text/plain"
-      },
+      "name": "organizations",
       "item": [
         {
-          "id": "07004056-9689-440d-b128-4c46db7ff7ea",
-          "name": "List Teams",
-          "request": {
-            "name": "List Teams",
-            "description": {
-              "content": "Lists all teams in an organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name",
-                "teams"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "page[number]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "page[size]",
-                  "value": "<integer>"
-                }
-              ],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "{organization_name}",
+          "item": [
             {
-              "id": "35de8ab2-b822-41c8-a724-b173844d5cfa",
-              "name": "List of teams",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name",
-                    "teams"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "page[number]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "page[size]",
-                      "value": "<integer>"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+              "name": "teams",
+              "item": [
+                {
+                  "name": "List Teams",
+                  "id": "20a7a129-c481-4cd6-b2d3-141715f11b9b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"teams\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"users-count\": 6726,\n        \"visibility\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"teams\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"users-count\": 4405,\n        \"visibility\": \"string\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": 8245,\n      \"prev-page\": 4507,\n      \"next-page\": 6781,\n      \"last-page\": 3683,\n      \"total-count\": 6675\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "4c090d50-1740-4962-a068-b5a9d185c7d4",
-          "name": "Create a Team",
-          "request": {
-            "name": "Create a Team",
-            "description": {
-              "content": "Creates a new team within an organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name",
-                "teams"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"visibility\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "2bd08474-da0a-45c4-9d8f-d3fb5f7a4ce6",
-              "name": "Team created",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name",
-                    "teams"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name/teams?page[number]=<integer>&page[size]=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name",
+                        "teams"
+                      ],
+                      "query": [
+                        {
+                          "key": "page[number]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "key": "page[size]",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "4de82158-7521-4cad-86bd-74ccc16528fa",
+                          "key": "organization_name",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "description": "Lists all teams in an organization."
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"visibility\": \"<string>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"teams\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"users-count\": 8998,\n      \"visibility\": \"string\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "69e0929b-03b3-4a45-9a2d-d618c8be95d3",
-          "name": "Get a Team",
-          "request": {
-            "name": "Get a Team",
-            "description": {
-              "content": "Retrieves details for a specific team.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "teams",
-                ":team_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "team_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "be1d7480-781f-4a27-902a-5e528f0cd241",
-              "name": "Team details",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "teams",
-                    ":team_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
+                  "response": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "team_id",
-                      "description": "(Required) "
+                      "id": "180d6ff6-2f4b-4b12-8f64-2b7be07bdcab",
+                      "name": "List of teams",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/organizations/:organization_name/teams?page[number]=<integer>&page[size]=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "organizations",
+                            ":organization_name",
+                            "teams"
+                          ],
+                          "query": [
+                            {
+                              "key": "page[number]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "page[size]",
+                              "value": "<integer>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "organization_name"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"teams\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"users-count\": \"<integer>\",\n        \"visibility\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"teams\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"users-count\": \"<integer>\",\n        \"visibility\": \"<string>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": \"<integer>\",\n      \"prev-page\": \"<integer>\",\n      \"next-page\": \"<integer>\",\n      \"last-page\": \"<integer>\",\n      \"total-count\": \"<integer>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:19:03.000Z",
+                      "updatedAt": "2026-10-22T02:19:03.000Z",
+                      "uid": "35240-180d6ff6-2f4b-4b12-8f64-2b7be07bdcab"
                     }
-                  ]
+                  ],
+                  "createdAt": "2026-10-22T02:19:03.000Z",
+                  "updatedAt": "2026-10-22T02:19:03.000Z",
+                  "uid": "35240-20a7a129-c481-4cd6-b2d3-141715f11b9b"
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                {
+                  "name": "Create a Team",
+                  "id": "87f4e6a1-7fa1-420a-a6e9-ca62df98bdfb",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"teams\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"users-count\": 8998,\n      \"visibility\": \"string\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "5195315f-bdf1-4c86-a44d-f544000d9f43",
-          "name": "Delete a Team",
-          "request": {
-            "name": "Delete a Team",
-            "description": {
-              "content": "Deletes a team.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "teams",
-                ":team_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "team_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "method": "DELETE",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "d3fe41a2-0be6-484b-9c49-cab80c26b5c8",
-              "name": "Team deleted",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "teams",
-                    ":team_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "team_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"type\": \"teams\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"visibility\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
                     },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "No Content",
-              "code": 204,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name/teams",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name",
+                        "teams"
+                      ],
+                      "variable": [
+                        {
+                          "id": "55c5db4b-b087-477a-8fc0-9e73feaeffb8",
+                          "key": "organization_name",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Creates a new team within an organization."
+                  },
+                  "response": [
+                    {
+                      "id": "b4cbcf44-ccfb-40d0-add8-2c268169edd3",
+                      "name": "Team created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"data\": {\n    \"type\": \"teams\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"visibility\": \"<string>\"\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/organizations/:organization_name/teams",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "organizations",
+                            ":organization_name",
+                            "teams"
+                          ],
+                          "variable": [
+                            {
+                              "key": "organization_name"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"teams\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"users-count\": \"<integer>\",\n      \"visibility\": \"<string>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:19:03.000Z",
+                      "updatedAt": "2026-10-22T02:19:03.000Z",
+                      "uid": "35240-b4cbcf44-ccfb-40d0-add8-2c268169edd3"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:19:03.000Z",
+                  "updatedAt": "2026-10-22T02:19:03.000Z",
+                  "uid": "35240-87f4e6a1-7fa1-420a-a6e9-ca62df98bdfb"
                 }
               ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
+              "id": "c6130d89-678e-4432-9631-36d4b1d796db",
+              "createdAt": "2026-10-22T02:19:03.000Z",
+              "updatedAt": "2026-10-22T02:19:03.000Z",
+              "uid": "35240-c6130d89-678e-4432-9631-36d4b1d796db"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "d0a87417-8ad5-4b3f-aac0-b5a7948077e6",
+          "createdAt": "2026-10-22T02:19:03.000Z",
+          "updatedAt": "2026-10-22T02:19:03.000Z",
+          "uid": "35240-d0a87417-8ad5-4b3f-aac0-b5a7948077e6"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
+      "id": "2903b2f6-0f00-4f6d-9864-a88533c04bd1",
+      "createdAt": "2026-10-22T02:19:03.000Z",
+      "updatedAt": "2026-10-22T02:19:03.000Z",
+      "uid": "35240-2903b2f6-0f00-4f6d-9864-a88533c04bd1"
+    },
     {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "name": "teams",
+      "item": [
+        {
+          "name": "{team_id}",
+          "item": [
+            {
+              "name": "Get a Team",
+              "id": "04a21ad9-c9c9-45b5-a12d-28978605d789",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/teams/:team_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "teams",
+                    ":team_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "5d73a6af-f2ca-4d44-8cbb-5dc9408ade2d",
+                      "key": "team_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Retrieves details for a specific team."
+              },
+              "response": [
+                {
+                  "id": "cbef912f-6ec3-47e2-8fc3-a9b7c46861e8",
+                  "name": "Team details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/teams/:team_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "teams",
+                        ":team_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "team_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"teams\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"users-count\": \"<integer>\",\n      \"visibility\": \"<string>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:19:03.000Z",
+                  "updatedAt": "2026-10-22T02:19:03.000Z",
+                  "uid": "35240-cbef912f-6ec3-47e2-8fc3-a9b7c46861e8"
+                }
+              ],
+              "createdAt": "2026-10-22T02:19:03.000Z",
+              "updatedAt": "2026-10-22T02:19:03.000Z",
+              "uid": "35240-04a21ad9-c9c9-45b5-a12d-28978605d789"
+            },
+            {
+              "name": "Delete a Team",
+              "id": "d0a72905-1312-44f6-a97f-c511652c9ad2",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/teams/:team_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "teams",
+                    ":team_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "af0a32fc-bcb8-4cb2-8195-45baf51c5fbf",
+                      "key": "team_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Deletes a team."
+              },
+              "response": [
+                {
+                  "id": "681b69e3-71c1-4ca8-b683-40d02862816f",
+                  "name": "Team deleted",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/teams/:team_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "teams",
+                        ":team_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "team_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:19:03.000Z",
+                  "updatedAt": "2026-10-22T02:19:03.000Z",
+                  "uid": "35240-681b69e3-71c1-4ca8-b683-40d02862816f"
+                }
+              ],
+              "createdAt": "2026-10-22T02:19:03.000Z",
+              "updatedAt": "2026-10-22T02:19:03.000Z",
+              "uid": "35240-d0a72905-1312-44f6-a97f-c511652c9ad2"
+            }
+          ],
+          "id": "c68b7c7d-69bc-4a61-8a38-adf7accf09cf",
+          "createdAt": "2026-10-22T02:19:03.000Z",
+          "updatedAt": "2026-10-22T02:19:03.000Z",
+          "uid": "35240-c68b7c7d-69bc-4a61-8a38-adf7accf09cf"
+        }
+      ],
+      "id": "9d37df00-33ca-447a-886e-722139f3fc5a",
+      "createdAt": "2026-10-22T02:19:03.000Z",
+      "updatedAt": "2026-10-22T02:19:03.000Z",
+      "uid": "35240-9d37df00-33ca-447a-886e-722139f3fc5a"
     }
   ],
   "auth": {
@@ -444,17 +451,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "74da256b-e2d7-4200-bce6-dd79b577b0e2",
-    "name": "HCP Terraform Modules Teams API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.terraform.io/api/v2"
     }
-  }
+  ]
 }

@@ -1,346 +1,420 @@
 {
+  "info": {
+    "_postman_id": "47ea37f9-8dbd-46bf-9b7e-cb3fd1186248",
+    "name": "HCP Terraform Organizations API",
+    "description": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:18:33.000Z",
+    "updatedAt": "2026-10-22T02:18:33.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-47ea37f9-8dbd-46bf-9b7e-cb3fd1186248"
+  },
   "item": [
     {
-      "id": "c8f86d3a-ddc3-45c1-9dd9-e8c9f4720a54",
-      "name": "Organizations",
-      "description": {
-        "content": "Manage HCP Terraform organizations",
-        "type": "text/plain"
-      },
+      "name": "organizations",
       "item": [
         {
-          "id": "8a714977-a759-479a-88eb-942362060799",
-          "name": "List Organizations",
-          "request": {
-            "name": "List Organizations",
-            "description": {
-              "content": "Lists all organizations accessible by the current token.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "page[number]",
-                  "value": "<integer>",
-                  "description": "Page number for pagination"
-                },
-                {
-                  "disabled": false,
-                  "key": "page[size]",
-                  "value": "<integer>",
-                  "description": "Number of results per page (max 100)"
-                },
-                {
-                  "disabled": false,
-                  "key": "q",
-                  "value": "<string>",
-                  "description": "Search query to filter organizations by name"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "{organization_name}",
+          "item": [
             {
-              "id": "f08ed711-4278-4381-bd0f-e948b2f45c8d",
-              "name": "A list of organizations",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "page[number]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "page[size]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "q",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
+              "name": "Get an Organization",
+              "id": "3e52ba4c-1071-4eef-96b6-58b1e47a074a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
                 "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"organizations\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"email\": \"string\",\n        \"created-at\": \"2022-04-25T13:25:07.900Z\",\n        \"session-timeout\": 7382,\n        \"session-remember\": 5234,\n        \"collaborator-auth-policy\": \"string\",\n        \"plan-expired\": false,\n        \"plan-is-trial\": true,\n        \"plan-is-enterprise\": false\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"organizations\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"email\": \"string\",\n        \"created-at\": \"1988-11-27T05:08:36.047Z\",\n        \"session-timeout\": 6254,\n        \"session-remember\": 3836,\n        \"collaborator-auth-policy\": \"string\",\n        \"plan-expired\": false,\n        \"plan-is-trial\": false,\n        \"plan-is-enterprise\": true\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": 1193,\n      \"prev-page\": 3106,\n      \"next-page\": 9848,\n      \"last-page\": 2086,\n      \"total-count\": 2407\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "d6808d75-366d-494f-89f6-a8103cb4ad71",
-          "name": "Create an Organization",
-          "request": {
-            "name": "Create an Organization",
-            "description": {
-              "content": "Creates a new organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "83428227-a412-4bbb-827a-3c7f07f2f95a",
-              "name": "Organization created",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/vnd.api+json"
                   }
                 ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"created-at\": \"1988-08-26T22:07:29.161Z\",\n      \"session-timeout\": 699,\n      \"session-remember\": 876,\n      \"collaborator-auth-policy\": \"string\",\n      \"plan-expired\": false,\n      \"plan-is-trial\": true,\n      \"plan-is-enterprise\": false\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "bae1bd4e-b52d-4d0b-a5cf-9c0d74b3f28d",
-          "name": "Get an Organization",
-          "request": {
-            "name": "Get an Organization",
-            "description": {
-              "content": "Retrieves details for a specific organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) The name of the organization"
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "17472880-7567-4f75-803b-83434ff3c434",
-              "name": "Organization details",
-              "originalRequest": {
                 "url": {
+                  "raw": "{{baseUrl}}/organizations/:organization_name",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "organizations",
                     ":organization_name"
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
                   "variable": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
+                      "id": "9a408e62-163e-4c15-9324-22b74b263e70",
                       "key": "organization_name",
+                      "value": "<string>",
                       "description": "(Required) The name of the organization"
                     }
                   ]
                 },
+                "description": "Retrieves details for a specific organization."
+              },
+              "response": [
+                {
+                  "id": "5c373ffa-2afa-49cb-8322-ea1b048b0969",
+                  "name": "Organization details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name"
+                      ],
+                      "variable": [
+                        {
+                          "key": "organization_name"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"session-timeout\": \"<integer>\",\n      \"session-remember\": \"<integer>\",\n      \"collaborator-auth-policy\": \"<string>\",\n      \"plan-expired\": \"<boolean>\",\n      \"plan-is-trial\": \"<boolean>\",\n      \"plan-is-enterprise\": \"<boolean>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:18:33.000Z",
+                  "updatedAt": "2026-10-22T02:18:33.000Z",
+                  "uid": "35240-5c373ffa-2afa-49cb-8322-ea1b048b0969"
+                }
+              ],
+              "createdAt": "2026-10-22T02:18:33.000Z",
+              "updatedAt": "2026-10-22T02:18:33.000Z",
+              "uid": "35240-3e52ba4c-1071-4eef-96b6-58b1e47a074a"
+            },
+            {
+              "name": "Update an Organization",
+              "id": "24805ad1-b614-4a17-b620-a766226fef35",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PATCH",
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "key": "Content-Type",
+                    "value": "application/vnd.api+json"
                   },
                   {
                     "key": "Accept",
                     "value": "application/vnd.api+json"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"email\": \"<string>\",\n      \"session-timeout\": \"<integer>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/organizations/:organization_name",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "organizations",
+                    ":organization_name"
+                  ],
+                  "variable": [
+                    {
+                      "id": "a00a10a9-c723-463e-ab0e-a5e3124b1321",
+                      "key": "organization_name",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Updates settings for an existing organization."
+              },
+              "response": [
+                {
+                  "id": "a0254355-8e69-4db1-8636-723480805f0d",
+                  "name": "Organization updated",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"email\": \"<string>\",\n      \"session-timeout\": \"<integer>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name"
+                      ],
+                      "variable": [
+                        {
+                          "key": "organization_name"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"session-timeout\": \"<integer>\",\n      \"session-remember\": \"<integer>\",\n      \"collaborator-auth-policy\": \"<string>\",\n      \"plan-expired\": \"<boolean>\",\n      \"plan-is-trial\": \"<boolean>\",\n      \"plan-is-enterprise\": \"<boolean>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:18:33.000Z",
+                  "updatedAt": "2026-10-22T02:18:33.000Z",
+                  "uid": "35240-a0254355-8e69-4db1-8636-723480805f0d"
+                }
+              ],
+              "createdAt": "2026-10-22T02:18:33.000Z",
+              "updatedAt": "2026-10-22T02:18:33.000Z",
+              "uid": "35240-24805ad1-b614-4a17-b620-a766226fef35"
+            },
+            {
+              "name": "Delete an Organization",
+              "id": "8ded6258-5abd-4c34-a613-006509747b86",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/organizations/:organization_name",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "organizations",
+                    ":organization_name"
+                  ],
+                  "variable": [
+                    {
+                      "id": "12559ebe-3c30-4f3a-872c-4b9764786160",
+                      "key": "organization_name",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Destroys an organization."
+              },
+              "response": [
+                {
+                  "id": "46d01683-74f1-45c6-93e9-08bdc6b734fb",
+                  "name": "Organization deleted",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name"
+                      ],
+                      "variable": [
+                        {
+                          "key": "organization_name"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:18:33.000Z",
+                  "updatedAt": "2026-10-22T02:18:33.000Z",
+                  "uid": "35240-46d01683-74f1-45c6-93e9-08bdc6b734fb"
+                }
+              ],
+              "createdAt": "2026-10-22T02:18:33.000Z",
+              "updatedAt": "2026-10-22T02:18:33.000Z",
+              "uid": "35240-8ded6258-5abd-4c34-a613-006509747b86"
+            }
+          ],
+          "id": "f578619a-bffe-4915-8a41-abd37a9f077e",
+          "createdAt": "2026-10-22T02:18:33.000Z",
+          "updatedAt": "2026-10-22T02:18:33.000Z",
+          "uid": "35240-f578619a-bffe-4915-8a41-abd37a9f077e"
+        },
+        {
+          "name": "List Organizations",
+          "id": "9d4868cf-9b24-46f4-b33b-180072f82b0e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/organizations?page[number]=<integer>&page[size]=<integer>&q=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "organizations"
+              ],
+              "query": [
+                {
+                  "description": "Page number for pagination",
+                  "key": "page[number]",
+                  "value": "<integer>"
+                },
+                {
+                  "description": "Number of results per page (max 100)",
+                  "key": "page[size]",
+                  "value": "<integer>"
+                },
+                {
+                  "description": "Search query to filter organizations by name",
+                  "key": "q",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Lists all organizations accessible by the current token."
+          },
+          "response": [
+            {
+              "id": "a0cbcbbc-34fd-41c8-b23c-d61ce29603e2",
+              "name": "A list of organizations",
+              "originalRequest": {
                 "method": "GET",
-                "body": {}
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/organizations?page[number]=<integer>&page[size]=<integer>&q=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "organizations"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number for pagination",
+                      "key": "page[number]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Number of results per page (max 100)",
+                      "key": "page[size]",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Search query to filter organizations by name",
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ]
+                }
               },
               "status": "OK",
               "code": 200,
+              "_postman_previewlanguage": "json",
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/vnd.api+json"
                 }
               ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"created-at\": \"1988-08-26T22:07:29.161Z\",\n      \"session-timeout\": 699,\n      \"session-remember\": 876,\n      \"collaborator-auth-policy\": \"string\",\n      \"plan-expired\": false,\n      \"plan-is-trial\": true,\n      \"plan-is-enterprise\": false\n    }\n  }\n}",
               "cookie": [],
-              "_postman_previewlanguage": "json"
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"organizations\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\",\n        \"created-at\": \"<dateTime>\",\n        \"session-timeout\": \"<integer>\",\n        \"session-remember\": \"<integer>\",\n        \"collaborator-auth-policy\": \"<string>\",\n        \"plan-expired\": \"<boolean>\",\n        \"plan-is-trial\": \"<boolean>\",\n        \"plan-is-enterprise\": \"<boolean>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"organizations\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\",\n        \"created-at\": \"<dateTime>\",\n        \"session-timeout\": \"<integer>\",\n        \"session-remember\": \"<integer>\",\n        \"collaborator-auth-policy\": \"<string>\",\n        \"plan-expired\": \"<boolean>\",\n        \"plan-is-trial\": \"<boolean>\",\n        \"plan-is-enterprise\": \"<boolean>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": \"<integer>\",\n      \"prev-page\": \"<integer>\",\n      \"next-page\": \"<integer>\",\n      \"last-page\": \"<integer>\",\n      \"total-count\": \"<integer>\"\n    }\n  }\n}",
+              "createdAt": "2026-10-22T02:18:33.000Z",
+              "updatedAt": "2026-10-22T02:18:33.000Z",
+              "uid": "35240-a0cbcbbc-34fd-41c8-b23c-d61ce29603e2"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "createdAt": "2026-10-22T02:18:33.000Z",
+          "updatedAt": "2026-10-22T02:18:33.000Z",
+          "uid": "35240-9d4868cf-9b24-46f4-b33b-180072f82b0e"
         },
         {
-          "id": "64df3298-a4af-4c55-aa3c-812120835e9b",
-          "name": "Update an Organization",
+          "name": "Create an Organization",
+          "id": "c5a56ab2-bd5a-44c7-aa8b-b2435fe2d3ee",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
-            "name": "Update an Organization",
-            "description": {
-              "content": "Updates settings for an existing organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
@@ -351,181 +425,94 @@
                 "value": "application/vnd.api+json"
               }
             ],
-            "method": "PATCH",
-            "auth": null,
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"email\": \"<string>\",\n      \"session-timeout\": \"<integer>\"\n    }\n  }\n}",
+              "raw": "{\n  \"data\": {\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\"\n    }\n  }\n}",
               "options": {
                 "raw": {
+                  "headerFamily": "json",
                   "language": "json"
                 }
               }
-            }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/organizations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "organizations"
+              ]
+            },
+            "description": "Creates a new organization."
           },
           "response": [
             {
-              "id": "a7c05ed6-a377-4d02-8ea7-660eb9930008",
-              "name": "Organization updated",
+              "id": "feb12767-6754-47fa-be9c-1f527dc66d5f",
+              "name": "Organization created",
               "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
+                "method": "POST",
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "key": "Content-Type",
+                    "value": "application/vnd.api+json"
                   },
                   {
                     "key": "Accept",
                     "value": "application/vnd.api+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
                   }
                 ],
-                "method": "PATCH",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"email\": \"<string>\",\n      \"session-timeout\": \"<integer>\"\n    }\n  }\n}",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\"\n    }\n  }\n}",
                   "options": {
                     "raw": {
+                      "headerFamily": "json",
                       "language": "json"
                     }
                   }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/organizations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "organizations"
+                  ]
                 }
               },
-              "status": "OK",
-              "code": 200,
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/vnd.api+json"
                 }
               ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"created-at\": \"1988-08-26T22:07:29.161Z\",\n      \"session-timeout\": 699,\n      \"session-remember\": 876,\n      \"collaborator-auth-policy\": \"string\",\n      \"plan-expired\": false,\n      \"plan-is-trial\": true,\n      \"plan-is-enterprise\": false\n    }\n  }\n}",
               "cookie": [],
-              "_postman_previewlanguage": "json"
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"organizations\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"created-at\": \"<dateTime>\",\n      \"session-timeout\": \"<integer>\",\n      \"session-remember\": \"<integer>\",\n      \"collaborator-auth-policy\": \"<string>\",\n      \"plan-expired\": \"<boolean>\",\n      \"plan-is-trial\": \"<boolean>\",\n      \"plan-is-enterprise\": \"<boolean>\"\n    }\n  }\n}",
+              "createdAt": "2026-10-22T02:18:33.000Z",
+              "updatedAt": "2026-10-22T02:18:33.000Z",
+              "uid": "35240-feb12767-6754-47fa-be9c-1f527dc66d5f"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "622f82b4-6bde-4d72-96a1-ebc9a1042c13",
-          "name": "Delete an Organization",
-          "request": {
-            "name": "Delete an Organization",
-            "description": {
-              "content": "Destroys an organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "method": "DELETE",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "07a89afe-9db7-4689-bb14-d0a55d3d6403",
-              "name": "Organization deleted",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "No Content",
-              "code": 204,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "createdAt": "2026-10-22T02:18:33.000Z",
+          "updatedAt": "2026-10-22T02:18:33.000Z",
+          "uid": "35240-c5a56ab2-bd5a-44c7-aa8b-b2435fe2d3ee"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
-    {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "id": "d3d26d52-90aa-4c13-8491-5c1571a3d6ea",
+      "createdAt": "2026-10-22T02:18:33.000Z",
+      "updatedAt": "2026-10-22T02:18:33.000Z",
+      "uid": "35240-d3d26d52-90aa-4c13-8491-5c1571a3d6ea"
     }
   ],
   "auth": {
@@ -533,17 +520,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "4673d5b9-b6da-49b8-bc2a-8199054eca25",
-    "name": "HCP Terraform Modules Organizations API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.terraform.io/api/v2"
     }
-  }
+  ]
 }

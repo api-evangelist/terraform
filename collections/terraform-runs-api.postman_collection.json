@@ -1,685 +1,725 @@
 {
+  "info": {
+    "_postman_id": "b1ed740a-9ada-414c-a1fc-affc5bd29aeb",
+    "name": "HCP Terraform Runs API",
+    "description": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:18:52.000Z",
+    "updatedAt": "2026-10-22T02:18:52.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b1ed740a-9ada-414c-a1fc-affc5bd29aeb"
+  },
   "item": [
     {
-      "id": "d72d312f-0ff2-4fe2-bb86-300f41742249",
-      "name": "Runs",
-      "description": {
-        "content": "Manage Terraform runs and plan/apply lifecycle",
-        "type": "text/plain"
-      },
+      "name": "runs",
       "item": [
         {
-          "id": "eb5c2d15-e78e-4c0f-9ff3-2f80bd47e39f",
-          "name": "Create a Run",
-          "request": {
-            "name": "Create a Run",
-            "description": {
-              "content": "Creates a new run for a workspace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "runs"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"message\": \"<string>\",\n      \"is-destroy\": \"<boolean>\",\n      \"auto-apply\": \"<boolean>\"\n    },\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
+          "name": "{run_id}",
+          "item": [
             {
-              "id": "d8d19652-152f-4d56-bbc2-193b6041ddfe",
-              "name": "Run created",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "runs"
+              "name": "actions",
+              "item": [
+                {
+                  "name": "apply",
+                  "item": [
+                    {
+                      "name": "Apply a Run",
+                      "id": "7d8dd92f-afe7-4239-956c-9cba1b7896b6",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"comment\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/runs/:run_id/actions/apply",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "runs",
+                            ":run_id",
+                            "actions",
+                            "apply"
+                          ],
+                          "variable": [
+                            {
+                              "id": "3e624845-35ae-4c61-a089-87531b0a584b",
+                              "key": "run_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Applies a run that is paused waiting for confirmation."
+                      },
+                      "response": [
+                        {
+                          "id": "3f80e3a1-6c59-4899-8cd8-4d0d9ec8e607",
+                          "name": "Run apply initiated",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/vnd.api+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"comment\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/runs/:run_id/actions/apply",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "runs",
+                                ":run_id",
+                                "actions",
+                                "apply"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "run_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Accepted",
+                          "code": 202,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-10-22T02:18:53.000Z",
+                          "updatedAt": "2026-10-22T02:18:53.000Z",
+                          "uid": "35240-3f80e3a1-6c59-4899-8cd8-4d0d9ec8e607"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:18:53.000Z",
+                      "updatedAt": "2026-10-22T02:18:53.000Z",
+                      "uid": "35240-7d8dd92f-afe7-4239-956c-9cba1b7896b6"
+                    }
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
+                  "id": "aaa378f1-a088-4a5f-9a3c-168829eac25a",
+                  "createdAt": "2026-10-22T02:18:53.000Z",
+                  "updatedAt": "2026-10-22T02:18:53.000Z",
+                  "uid": "35240-aaa378f1-a088-4a5f-9a3c-168829eac25a"
                 },
+                {
+                  "name": "discard",
+                  "item": [
+                    {
+                      "name": "Discard a Run",
+                      "id": "68c08ab0-dae6-4db7-b56d-69f1dacf8b0d",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"comment\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/runs/:run_id/actions/discard",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "runs",
+                            ":run_id",
+                            "actions",
+                            "discard"
+                          ],
+                          "variable": [
+                            {
+                              "id": "c96d0f22-e095-41bc-99ba-a7ccac88d58f",
+                              "key": "run_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Discards a run that has not yet been applied."
+                      },
+                      "response": [
+                        {
+                          "id": "d4bfef43-b2d5-4ad9-9093-b09a7e089882",
+                          "name": "Run discarded",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/vnd.api+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"comment\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/runs/:run_id/actions/discard",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "runs",
+                                ":run_id",
+                                "actions",
+                                "discard"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "run_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Accepted",
+                          "code": 202,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-10-22T02:18:53.000Z",
+                          "updatedAt": "2026-10-22T02:18:53.000Z",
+                          "uid": "35240-d4bfef43-b2d5-4ad9-9093-b09a7e089882"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:18:53.000Z",
+                      "updatedAt": "2026-10-22T02:18:53.000Z",
+                      "uid": "35240-68c08ab0-dae6-4db7-b56d-69f1dacf8b0d"
+                    }
+                  ],
+                  "id": "8d85a1da-075b-4c86-86cb-95e41712f209",
+                  "createdAt": "2026-10-22T02:18:53.000Z",
+                  "updatedAt": "2026-10-22T02:18:53.000Z",
+                  "uid": "35240-8d85a1da-075b-4c86-86cb-95e41712f209"
+                },
+                {
+                  "name": "cancel",
+                  "item": [
+                    {
+                      "name": "Cancel a Run",
+                      "id": "61eea818-3713-4d9d-ab60-530417cb8a96",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"comment\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/runs/:run_id/actions/cancel",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "runs",
+                            ":run_id",
+                            "actions",
+                            "cancel"
+                          ],
+                          "variable": [
+                            {
+                              "id": "2123ddce-eeea-4a04-8809-4f95386b6db5",
+                              "key": "run_id",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Cancels a run that is currently in progress."
+                      },
+                      "response": [
+                        {
+                          "id": "8fe6c8d9-27c1-4551-8004-a6bccf048ecc",
+                          "name": "Run cancelled",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/vnd.api+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"comment\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/runs/:run_id/actions/cancel",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "runs",
+                                ":run_id",
+                                "actions",
+                                "cancel"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "run_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Accepted",
+                          "code": 202,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-10-22T02:18:53.000Z",
+                          "updatedAt": "2026-10-22T02:18:53.000Z",
+                          "uid": "35240-8fe6c8d9-27c1-4551-8004-a6bccf048ecc"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:18:53.000Z",
+                      "updatedAt": "2026-10-22T02:18:53.000Z",
+                      "uid": "35240-61eea818-3713-4d9d-ab60-530417cb8a96"
+                    }
+                  ],
+                  "id": "c9d761a5-13b8-484a-b12c-9995050b218d",
+                  "createdAt": "2026-10-22T02:18:53.000Z",
+                  "updatedAt": "2026-10-22T02:18:53.000Z",
+                  "uid": "35240-c9d761a5-13b8-484a-b12c-9995050b218d"
+                }
+              ],
+              "id": "7c8e577d-6009-418d-9c80-4be37e9e93e1",
+              "createdAt": "2026-10-22T02:18:53.000Z",
+              "updatedAt": "2026-10-22T02:18:53.000Z",
+              "uid": "35240-7c8e577d-6009-418d-9c80-4be37e9e93e1"
+            },
+            {
+              "name": "Get a Run",
+              "id": "d78e8768-2204-4ad4-aa47-4812941e46f8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/vnd.api+json"
                   }
                 ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"message\": \"<string>\",\n      \"is-destroy\": \"<boolean>\",\n      \"auto-apply\": \"<boolean>\"\n    },\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"runs\",\n    \"attributes\": {\n      \"status\": \"errored\",\n      \"message\": \"string\",\n      \"is-destroy\": true,\n      \"auto-apply\": false,\n      \"created-at\": \"1980-08-31T06:43:11.687Z\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "e5eab842-e0ac-46ea-8e21-042037918a1e",
-          "name": "Get a Run",
-          "request": {
-            "name": "Get a Run",
-            "description": {
-              "content": "Retrieves details for a specific run.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "runs",
-                ":run_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "run_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "4a614611-e3df-458f-b0ce-c59dfc791477",
-              "name": "Run details",
-              "originalRequest": {
                 "url": {
+                  "raw": "{{baseUrl}}/runs/:run_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "runs",
                     ":run_id"
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
                   "variable": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
+                      "id": "5a1a7c06-8f5d-4c4f-96cf-16d9094a7848",
                       "key": "run_id",
+                      "value": "<string>",
                       "description": "(Required) "
                     }
                   ]
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                "description": "Retrieves details for a specific run."
+              },
+              "response": [
+                {
+                  "id": "c5d6ad85-5525-4902-bfe6-547962c20b78",
+                  "name": "Run details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/runs/:run_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "runs",
+                        ":run_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "run_id"
+                        }
+                      ]
+                    }
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"runs\",\n    \"attributes\": {\n      \"status\": \"errored\",\n      \"message\": \"<string>\",\n      \"is-destroy\": \"<boolean>\",\n      \"auto-apply\": \"<boolean>\",\n      \"created-at\": \"<dateTime>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:18:53.000Z",
+                  "updatedAt": "2026-10-22T02:18:53.000Z",
+                  "uid": "35240-c5d6ad85-5525-4902-bfe6-547962c20b78"
                 }
               ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"runs\",\n    \"attributes\": {\n      \"status\": \"errored\",\n      \"message\": \"string\",\n      \"is-destroy\": true,\n      \"auto-apply\": false,\n      \"created-at\": \"1980-08-31T06:43:11.687Z\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "createdAt": "2026-10-22T02:18:53.000Z",
+              "updatedAt": "2026-10-22T02:18:53.000Z",
+              "uid": "35240-d78e8768-2204-4ad4-aa47-4812941e46f8"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "9687bf9c-e1ba-4704-8d7b-a63d17cf65a3",
+          "createdAt": "2026-10-22T02:18:53.000Z",
+          "updatedAt": "2026-10-22T02:18:53.000Z",
+          "uid": "35240-9687bf9c-e1ba-4704-8d7b-a63d17cf65a3"
         },
         {
-          "id": "9ceb4d5a-52c8-4a29-899f-307b8cbfefdb",
-          "name": "Apply a Run",
+          "name": "Create a Run",
+          "id": "656feb5f-a379-4ae1-ace3-c9735fd0c09a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
-            "name": "Apply a Run",
-            "description": {
-              "content": "Applies a run that is paused waiting for confirmation.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "runs",
-                ":run_id",
-                "actions",
-                "apply"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "run_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"comment\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "d8f776b5-90ae-44d3-ba78-f25bf8469e47",
-              "name": "Run apply initiated",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "runs",
-                    ":run_id",
-                    "actions",
-                    "apply"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "run_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"comment\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
               },
-              "status": "Accepted",
-              "code": 202,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "e45e333a-d651-4c0d-bbb5-2807d38efd6d",
-          "name": "Discard a Run",
-          "request": {
-            "name": "Discard a Run",
-            "description": {
-              "content": "Discards a run that has not yet been applied.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "runs",
-                ":run_id",
-                "actions",
-                "discard"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "run_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"comment\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "16556b96-1d2f-4a1e-89cd-52c911142b9c",
-              "name": "Run discarded",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "runs",
-                    ":run_id",
-                    "actions",
-                    "discard"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "run_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"comment\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Accepted",
-              "code": 202,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "17688e1b-9b50-43a0-8066-4ff3cfbc18cc",
-          "name": "Cancel a Run",
-          "request": {
-            "name": "Cancel a Run",
-            "description": {
-              "content": "Cancels a run that is currently in progress.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "runs",
-                ":run_id",
-                "actions",
-                "cancel"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "run_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"comment\": \"<string>\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "5da7eead-be38-4006-bedd-94a1232406da",
-              "name": "Run cancelled",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "runs",
-                    ":run_id",
-                    "actions",
-                    "cancel"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "run_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"comment\": \"<string>\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Accepted",
-              "code": 202,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "ddd5766b-5702-4bcb-bdfc-18de26b35ac0",
-          "name": "List Workspace Runs",
-          "request": {
-            "name": "List Workspace Runs",
-            "description": {
-              "content": "Lists all runs for a given workspace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "workspaces",
-                ":workspace_id",
-                "runs"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "page[number]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "page[size]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "filter[status]",
-                  "value": "<string>",
-                  "description": "Filter runs by status"
-                }
-              ],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "workspace_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
               {
                 "key": "Accept",
                 "value": "application/vnd.api+json"
               }
             ],
-            "method": "GET",
-            "auth": null
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"runs\",\n    \"attributes\": {\n      \"message\": \"<string>\",\n      \"is-destroy\": \"<boolean>\",\n      \"auto-apply\": \"<boolean>\"\n    },\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/runs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "runs"
+              ]
+            },
+            "description": "Creates a new run for a workspace."
           },
           "response": [
             {
-              "id": "985f080c-52a6-47b5-bfd5-acaaf740b6ed",
-              "name": "List of runs",
+              "id": "984dbeed-ccc1-4ec5-aa27-dbb2e732b962",
+              "name": "Run created",
               "originalRequest": {
-                "url": {
-                  "path": [
-                    "workspaces",
-                    ":workspace_id",
-                    "runs"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "page[number]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "page[size]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "filter[status]",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "workspace_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
+                "method": "POST",
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "key": "Content-Type",
+                    "value": "application/vnd.api+json"
                   },
                   {
                     "key": "Accept",
                     "value": "application/vnd.api+json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
                   }
                 ],
-                "method": "GET",
-                "body": {}
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"runs\",\n    \"attributes\": {\n      \"message\": \"<string>\",\n      \"is-destroy\": \"<boolean>\",\n      \"auto-apply\": \"<boolean>\"\n    },\n    \"relationships\": {\n      \"workspace\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/runs",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "runs"
+                  ]
+                }
               },
-              "status": "OK",
-              "code": 200,
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/vnd.api+json"
                 }
               ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"runs\",\n      \"attributes\": {\n        \"status\": \"planned\",\n        \"message\": \"string\",\n        \"is-destroy\": true,\n        \"auto-apply\": false,\n        \"created-at\": \"2016-05-25T15:49:52.854Z\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"runs\",\n      \"attributes\": {\n        \"status\": \"policy_override\",\n        \"message\": \"string\",\n        \"is-destroy\": false,\n        \"auto-apply\": false,\n        \"created-at\": \"2016-10-25T22:55:29.081Z\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": 6414,\n      \"prev-page\": 2428,\n      \"next-page\": 929,\n      \"last-page\": 7505,\n      \"total-count\": 6256\n    }\n  }\n}",
               "cookie": [],
-              "_postman_previewlanguage": "json"
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"runs\",\n    \"attributes\": {\n      \"status\": \"errored\",\n      \"message\": \"<string>\",\n      \"is-destroy\": \"<boolean>\",\n      \"auto-apply\": \"<boolean>\",\n      \"created-at\": \"<dateTime>\"\n    }\n  }\n}",
+              "createdAt": "2026-10-22T02:18:53.000Z",
+              "updatedAt": "2026-10-22T02:18:53.000Z",
+              "uid": "35240-984dbeed-ccc1-4ec5-aa27-dbb2e732b962"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "createdAt": "2026-10-22T02:18:53.000Z",
+          "updatedAt": "2026-10-22T02:18:53.000Z",
+          "uid": "35240-656feb5f-a379-4ae1-ace3-c9735fd0c09a"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
+      "id": "382e2aef-cce2-4806-8835-1c138c14993d",
+      "createdAt": "2026-10-22T02:18:53.000Z",
+      "updatedAt": "2026-10-22T02:18:53.000Z",
+      "uid": "35240-382e2aef-cce2-4806-8835-1c138c14993d"
+    },
     {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "name": "workspaces",
+      "item": [
+        {
+          "name": "{workspace_id}",
+          "item": [
+            {
+              "name": "runs",
+              "item": [
+                {
+                  "name": "List Workspace Runs",
+                  "id": "68436f61-ba21-40de-be34-7f1c8c0916c9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/workspaces/:workspace_id/runs?page[number]=<integer>&page[size]=<integer>&filter[status]=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "workspaces",
+                        ":workspace_id",
+                        "runs"
+                      ],
+                      "query": [
+                        {
+                          "key": "page[number]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "key": "page[size]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Filter runs by status",
+                          "key": "filter[status]",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "9f8463ba-8820-41af-a0ab-e1bab71f8220",
+                          "key": "workspace_id",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Lists all runs for a given workspace."
+                  },
+                  "response": [
+                    {
+                      "id": "8ddf76fb-ac68-4ea9-a1be-c873ca96a5c2",
+                      "name": "List of runs",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/workspaces/:workspace_id/runs?page[number]=<integer>&page[size]=<integer>&filter[status]=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "workspaces",
+                            ":workspace_id",
+                            "runs"
+                          ],
+                          "query": [
+                            {
+                              "key": "page[number]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "page[size]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Filter runs by status",
+                              "key": "filter[status]",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "workspace_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"runs\",\n      \"attributes\": {\n        \"status\": \"pending\",\n        \"message\": \"<string>\",\n        \"is-destroy\": \"<boolean>\",\n        \"auto-apply\": \"<boolean>\",\n        \"created-at\": \"<dateTime>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"runs\",\n      \"attributes\": {\n        \"status\": \"force_canceled\",\n        \"message\": \"<string>\",\n        \"is-destroy\": \"<boolean>\",\n        \"auto-apply\": \"<boolean>\",\n        \"created-at\": \"<dateTime>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": \"<integer>\",\n      \"prev-page\": \"<integer>\",\n      \"next-page\": \"<integer>\",\n      \"last-page\": \"<integer>\",\n      \"total-count\": \"<integer>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:18:53.000Z",
+                      "updatedAt": "2026-10-22T02:18:53.000Z",
+                      "uid": "35240-8ddf76fb-ac68-4ea9-a1be-c873ca96a5c2"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:18:53.000Z",
+                  "updatedAt": "2026-10-22T02:18:53.000Z",
+                  "uid": "35240-68436f61-ba21-40de-be34-7f1c8c0916c9"
+                }
+              ],
+              "id": "98507711-61ec-4fdc-8227-c5b1bfde7266",
+              "createdAt": "2026-10-22T02:18:53.000Z",
+              "updatedAt": "2026-10-22T02:18:53.000Z",
+              "uid": "35240-98507711-61ec-4fdc-8227-c5b1bfde7266"
+            }
+          ],
+          "id": "38a72f72-935f-4a1f-8e59-57325ce2234c",
+          "createdAt": "2026-10-22T02:18:53.000Z",
+          "updatedAt": "2026-10-22T02:18:53.000Z",
+          "uid": "35240-38a72f72-935f-4a1f-8e59-57325ce2234c"
+        }
+      ],
+      "id": "8bd78e98-558a-488b-b392-e0a5ef5d9872",
+      "createdAt": "2026-10-22T02:18:53.000Z",
+      "updatedAt": "2026-10-22T02:18:53.000Z",
+      "uid": "35240-8bd78e98-558a-488b-b392-e0a5ef5d9872"
     }
   ],
   "auth": {
@@ -687,17 +727,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "970d6af2-1901-4529-b292-89048394bab8",
-    "name": "HCP Terraform Modules Runs API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.terraform.io/api/v2"
     }
-  }
+  ]
 }

@@ -1,568 +1,573 @@
 {
+  "info": {
+    "_postman_id": "95a78546-c498-48c6-a007-7b2a72c8c8a7",
+    "name": "HCP Terraform Projects API",
+    "description": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:18:46.000Z",
+    "updatedAt": "2026-10-22T02:18:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-95a78546-c498-48c6-a007-7b2a72c8c8a7"
+  },
   "item": [
     {
-      "id": "c146b03f-a3b5-4c7a-983e-68fc5d30618a",
-      "name": "Projects",
-      "description": {
-        "content": "Manage projects within organizations",
-        "type": "text/plain"
-      },
+      "name": "organizations",
       "item": [
         {
-          "id": "ea47c3c8-dc0b-4939-a846-1b1e29186560",
-          "name": "List Projects",
-          "request": {
-            "name": "List Projects",
-            "description": {
-              "content": "Lists all projects within an organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name",
-                "projects"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "page[number]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "page[size]",
-                  "value": "<integer>"
-                },
-                {
-                  "disabled": false,
-                  "key": "filter[name]",
-                  "value": "<string>"
-                }
-              ],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
+          "name": "{organization_name}",
+          "item": [
             {
-              "id": "b0301222-ba73-4816-8113-f9669044031c",
-              "name": "List of projects",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name",
-                    "projects"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "page[number]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "page[size]",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "filter[name]",
-                      "value": "<string>"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+              "name": "projects",
+              "item": [
+                {
+                  "name": "List Projects",
+                  "id": "54ea8595-4664-4d54-a46c-3cc4a206bef7",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name/projects?page[number]=<integer>&page[size]=<integer>&filter[name]=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name",
+                        "projects"
+                      ],
+                      "query": [
+                        {
+                          "key": "page[number]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "key": "page[size]",
+                          "value": "<integer>"
+                        },
+                        {
+                          "key": "filter[name]",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "11bd23e4-f6e4-44ad-bffc-64b36756ab25",
+                          "key": "organization_name",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Lists all projects within an organization."
+                  },
+                  "response": [
+                    {
+                      "id": "51e7a6ff-eb35-4423-9ba2-f90e78c0a324",
+                      "name": "List of projects",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/organizations/:organization_name/projects?page[number]=<integer>&page[size]=<integer>&filter[name]=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "organizations",
+                            ":organization_name",
+                            "projects"
+                          ],
+                          "query": [
+                            {
+                              "key": "page[number]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "page[size]",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "filter[name]",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "organization_name"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"type\": \"projects\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"type\": \"projects\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": \"<integer>\",\n      \"prev-page\": \"<integer>\",\n      \"next-page\": \"<integer>\",\n      \"last-page\": \"<integer>\",\n      \"total-count\": \"<integer>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:18:46.000Z",
+                      "updatedAt": "2026-10-22T02:18:46.000Z",
+                      "uid": "35240-51e7a6ff-eb35-4423-9ba2-f90e78c0a324"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:18:46.000Z",
+                  "updatedAt": "2026-10-22T02:18:46.000Z",
+                  "uid": "35240-54ea8595-4664-4d54-a46c-3cc4a206bef7"
+                },
+                {
+                  "name": "Create a Project",
+                  "id": "81eed969-f08f-4608-b986-514be7c445e4",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"type\": \"projects\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/organizations/:organization_name/projects",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "organizations",
+                        ":organization_name",
+                        "projects"
+                      ],
+                      "variable": [
+                        {
+                          "id": "d06630c2-a99b-4857-9207-16e2e0e0b6a9",
+                          "key": "organization_name",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Creates a new project within an organization."
+                  },
+                  "response": [
+                    {
+                      "id": "1aeeaf09-0fe7-416b-bef1-f391c6d1188b",
+                      "name": "Project created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/vnd.api+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"data\": {\n    \"type\": \"projects\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/organizations/:organization_name/projects",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "organizations",
+                            ":organization_name",
+                            "projects"
+                          ],
+                          "variable": [
+                            {
+                              "key": "organization_name"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/vnd.api+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"projects\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
+                      "createdAt": "2026-10-22T02:18:46.000Z",
+                      "updatedAt": "2026-10-22T02:18:46.000Z",
+                      "uid": "35240-1aeeaf09-0fe7-416b-bef1-f391c6d1188b"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:18:46.000Z",
+                  "updatedAt": "2026-10-22T02:18:46.000Z",
+                  "uid": "35240-81eed969-f08f-4608-b986-514be7c445e4"
+                }
+              ],
+              "id": "30f46e75-9fc5-40a5-a842-6d7268ea629b",
+              "createdAt": "2026-10-22T02:18:46.000Z",
+              "updatedAt": "2026-10-22T02:18:46.000Z",
+              "uid": "35240-30f46e75-9fc5-40a5-a842-6d7268ea629b"
+            }
+          ],
+          "id": "0dfc979a-9f91-4039-b7eb-21058248807e",
+          "createdAt": "2026-10-22T02:18:46.000Z",
+          "updatedAt": "2026-10-22T02:18:46.000Z",
+          "uid": "35240-0dfc979a-9f91-4039-b7eb-21058248807e"
+        }
+      ],
+      "id": "93125e8d-02af-41e4-ae42-5099891777ec",
+      "createdAt": "2026-10-22T02:18:46.000Z",
+      "updatedAt": "2026-10-22T02:18:46.000Z",
+      "uid": "35240-93125e8d-02af-41e4-ae42-5099891777ec"
+    },
+    {
+      "name": "projects",
+      "item": [
+        {
+          "name": "{project_id}",
+          "item": [
+            {
+              "name": "Get a Project",
+              "id": "508b0120-7a36-49ca-a0c4-2885bf61a8c9",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
                 "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"type\": \"projects\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"description\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"type\": \"projects\",\n      \"attributes\": {\n        \"name\": \"string\",\n        \"description\": \"string\"\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"current-page\": 7933,\n      \"prev-page\": 7337,\n      \"next-page\": 8722,\n      \"last-page\": 2049,\n      \"total-count\": 3588\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "b7e4ab2a-3d8f-42bf-b119-d30c4b7f204f",
-          "name": "Create a Project",
-          "request": {
-            "name": "Create a Project",
-            "description": {
-              "content": "Creates a new project within an organization.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "organizations",
-                ":organization_name",
-                "projects"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "organization_name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
-            {
-              "id": "f39ac1de-da89-407c-a478-531ca5b64af4",
-              "name": "Project created",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "organizations",
-                    ":organization_name",
-                    "projects"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "organization_name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/vnd.api+json"
                   }
                 ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"projects\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "3e6df6a1-ccc1-46a8-b4e5-62286c6181b3",
-          "name": "Get a Project",
-          "request": {
-            "name": "Get a Project",
-            "description": {
-              "content": "Retrieves details for a specific project.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "projects",
-                ":project_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "project_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "95883235-cf89-442d-b0eb-4ec5430b709f",
-              "name": "Project details",
-              "originalRequest": {
                 "url": {
+                  "raw": "{{baseUrl}}/projects/:project_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "projects",
                     ":project_id"
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
                   "variable": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
+                      "id": "77f6bf43-1a29-4e21-aea3-f7f6ca611a78",
                       "key": "project_id",
+                      "value": "<string>",
                       "description": "(Required) "
                     }
                   ]
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                "description": "Retrieves details for a specific project."
+              },
+              "response": [
+                {
+                  "id": "3b5117f5-23b8-4ee2-8ae6-f6273247439b",
+                  "name": "Project details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:project_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":project_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "project_id"
+                        }
+                      ]
+                    }
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"projects\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:18:46.000Z",
+                  "updatedAt": "2026-10-22T02:18:46.000Z",
+                  "uid": "35240-3b5117f5-23b8-4ee2-8ae6-f6273247439b"
                 }
               ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"projects\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "e0ef1abc-a6d3-4dbc-b415-326f7d7824d6",
-          "name": "Update a Project",
-          "request": {
-            "name": "Update a Project",
-            "description": {
-              "content": "Updates an existing project.",
-              "type": "text/plain"
+              "createdAt": "2026-10-22T02:18:46.000Z",
+              "updatedAt": "2026-10-22T02:18:46.000Z",
+              "uid": "35240-508b0120-7a36-49ca-a0c4-2885bf61a8c9"
             },
-            "url": {
-              "path": [
-                "projects",
-                ":project_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "project_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/vnd.api+json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/vnd.api+json"
-              }
-            ],
-            "method": "PATCH",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [
             {
-              "id": "b69fefb7-3e9f-4f68-bca8-c1db8a9b5bb5",
-              "name": "Project updated",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "projects",
-                    ":project_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "project_id",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/vnd.api+json"
-                  }
-                ],
+              "name": "Update a Project",
+              "id": "e8d1255b-85fe-454e-89b8-2d759b4811c2",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
                 "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/vnd.api+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
                   "options": {
                     "raw": {
+                      "headerFamily": "json",
                       "language": "json"
                     }
                   }
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/vnd.api+json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"type\": \"projects\",\n    \"attributes\": {\n      \"name\": \"string\",\n      \"description\": \"string\"\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "79921fdb-f0ac-4616-8f93-a40c26385de5",
-          "name": "Delete a Project",
-          "request": {
-            "name": "Delete a Project",
-            "description": {
-              "content": "Deletes a project.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "projects",
-                ":project_id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "project_id",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "method": "DELETE",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "a7a99981-df58-45d5-8ef0-bc6a8166d5e9",
-              "name": "Project deleted",
-              "originalRequest": {
+                },
                 "url": {
+                  "raw": "{{baseUrl}}/projects/:project_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "projects",
                     ":project_id"
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
                   "variable": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
+                      "id": "4aff6bc9-4825-409c-8478-3c74e1256e1c",
                       "key": "project_id",
+                      "value": "<string>",
                       "description": "(Required) "
                     }
                   ]
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "DELETE",
-                "body": {}
+                "description": "Updates an existing project."
               },
-              "status": "No Content",
-              "code": 204,
-              "header": [
+              "response": [
                 {
-                  "key": "Content-Type",
-                  "value": "text/plain"
+                  "id": "3ac38568-5763-47c9-ad62-fef91a26bc80",
+                  "name": "Project updated",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/vnd.api+json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:project_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":project_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "project_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/vnd.api+json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"type\": \"projects\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  }\n}",
+                  "createdAt": "2026-10-22T02:18:46.000Z",
+                  "updatedAt": "2026-10-22T02:18:46.000Z",
+                  "uid": "35240-3ac38568-5763-47c9-ad62-fef91a26bc80"
                 }
               ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
+              "createdAt": "2026-10-22T02:18:46.000Z",
+              "updatedAt": "2026-10-22T02:18:46.000Z",
+              "uid": "35240-e8d1255b-85fe-454e-89b8-2d759b4811c2"
+            },
+            {
+              "name": "Delete a Project",
+              "id": "fa7fa54c-a0f3-463c-8325-24e2b98133f1",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/projects/:project_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects",
+                    ":project_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "d9ff8d5d-829b-4a3b-9b84-4ca73b94264d",
+                      "key": "project_id",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Deletes a project."
+              },
+              "response": [
+                {
+                  "id": "2f926449-f9b0-4286-8419-c3854bac2eef",
+                  "name": "Project deleted",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:project_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":project_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "project_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:18:46.000Z",
+                  "updatedAt": "2026-10-22T02:18:46.000Z",
+                  "uid": "35240-2f926449-f9b0-4286-8419-c3854bac2eef"
+                }
+              ],
+              "createdAt": "2026-10-22T02:18:46.000Z",
+              "updatedAt": "2026-10-22T02:18:46.000Z",
+              "uid": "35240-fa7fa54c-a0f3-463c-8325-24e2b98133f1"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "334ae585-8b03-4950-aea1-54a9e14e0066",
+          "createdAt": "2026-10-22T02:18:46.000Z",
+          "updatedAt": "2026-10-22T02:18:46.000Z",
+          "uid": "35240-334ae585-8b03-4950-aea1-54a9e14e0066"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
-    {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "id": "c15479db-91b9-4a7f-ac5d-39462b122c39",
+      "createdAt": "2026-10-22T02:18:46.000Z",
+      "updatedAt": "2026-10-22T02:18:46.000Z",
+      "uid": "35240-c15479db-91b9-4a7f-ac5d-39462b122c39"
     }
   ],
   "auth": {
@@ -570,17 +575,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "38d789dc-0805-4025-b12e-3484f9dbb1e8",
-    "name": "HCP Terraform Modules Projects API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://app.terraform.io/api/v2"
     }
-  }
+  ]
 }

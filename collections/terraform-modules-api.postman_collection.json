@@ -1,1345 +1,1282 @@
 {
+  "info": {
+    "_postman_id": "107d1e59-54b7-4342-ab04-322116c7e94b",
+    "name": "Terraform Registry Modules API",
+    "description": "The Terraform Registry API enables discovery, listing, versioning, and downloading of modules from the public Terraform Registry. It supports searching by keyword, filtering by provider and namespace, and retrieving download metrics.\n\nContact Support:\n Name: HashiCorp Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:18:27.000Z",
+    "updatedAt": "2026-10-22T02:18:28.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-107d1e59-54b7-4342-ab04-322116c7e94b"
+  },
   "item": [
     {
-      "id": "82395a62-3980-4b51-9b67-081c353fa3fa",
-      "name": "Modules",
-      "description": {
-        "content": "Browse and search Terraform modules in the public registry",
-        "type": "text/plain"
-      },
+      "name": "v1",
       "item": [
         {
-          "id": "b2bf4353-b201-489a-9ad4-ee27b4cbb83c",
-          "name": "List Modules",
-          "request": {
-            "name": "List Modules",
-            "description": {
-              "content": "Lists all modules in the registry with optional filtering and pagination.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
+          "name": "modules",
+          "item": [
+            {
+              "name": "{namespace}",
+              "item": [
                 {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "15",
-                  "description": "Maximum number of results to return"
+                  "name": "{name}",
+                  "item": [
+                    {
+                      "name": "{provider}",
+                      "item": [
+                        {
+                          "name": "versions",
+                          "item": [
+                            {
+                              "name": "List Module Versions",
+                              "id": "15cb9992-99e3-458c-a4c3-d5c907648c9f",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider/versions",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "modules",
+                                    ":namespace",
+                                    ":name",
+                                    ":provider",
+                                    "versions"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "6b849fe6-52b6-4520-8d55-4a8d7766a72e",
+                                      "key": "namespace",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    },
+                                    {
+                                      "id": "6f7a30e2-d022-4505-a311-6ea1d569a845",
+                                      "key": "name",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    },
+                                    {
+                                      "id": "9d85743a-7325-44dc-b89a-a6160d221633",
+                                      "key": "provider",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    }
+                                  ]
+                                },
+                                "description": "Lists available versions for a specific module and provider combination."
+                              },
+                              "response": [
+                                {
+                                  "id": "f1292e9f-fd55-40e1-b3e6-303c9ba09d5d",
+                                  "name": "Available module versions",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider/versions",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v1",
+                                        "modules",
+                                        ":namespace",
+                                        ":name",
+                                        ":provider",
+                                        "versions"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "namespace"
+                                        },
+                                        {
+                                          "key": "name"
+                                        },
+                                        {
+                                          "key": "provider"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"modules\": [\n    {\n      \"source\": \"<string>\",\n      \"versions\": [\n        {\n          \"version\": \"<string>\"\n        },\n        {\n          \"version\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"source\": \"<string>\",\n      \"versions\": [\n        {\n          \"version\": \"<string>\"\n        },\n        {\n          \"version\": \"<string>\"\n        }\n      ]\n    }\n  ]\n}",
+                                  "createdAt": "2026-10-22T02:18:28.000Z",
+                                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                                  "uid": "35240-f1292e9f-fd55-40e1-b3e6-303c9ba09d5d"
+                                }
+                              ],
+                              "createdAt": "2026-10-22T02:18:28.000Z",
+                              "updatedAt": "2026-10-22T02:18:28.000Z",
+                              "uid": "35240-15cb9992-99e3-458c-a4c3-d5c907648c9f"
+                            }
+                          ],
+                          "id": "03f96cda-908e-4340-ac21-c56b9276d3f8",
+                          "createdAt": "2026-10-22T02:18:28.000Z",
+                          "updatedAt": "2026-10-22T02:18:28.000Z",
+                          "uid": "35240-03f96cda-908e-4340-ac21-c56b9276d3f8"
+                        },
+                        {
+                          "name": "{version}",
+                          "item": [
+                            {
+                              "name": "download",
+                              "item": [
+                                {
+                                  "name": "Download a Module Version",
+                                  "id": "efaba506-0bdf-4a71-bb18-76b9199d26dc",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "GET",
+                                    "header": [],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider/:version/download",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v1",
+                                        "modules",
+                                        ":namespace",
+                                        ":name",
+                                        ":provider",
+                                        ":version",
+                                        "download"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "96939372-6ba3-41c9-a2ef-c159297d0035",
+                                          "key": "namespace",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "63de0ca4-2d48-4021-80cc-5ce72eb4ce7b",
+                                          "key": "name",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "409e3b12-5986-4e52-8419-d5c59af0f1b6",
+                                          "key": "provider",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "3c2c4c40-885c-498d-8c46-f27046103ea4",
+                                          "key": "version",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        }
+                                      ]
+                                    },
+                                    "description": "Downloads a specific version of a module. Redirects to the source archive."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "04422ee9-a03b-4ae5-bf6b-262ef3a3971f",
+                                      "name": "Redirect to download URL",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider/:version/download",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "v1",
+                                            "modules",
+                                            ":namespace",
+                                            ":name",
+                                            ":provider",
+                                            ":version",
+                                            "download"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "namespace"
+                                            },
+                                            {
+                                              "key": "name"
+                                            },
+                                            {
+                                              "key": "provider"
+                                            },
+                                            {
+                                              "key": "version"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Found",
+                                      "code": 302,
+                                      "_postman_previewlanguage": "text",
+                                      "header": [
+                                        {
+                                          "disabled": false,
+                                          "description": {
+                                            "content": "The source URL for downloading the module",
+                                            "type": "text/plain"
+                                          },
+                                          "key": "X-Terraform-Get",
+                                          "value": "<string>"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": null,
+                                      "createdAt": "2026-10-22T02:18:28.000Z",
+                                      "updatedAt": "2026-10-22T02:18:28.000Z",
+                                      "uid": "35240-04422ee9-a03b-4ae5-bf6b-262ef3a3971f"
+                                    }
+                                  ],
+                                  "createdAt": "2026-10-22T02:18:28.000Z",
+                                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                                  "uid": "35240-efaba506-0bdf-4a71-bb18-76b9199d26dc"
+                                }
+                              ],
+                              "id": "eb65fd3b-bf7c-45f9-b3dc-877e30944f15",
+                              "createdAt": "2026-10-22T02:18:28.000Z",
+                              "updatedAt": "2026-10-22T02:18:28.000Z",
+                              "uid": "35240-eb65fd3b-bf7c-45f9-b3dc-877e30944f15"
+                            },
+                            {
+                              "name": "Get a Module Version",
+                              "id": "c7faa3f0-8c68-4f27-bd8b-69196d486edf",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider/:version",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "modules",
+                                    ":namespace",
+                                    ":name",
+                                    ":provider",
+                                    ":version"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "5403adf6-09ae-4a42-b9ab-e8dff85d7fb8",
+                                      "key": "namespace",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    },
+                                    {
+                                      "id": "5c01a85f-6ee0-429d-bc9d-6556e3735808",
+                                      "key": "name",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    },
+                                    {
+                                      "id": "5811abb9-8411-49d6-bfe3-a392184f23bd",
+                                      "key": "provider",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    },
+                                    {
+                                      "id": "82b950e9-e914-46db-92dc-3a814f82a3ea",
+                                      "key": "version",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    }
+                                  ]
+                                },
+                                "description": "Fetches details for a specific module version."
+                              },
+                              "response": [
+                                {
+                                  "id": "d3e8f8bd-a3d1-4b68-a74f-e93f26ddf166",
+                                  "name": "Module version details",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider/:version",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v1",
+                                        "modules",
+                                        ":namespace",
+                                        ":name",
+                                        ":provider",
+                                        ":version"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "namespace"
+                                        },
+                                        {
+                                          "key": "name"
+                                        },
+                                        {
+                                          "key": "provider"
+                                        },
+                                        {
+                                          "key": "version"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"id\": \"<string>\",\n  \"owner\": \"<string>\",\n  \"namespace\": \"<string>\",\n  \"name\": \"<string>\",\n  \"provider\": \"<string>\",\n  \"source\": \"<string>\",\n  \"versions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"version\": \"<string>\",\n  \"description\": \"<string>\",\n  \"source_url\": \"<string>\",\n  \"published_at\": \"<dateTime>\",\n  \"downloads\": \"<integer>\",\n  \"verified\": \"<boolean>\"\n}",
+                                  "createdAt": "2026-10-22T02:18:28.000Z",
+                                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                                  "uid": "35240-d3e8f8bd-a3d1-4b68-a74f-e93f26ddf166"
+                                }
+                              ],
+                              "createdAt": "2026-10-22T02:18:28.000Z",
+                              "updatedAt": "2026-10-22T02:18:28.000Z",
+                              "uid": "35240-c7faa3f0-8c68-4f27-bd8b-69196d486edf"
+                            }
+                          ],
+                          "id": "7ba8b894-1779-41bb-8201-0b7b0e6f6296",
+                          "createdAt": "2026-10-22T02:18:28.000Z",
+                          "updatedAt": "2026-10-22T02:18:28.000Z",
+                          "uid": "35240-7ba8b894-1779-41bb-8201-0b7b0e6f6296"
+                        },
+                        {
+                          "name": "download",
+                          "item": [
+                            {
+                              "name": "Download Module Latest Version",
+                              "id": "670f03d1-5e10-4855-a38e-5ed4ef0adb4b",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider/download",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "modules",
+                                    ":namespace",
+                                    ":name",
+                                    ":provider",
+                                    "download"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "5a73a437-f496-4438-9542-e9f1d2041ea2",
+                                      "key": "namespace",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    },
+                                    {
+                                      "id": "d1783328-038b-4483-b20e-ba7e43062c02",
+                                      "key": "name",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    },
+                                    {
+                                      "id": "6f05ba68-83bd-4382-a3a1-e0edb0afc8b6",
+                                      "key": "provider",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    }
+                                  ]
+                                },
+                                "description": "Downloads the latest version of a module. Redirects to the download URL."
+                              },
+                              "response": [
+                                {
+                                  "id": "4911d5bd-3529-48f7-8199-475455d8bfe9",
+                                  "name": "Redirect to download URL",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider/download",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v1",
+                                        "modules",
+                                        ":namespace",
+                                        ":name",
+                                        ":provider",
+                                        "download"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "namespace"
+                                        },
+                                        {
+                                          "key": "name"
+                                        },
+                                        {
+                                          "key": "provider"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Found",
+                                  "code": 302,
+                                  "_postman_previewlanguage": "text",
+                                  "header": [
+                                    {
+                                      "disabled": false,
+                                      "description": {
+                                        "content": "The source URL for downloading the module",
+                                        "type": "text/plain"
+                                      },
+                                      "key": "X-Terraform-Get",
+                                      "value": "<string>"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": null,
+                                  "createdAt": "2026-10-22T02:18:28.000Z",
+                                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                                  "uid": "35240-4911d5bd-3529-48f7-8199-475455d8bfe9"
+                                }
+                              ],
+                              "createdAt": "2026-10-22T02:18:28.000Z",
+                              "updatedAt": "2026-10-22T02:18:28.000Z",
+                              "uid": "35240-670f03d1-5e10-4855-a38e-5ed4ef0adb4b"
+                            }
+                          ],
+                          "id": "324ced6b-7317-4a9c-90f7-ced8e8981cc3",
+                          "createdAt": "2026-10-22T02:18:28.000Z",
+                          "updatedAt": "2026-10-22T02:18:28.000Z",
+                          "uid": "35240-324ced6b-7317-4a9c-90f7-ced8e8981cc3"
+                        },
+                        {
+                          "name": "Get Module Latest Version for Provider",
+                          "id": "63280242-16c6-456c-b8f2-3d58e176a96f",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "modules",
+                                ":namespace",
+                                ":name",
+                                ":provider"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "5ceef1e0-bb8f-43ef-be28-7142465dfa64",
+                                  "key": "namespace",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                },
+                                {
+                                  "id": "75d626eb-e96d-4a6f-9df0-1694bc204a0f",
+                                  "key": "name",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                },
+                                {
+                                  "id": "7fae547f-5b72-4f1d-a4a0-e88338fed28e",
+                                  "key": "provider",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Retrieves the latest version of a module for a specific provider."
+                          },
+                          "response": [
+                            {
+                              "id": "79831767-bce1-49f2-9c57-9e8d72b06e0b",
+                              "name": "Latest module version",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/modules/:namespace/:name/:provider",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "modules",
+                                    ":namespace",
+                                    ":name",
+                                    ":provider"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "namespace"
+                                    },
+                                    {
+                                      "key": "name"
+                                    },
+                                    {
+                                      "key": "provider"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"id\": \"<string>\",\n  \"owner\": \"<string>\",\n  \"namespace\": \"<string>\",\n  \"name\": \"<string>\",\n  \"provider\": \"<string>\",\n  \"source\": \"<string>\",\n  \"versions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"version\": \"<string>\",\n  \"description\": \"<string>\",\n  \"source_url\": \"<string>\",\n  \"published_at\": \"<dateTime>\",\n  \"downloads\": \"<integer>\",\n  \"verified\": \"<boolean>\"\n}",
+                              "createdAt": "2026-10-22T02:18:28.000Z",
+                              "updatedAt": "2026-10-22T02:18:28.000Z",
+                              "uid": "35240-79831767-bce1-49f2-9c57-9e8d72b06e0b"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:18:28.000Z",
+                          "updatedAt": "2026-10-22T02:18:28.000Z",
+                          "uid": "35240-63280242-16c6-456c-b8f2-3d58e176a96f"
+                        }
+                      ],
+                      "id": "bf69abce-6836-4ade-a942-a7945f791847",
+                      "createdAt": "2026-10-22T02:18:28.000Z",
+                      "updatedAt": "2026-10-22T02:18:28.000Z",
+                      "uid": "35240-bf69abce-6836-4ade-a942-a7945f791847"
+                    },
+                    {
+                      "name": "Get Module Latest Versions",
+                      "id": "3519fda9-4554-4fd7-b529-1b4225ea57bf",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/modules/:namespace/:name",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "modules",
+                            ":namespace",
+                            ":name"
+                          ],
+                          "variable": [
+                            {
+                              "id": "27f821bb-a909-4bdd-b67b-e15885b51c85",
+                              "key": "namespace",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            },
+                            {
+                              "id": "35547d99-7dc5-4eb4-9bfd-1bffcc63fa82",
+                              "key": "name",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Returns the latest version of a module for all providers."
+                      },
+                      "response": [
+                        {
+                          "id": "fa786cb8-ad25-4441-ae2c-7c69e805ab65",
+                          "name": "Latest module version details",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/modules/:namespace/:name",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "modules",
+                                ":namespace",
+                                ":name"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "namespace"
+                                },
+                                {
+                                  "key": "name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"meta\": {\n    \"limit\": \"<integer>\",\n    \"current_offset\": \"<integer>\",\n    \"next_offset\": \"<integer>\",\n    \"prev_offset\": \"<integer>\",\n    \"next_url\": \"<string>\",\n    \"module_count\": \"<integer>\"\n  },\n  \"modules\": [\n    {\n      \"id\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"source\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"published_at\": \"<dateTime>\",\n      \"downloads\": \"<integer>\",\n      \"verified\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"source\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"published_at\": \"<dateTime>\",\n      \"downloads\": \"<integer>\",\n      \"verified\": \"<boolean>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-10-22T02:18:28.000Z",
+                          "updatedAt": "2026-10-22T02:18:28.000Z",
+                          "uid": "35240-fa786cb8-ad25-4441-ae2c-7c69e805ab65"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:18:28.000Z",
+                      "updatedAt": "2026-10-22T02:18:28.000Z",
+                      "uid": "35240-3519fda9-4554-4fd7-b529-1b4225ea57bf"
+                    }
+                  ],
+                  "id": "2a95f612-39a9-4b50-bd04-f45b6c54ab31",
+                  "createdAt": "2026-10-22T02:18:28.000Z",
+                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                  "uid": "35240-2a95f612-39a9-4b50-bd04-f45b6c54ab31"
                 },
                 {
-                  "disabled": false,
-                  "key": "offset",
-                  "value": "0",
-                  "description": "Starting position for pagination"
-                },
-                {
-                  "disabled": false,
-                  "key": "provider",
-                  "value": "<string>",
-                  "description": "Filter modules by provider (e.g., aws, azurerm, google)"
-                },
-                {
-                  "disabled": false,
-                  "key": "verified",
-                  "value": "<boolean>",
-                  "description": "Filter to show only HashiCorp-verified modules"
+                  "name": "List Modules by Namespace",
+                  "id": "8681b400-bf83-4f2b-86b2-efc68c8b0be9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/modules/:namespace?limit=<integer>&offset=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "modules",
+                        ":namespace"
+                      ],
+                      "query": [
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Starting position for pagination",
+                          "key": "offset",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "faacdb67-58b9-4bd1-8841-e26064f4da19",
+                          "key": "namespace",
+                          "value": "<string>",
+                          "description": "(Required) The namespace (username or organization) to filter by"
+                        }
+                      ]
+                    },
+                    "description": "Lists all modules published by a specific namespace."
+                  },
+                  "response": [
+                    {
+                      "id": "bca2298a-b081-41cf-aefb-1579ce669db2",
+                      "name": "Modules in the namespace",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/modules/:namespace?limit=<integer>&offset=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "modules",
+                            ":namespace"
+                          ],
+                          "query": [
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Starting position for pagination",
+                              "key": "offset",
+                              "value": "<integer>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "namespace"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"meta\": {\n    \"limit\": \"<integer>\",\n    \"current_offset\": \"<integer>\",\n    \"next_offset\": \"<integer>\",\n    \"prev_offset\": \"<integer>\",\n    \"next_url\": \"<string>\",\n    \"module_count\": \"<integer>\"\n  },\n  \"modules\": [\n    {\n      \"id\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"source\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"published_at\": \"<dateTime>\",\n      \"downloads\": \"<integer>\",\n      \"verified\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"source\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"published_at\": \"<dateTime>\",\n      \"downloads\": \"<integer>\",\n      \"verified\": \"<boolean>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-22T02:18:28.000Z",
+                      "updatedAt": "2026-10-22T02:18:28.000Z",
+                      "uid": "35240-bca2298a-b081-41cf-aefb-1579ce669db2"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:18:28.000Z",
+                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                  "uid": "35240-8681b400-bf83-4f2b-86b2-efc68c8b0be9"
                 }
               ],
-              "variable": []
+              "id": "81c60526-7d1b-4ba8-8519-122496acb44c",
+              "createdAt": "2026-10-22T02:18:28.000Z",
+              "updatedAt": "2026-10-22T02:18:28.000Z",
+              "uid": "35240-81c60526-7d1b-4ba8-8519-122496acb44c"
             },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
             {
-              "id": "fffd59cd-e0f0-4db4-9b51-92a336415896",
-              "name": "A paginated list of modules",
-              "originalRequest": {
+              "name": "search",
+              "item": [
+                {
+                  "name": "Search Modules",
+                  "id": "2e57faed-720b-4a84-b5b7-296ed1c3f185",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/modules/search?q=<string>&limit=<integer>&offset=<integer>&provider=<string>&verified=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "modules",
+                        "search"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The search query keyword or phrase",
+                          "key": "q",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Starting position for pagination",
+                          "key": "offset",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Filter results by provider",
+                          "key": "provider",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Show only verified modules",
+                          "key": "verified",
+                          "value": "<boolean>"
+                        }
+                      ]
+                    },
+                    "description": "Searches modules by keyword or phrase across all namespaces."
+                  },
+                  "response": [
+                    {
+                      "id": "346533c1-96d1-4ed8-bd66-cee08cc1256b",
+                      "name": "Matching modules",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/modules/search?q=<string>&limit=<integer>&offset=<integer>&provider=<string>&verified=<boolean>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "modules",
+                            "search"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The search query keyword or phrase",
+                              "key": "q",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Starting position for pagination",
+                              "key": "offset",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Filter results by provider",
+                              "key": "provider",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Show only verified modules",
+                              "key": "verified",
+                              "value": "<boolean>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"meta\": {\n    \"limit\": \"<integer>\",\n    \"current_offset\": \"<integer>\",\n    \"next_offset\": \"<integer>\",\n    \"prev_offset\": \"<integer>\",\n    \"next_url\": \"<string>\",\n    \"module_count\": \"<integer>\"\n  },\n  \"modules\": [\n    {\n      \"id\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"source\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"published_at\": \"<dateTime>\",\n      \"downloads\": \"<integer>\",\n      \"verified\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"source\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"published_at\": \"<dateTime>\",\n      \"downloads\": \"<integer>\",\n      \"verified\": \"<boolean>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-10-22T02:18:28.000Z",
+                      "updatedAt": "2026-10-22T02:18:28.000Z",
+                      "uid": "35240-346533c1-96d1-4ed8-bd66-cee08cc1256b"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:18:28.000Z",
+                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                  "uid": "35240-2e57faed-720b-4a84-b5b7-296ed1c3f185"
+                }
+              ],
+              "id": "5f90d7e4-eafb-415d-aea6-8d0d7774f9e3",
+              "createdAt": "2026-10-22T02:18:28.000Z",
+              "updatedAt": "2026-10-22T02:18:28.000Z",
+              "uid": "35240-5f90d7e4-eafb-415d-aea6-8d0d7774f9e3"
+            },
+            {
+              "name": "List Modules",
+              "id": "524457b0-b8db-49d3-830c-926bc516f786",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
                 "url": {
+                  "raw": "{{baseUrl}}/v1/modules?limit=15&offset=0&provider=<string>&verified=<boolean>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
                   "path": [
                     "v1",
                     "modules"
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
                   "query": [
                     {
+                      "description": "Maximum number of results to return",
                       "key": "limit",
                       "value": "15"
                     },
                     {
+                      "description": "Starting position for pagination",
                       "key": "offset",
                       "value": "0"
                     },
                     {
+                      "description": "Filter modules by provider (e.g., aws, azurerm, google)",
                       "key": "provider",
                       "value": "<string>"
                     },
                     {
+                      "description": "Filter to show only HashiCorp-verified modules",
                       "key": "verified",
                       "value": "<boolean>"
                     }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"meta\": {\n    \"limit\": 132,\n    \"current_offset\": 9974,\n    \"next_offset\": 1861,\n    \"prev_offset\": 4905,\n    \"next_url\": \"string\",\n    \"module_count\": 4424\n  },\n  \"modules\": [\n    {\n      \"id\": \"string\",\n      \"owner\": \"string\",\n      \"namespace\": \"string\",\n      \"name\": \"string\",\n      \"provider\": \"string\",\n      \"source\": \"string\",\n      \"version\": \"string\",\n      \"description\": \"string\",\n      \"published_at\": \"1954-07-29T03:42:42.336Z\",\n      \"downloads\": 9894,\n      \"verified\": true\n    },\n    {\n      \"id\": \"string\",\n      \"owner\": \"string\",\n      \"namespace\": \"string\",\n      \"name\": \"string\",\n      \"provider\": \"string\",\n      \"source\": \"string\",\n      \"version\": \"string\",\n      \"description\": \"string\",\n      \"published_at\": \"1962-07-20T08:27:08.711Z\",\n      \"downloads\": 6398,\n      \"verified\": false\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "de0cc351-0d58-4f5a-9979-ff934e334a10",
-          "name": "List Modules by Namespace",
-          "request": {
-            "name": "List Modules by Namespace",
-            "description": {
-              "content": "Lists all modules published by a specific namespace.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules",
-                ":namespace"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "<integer>",
-                  "description": "Maximum number of results to return"
-                },
-                {
-                  "disabled": false,
-                  "key": "offset",
-                  "value": "<integer>",
-                  "description": "Starting position for pagination"
-                }
-              ],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "namespace",
-                  "description": "(Required) The namespace (username or organization) to filter by"
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "a8b0d8f8-ef75-48df-8fec-cb026e7ef2cc",
-              "name": "Modules in the namespace",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "modules",
-                    ":namespace"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "limit",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "offset",
-                      "value": "<integer>"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "namespace",
-                      "description": "(Required) The namespace (username or organization) to filter by"
-                    }
                   ]
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                "description": "Lists all modules in the registry with optional filtering and pagination."
+              },
+              "response": [
+                {
+                  "id": "6130cb76-7e77-46a3-8030-560c80e20d70",
+                  "name": "A paginated list of modules",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/modules?limit=15&offset=0&provider=<string>&verified=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "modules"
+                      ],
+                      "query": [
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "15"
+                        },
+                        {
+                          "description": "Starting position for pagination",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Filter modules by provider (e.g., aws, azurerm, google)",
+                          "key": "provider",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter to show only HashiCorp-verified modules",
+                          "key": "verified",
+                          "value": "<boolean>"
+                        }
+                      ]
+                    }
                   },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"meta\": {\n    \"limit\": 132,\n    \"current_offset\": 9974,\n    \"next_offset\": 1861,\n    \"prev_offset\": 4905,\n    \"next_url\": \"string\",\n    \"module_count\": 4424\n  },\n  \"modules\": [\n    {\n      \"id\": \"string\",\n      \"owner\": \"string\",\n      \"namespace\": \"string\",\n      \"name\": \"string\",\n      \"provider\": \"string\",\n      \"source\": \"string\",\n      \"version\": \"string\",\n      \"description\": \"string\",\n      \"published_at\": \"1954-07-29T03:42:42.336Z\",\n      \"downloads\": 9894,\n      \"verified\": true\n    },\n    {\n      \"id\": \"string\",\n      \"owner\": \"string\",\n      \"namespace\": \"string\",\n      \"name\": \"string\",\n      \"provider\": \"string\",\n      \"source\": \"string\",\n      \"version\": \"string\",\n      \"description\": \"string\",\n      \"published_at\": \"1962-07-20T08:27:08.711Z\",\n      \"downloads\": 6398,\n      \"verified\": false\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "17949bb3-ad22-4fbb-b0fb-7eafcfc5b094",
-          "name": "Search Modules",
-          "request": {
-            "name": "Search Modules",
-            "description": {
-              "content": "Searches modules by keyword or phrase across all namespaces.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules",
-                "search"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "q",
-                  "value": "<string>",
-                  "description": "(Required) The search query keyword or phrase"
-                },
-                {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "<integer>",
-                  "description": "Maximum number of results to return"
-                },
-                {
-                  "disabled": false,
-                  "key": "offset",
-                  "value": "<integer>",
-                  "description": "Starting position for pagination"
-                },
-                {
-                  "disabled": false,
-                  "key": "provider",
-                  "value": "<string>",
-                  "description": "Filter results by provider"
-                },
-                {
-                  "disabled": false,
-                  "key": "verified",
-                  "value": "<boolean>",
-                  "description": "Show only verified modules"
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "dffa2614-5f6d-42d0-b17c-5b5c35f70c4f",
-              "name": "Matching modules",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "modules",
-                    "search"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
                     {
-                      "key": "q",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "offset",
-                      "value": "<integer>"
-                    },
-                    {
-                      "key": "provider",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "verified",
-                      "value": "<boolean>"
+                      "key": "Content-Type",
+                      "value": "application/json"
                     }
                   ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"meta\": {\n    \"limit\": \"<integer>\",\n    \"current_offset\": \"<integer>\",\n    \"next_offset\": \"<integer>\",\n    \"prev_offset\": \"<integer>\",\n    \"next_url\": \"<string>\",\n    \"module_count\": \"<integer>\"\n  },\n  \"modules\": [\n    {\n      \"id\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"source\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"published_at\": \"<dateTime>\",\n      \"downloads\": \"<integer>\",\n      \"verified\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"owner\": \"<string>\",\n      \"namespace\": \"<string>\",\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"source\": \"<string>\",\n      \"version\": \"<string>\",\n      \"description\": \"<string>\",\n      \"published_at\": \"<dateTime>\",\n      \"downloads\": \"<integer>\",\n      \"verified\": \"<boolean>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-10-22T02:18:28.000Z",
+                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                  "uid": "35240-6130cb76-7e77-46a3-8030-560c80e20d70"
                 }
               ],
-              "body": "{\n  \"meta\": {\n    \"limit\": 132,\n    \"current_offset\": 9974,\n    \"next_offset\": 1861,\n    \"prev_offset\": 4905,\n    \"next_url\": \"string\",\n    \"module_count\": 4424\n  },\n  \"modules\": [\n    {\n      \"id\": \"string\",\n      \"owner\": \"string\",\n      \"namespace\": \"string\",\n      \"name\": \"string\",\n      \"provider\": \"string\",\n      \"source\": \"string\",\n      \"version\": \"string\",\n      \"description\": \"string\",\n      \"published_at\": \"1954-07-29T03:42:42.336Z\",\n      \"downloads\": 9894,\n      \"verified\": true\n    },\n    {\n      \"id\": \"string\",\n      \"owner\": \"string\",\n      \"namespace\": \"string\",\n      \"name\": \"string\",\n      \"provider\": \"string\",\n      \"source\": \"string\",\n      \"version\": \"string\",\n      \"description\": \"string\",\n      \"published_at\": \"1962-07-20T08:27:08.711Z\",\n      \"downloads\": 6398,\n      \"verified\": false\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "createdAt": "2026-10-22T02:18:28.000Z",
+              "updatedAt": "2026-10-22T02:18:28.000Z",
+              "uid": "35240-524457b0-b8db-49d3-830c-926bc516f786"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "f0fc4185-e28c-4166-9604-3ab4ea74f15a",
-          "name": "Get Module Latest Versions",
-          "request": {
-            "name": "Get Module Latest Versions",
-            "description": {
-              "content": "Returns the latest version of a module for all providers.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules",
-                ":namespace",
-                ":name"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "namespace",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "name",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "0a3557c1-3782-448f-bb9b-1c809b526e48",
-              "name": "Latest module version details",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "modules",
-                    ":namespace",
-                    ":name"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "namespace",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "name",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"meta\": {\n    \"limit\": 132,\n    \"current_offset\": 9974,\n    \"next_offset\": 1861,\n    \"prev_offset\": 4905,\n    \"next_url\": \"string\",\n    \"module_count\": 4424\n  },\n  \"modules\": [\n    {\n      \"id\": \"string\",\n      \"owner\": \"string\",\n      \"namespace\": \"string\",\n      \"name\": \"string\",\n      \"provider\": \"string\",\n      \"source\": \"string\",\n      \"version\": \"string\",\n      \"description\": \"string\",\n      \"published_at\": \"1954-07-29T03:42:42.336Z\",\n      \"downloads\": 9894,\n      \"verified\": true\n    },\n    {\n      \"id\": \"string\",\n      \"owner\": \"string\",\n      \"namespace\": \"string\",\n      \"name\": \"string\",\n      \"provider\": \"string\",\n      \"source\": \"string\",\n      \"version\": \"string\",\n      \"description\": \"string\",\n      \"published_at\": \"1962-07-20T08:27:08.711Z\",\n      \"downloads\": 6398,\n      \"verified\": false\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "2b5812de-f4da-40b7-b18a-9924790c6d1e",
-          "name": "Get Module Latest Version for Provider",
-          "request": {
-            "name": "Get Module Latest Version for Provider",
-            "description": {
-              "content": "Retrieves the latest version of a module for a specific provider.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules",
-                ":namespace",
-                ":name",
-                ":provider"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "namespace",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "name",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "provider",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "0559fbff-6b11-42f2-bdfa-c24cf67b1c35",
-              "name": "Latest module version",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "modules",
-                    ":namespace",
-                    ":name",
-                    ":provider"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "namespace",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "name",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "provider",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"id\": \"string\",\n  \"owner\": \"string\",\n  \"namespace\": \"string\",\n  \"name\": \"string\",\n  \"provider\": \"string\",\n  \"source\": \"string\",\n  \"versions\": [\n    \"string\",\n    \"string\"\n  ],\n  \"version\": \"string\",\n  \"description\": \"string\",\n  \"source_url\": \"string\",\n  \"published_at\": \"1955-05-04T19:36:27.896Z\",\n  \"downloads\": 4412,\n  \"verified\": false\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "2967fd0d-07fd-4b83-ac89-f28bf9964bfb",
-          "name": "List Module Versions",
-          "request": {
-            "name": "List Module Versions",
-            "description": {
-              "content": "Lists available versions for a specific module and provider combination.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules",
-                ":namespace",
-                ":name",
-                ":provider",
-                "versions"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "namespace",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "name",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "provider",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "c3cdc952-347a-4947-9978-ab3aa7a75911",
-              "name": "Available module versions",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "modules",
-                    ":namespace",
-                    ":name",
-                    ":provider",
-                    "versions"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "namespace",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "name",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "provider",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"modules\": [\n    {\n      \"source\": \"string\",\n      \"versions\": [\n        {\n          \"version\": \"string\"\n        },\n        {\n          \"version\": \"string\"\n        }\n      ]\n    },\n    {\n      \"source\": \"string\",\n      \"versions\": [\n        {\n          \"version\": \"string\"\n        },\n        {\n          \"version\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "589feafe-eeb2-43bd-b4aa-edb555ba236b",
-          "name": "Get a Module Version",
-          "request": {
-            "name": "Get a Module Version",
-            "description": {
-              "content": "Fetches details for a specific module version.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules",
-                ":namespace",
-                ":name",
-                ":provider",
-                ":version"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "namespace",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "name",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "provider",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "version",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "03c7c776-8830-4cd2-a6aa-da2d67e2e0ac",
-              "name": "Module version details",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "modules",
-                    ":namespace",
-                    ":name",
-                    ":provider",
-                    ":version"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "namespace",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "name",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "provider",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "version",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"id\": \"string\",\n  \"owner\": \"string\",\n  \"namespace\": \"string\",\n  \"name\": \"string\",\n  \"provider\": \"string\",\n  \"source\": \"string\",\n  \"versions\": [\n    \"string\",\n    \"string\"\n  ],\n  \"version\": \"string\",\n  \"description\": \"string\",\n  \"source_url\": \"string\",\n  \"published_at\": \"1955-05-04T19:36:27.896Z\",\n  \"downloads\": 4412,\n  \"verified\": false\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "127d9afb-422b-4d47-ab6b-332b15007f3a",
-          "name": "Download Module Latest Version",
-          "request": {
-            "name": "Download Module Latest Version",
-            "description": {
-              "content": "Downloads the latest version of a module. Redirects to the download URL.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules",
-                ":namespace",
-                ":name",
-                ":provider",
-                "download"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "namespace",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "name",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "provider",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "d7ac66cd-d0d3-4592-a6bd-7e0a6912449b",
-              "name": "Redirect to download URL",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "modules",
-                    ":namespace",
-                    ":name",
-                    ":provider",
-                    "download"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "namespace",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "name",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "provider",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Found",
-              "code": 302,
-              "header": [
-                {
-                  "disabled": false,
-                  "description": "The source URL for downloading the module",
-                  "key": "X-Terraform-Get",
-                  "value": "string"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "caba4bdc-85ec-4574-96d8-aceba16f7d0e",
-          "name": "Download a Module Version",
-          "request": {
-            "name": "Download a Module Version",
-            "description": {
-              "content": "Downloads a specific version of a module. Redirects to the source archive.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "modules",
-                ":namespace",
-                ":name",
-                ":provider",
-                ":version",
-                "download"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "namespace",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "name",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "provider",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "version",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "db255211-3309-41ae-add0-dc847aab8f4d",
-              "name": "Redirect to download URL",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "modules",
-                    ":namespace",
-                    ":name",
-                    ":provider",
-                    ":version",
-                    "download"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "namespace",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "name",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "provider",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "version",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Found",
-              "code": 302,
-              "header": [
-                {
-                  "disabled": false,
-                  "description": "The source URL for downloading the module",
-                  "key": "X-Terraform-Get",
-                  "value": "string"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "dd20eb75-5061-481c-a06a-d29d2ae84c49",
-          "name": "Get Module Download Summary",
-          "request": {
-            "name": "Get Module Download Summary",
-            "description": {
-              "content": "Retrieves download metrics and statistics for a specific module.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v2",
-                "modules",
-                ":namespace",
-                ":name",
-                ":provider",
-                "downloads",
-                "summary"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "namespace",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "name",
-                  "description": "(Required) "
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "provider",
-                  "description": "(Required) "
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "2882ec95-f9b4-4d63-8faf-b2ed58ac0480",
-              "name": "Module download summary",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v2",
-                    "modules",
-                    ":namespace",
-                    ":name",
-                    ":provider",
-                    "downloads",
-                    "summary"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "namespace",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "name",
-                      "description": "(Required) "
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "provider",
-                      "description": "(Required) "
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"type\": \"string\",\n    \"attributes\": {\n      \"total\": 5491,\n      \"week\": 8106,\n      \"month\": 6603\n    }\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "4dd612a2-ea47-4691-b1f9-b089a7204dff",
+          "createdAt": "2026-10-22T02:18:28.000Z",
+          "updatedAt": "2026-10-22T02:18:28.000Z",
+          "uid": "35240-4dd612a2-ea47-4691-b1f9-b089a7204dff"
         }
       ],
-      "event": []
+      "id": "532a1495-3158-406e-92a5-edcb37b324fc",
+      "createdAt": "2026-10-22T02:18:28.000Z",
+      "updatedAt": "2026-10-22T02:18:28.000Z",
+      "uid": "35240-532a1495-3158-406e-92a5-edcb37b324fc"
+    },
+    {
+      "name": "v2",
+      "item": [
+        {
+          "name": "modules",
+          "item": [
+            {
+              "name": "{namespace}",
+              "item": [
+                {
+                  "name": "{name}",
+                  "item": [
+                    {
+                      "name": "{provider}",
+                      "item": [
+                        {
+                          "name": "downloads",
+                          "item": [
+                            {
+                              "name": "summary",
+                              "item": [
+                                {
+                                  "name": "Get Module Download Summary",
+                                  "id": "005f396f-8368-47e0-a7df-d03aa817b9f7",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v2/modules/:namespace/:name/:provider/downloads/summary",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v2",
+                                        "modules",
+                                        ":namespace",
+                                        ":name",
+                                        ":provider",
+                                        "downloads",
+                                        "summary"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "14b1215e-d7c4-4e68-978a-ccec694229ea",
+                                          "key": "namespace",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "63f2c34d-e7d5-49db-b25b-14797f129315",
+                                          "key": "name",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        },
+                                        {
+                                          "id": "66741542-467e-4130-a14b-35fcdfd36d67",
+                                          "key": "provider",
+                                          "value": "<string>",
+                                          "description": "(Required) "
+                                        }
+                                      ]
+                                    },
+                                    "description": "Retrieves download metrics and statistics for a specific module."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "650b33f6-d03d-4d16-8a4e-ab7340976b5a",
+                                      "name": "Module download summary",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/v2/modules/:namespace/:name/:provider/downloads/summary",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "v2",
+                                            "modules",
+                                            ":namespace",
+                                            ":name",
+                                            ":provider",
+                                            "downloads",
+                                            "summary"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "namespace"
+                                            },
+                                            {
+                                              "key": "name"
+                                            },
+                                            {
+                                              "key": "provider"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"attributes\": {\n      \"total\": \"<integer>\",\n      \"week\": \"<integer>\",\n      \"month\": \"<integer>\"\n    }\n  }\n}",
+                                      "createdAt": "2026-10-22T02:18:28.000Z",
+                                      "updatedAt": "2026-10-22T02:18:28.000Z",
+                                      "uid": "35240-650b33f6-d03d-4d16-8a4e-ab7340976b5a"
+                                    }
+                                  ],
+                                  "createdAt": "2026-10-22T02:18:28.000Z",
+                                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                                  "uid": "35240-005f396f-8368-47e0-a7df-d03aa817b9f7"
+                                }
+                              ],
+                              "id": "bc7a3e48-0c0a-44fd-858d-42a7a52fb7dc",
+                              "createdAt": "2026-10-22T02:18:28.000Z",
+                              "updatedAt": "2026-10-22T02:18:28.000Z",
+                              "uid": "35240-bc7a3e48-0c0a-44fd-858d-42a7a52fb7dc"
+                            }
+                          ],
+                          "id": "a60324cc-c577-4a64-88ad-29281e3f9913",
+                          "createdAt": "2026-10-22T02:18:28.000Z",
+                          "updatedAt": "2026-10-22T02:18:28.000Z",
+                          "uid": "35240-a60324cc-c577-4a64-88ad-29281e3f9913"
+                        }
+                      ],
+                      "id": "ad799c94-442f-4800-823c-3ab744d6499b",
+                      "createdAt": "2026-10-22T02:18:28.000Z",
+                      "updatedAt": "2026-10-22T02:18:28.000Z",
+                      "uid": "35240-ad799c94-442f-4800-823c-3ab744d6499b"
+                    }
+                  ],
+                  "id": "8ea63795-773f-4a47-ab87-bd042bc506c6",
+                  "createdAt": "2026-10-22T02:18:28.000Z",
+                  "updatedAt": "2026-10-22T02:18:28.000Z",
+                  "uid": "35240-8ea63795-773f-4a47-ab87-bd042bc506c6"
+                }
+              ],
+              "id": "3b36aa23-001b-439d-97cd-3ce5589e6d20",
+              "createdAt": "2026-10-22T02:18:28.000Z",
+              "updatedAt": "2026-10-22T02:18:28.000Z",
+              "uid": "35240-3b36aa23-001b-439d-97cd-3ce5589e6d20"
+            }
+          ],
+          "id": "4135398c-e0f9-4a27-af9b-a3e785ef5415",
+          "createdAt": "2026-10-22T02:18:28.000Z",
+          "updatedAt": "2026-10-22T02:18:28.000Z",
+          "uid": "35240-4135398c-e0f9-4a27-af9b-a3e785ef5415"
+        }
+      ],
+      "id": "08a793fb-5da7-4f28-b298-18c4a8dd790e",
+      "createdAt": "2026-10-22T02:18:28.000Z",
+      "updatedAt": "2026-10-22T02:18:28.000Z",
+      "uid": "35240-08a793fb-5da7-4f28-b298-18c4a8dd790e"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "https://app.terraform.io/api/v2",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://registry.terraform.io"
     }
-  ],
-  "auth": {
-    "type": "bearer",
-    "bearer": [
-      {
-        "key": "token",
-        "value": "{{bearerToken}}"
-      }
-    ]
-  },
-  "info": {
-    "_postman_id": "07687a67-db05-4eb9-847d-0b91622e6f89",
-    "name": "HCP Terraform Modules API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The HCP Terraform API provides programmatic access to HCP Terraform features including workspace management, runs, state versions, policies, teams, and organizations. The API follows the JSON API specification.\n\nContact Support:\n Name: HashiCorp Support",
-      "type": "text/plain"
-    }
-  }
+  ]
 }
